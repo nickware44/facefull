@@ -1,0 +1,14 @@
+{
+  "name": "facefull",
+  "version": "0.9.0",
+  "description": "",
+  "main": "dist/facefull.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "NickWare Group",
+  "license": "MIT",
+  "dependencies": {
+  }
+}
