@@ -693,6 +693,7 @@ canvas {
     /*border-top: 1px solid #2F2F2F;*/
     background-color: #0C131B;
     margin-top: 0 !important;
+    flex-shrink: 1 !important;
 }
 
 .Scrollbar-block {
