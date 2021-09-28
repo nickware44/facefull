@@ -1064,13 +1064,13 @@ function Tooltip(e) {
         }
 
         this.timer = setTimeout(bind(function() {
-            this.edefaulttooltip.style.opacity = "1";
+            this.edefaulttooltip.style.visibility = "visible";
         }, this), 800);
     };
 
     this.onMouseOut = function() {
         clearTimeout(this.timer);
-        this.edefaulttooltip.style.opacity = "0";
+        this.edefaulttooltip.style.visibility = "hidden";
     };
 
     this.etooltiptarget.onmouseover = bind(this.onMouseOver, this);

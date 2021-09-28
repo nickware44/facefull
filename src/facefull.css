@@ -1917,7 +1917,7 @@ label.Search:before {
 
 .Tooltip {
     background-color: rgba(10, 10, 10, 0.8);
-    opacity: 0;
+    visibility: hidden;
     position: absolute;
     border-radius: 9px;
     /*visibility: hidden;*/
