@@ -34,6 +34,7 @@ function fixEvent(e) {
 
 function facefullCreate(native = false) {
     facefull = new Facefull(native);
+    facefull.doInit();
 }
 
 function Facefull(native = false) {
@@ -145,10 +146,6 @@ function Facefull(native = false) {
         }
     }
 
-    this.getRandomInt = function(max) {
-        return Math.floor(Math.random() * Math.floor(max));
-    }
-
     this.doWindowHeaderInit = function() {
         let ewcaption = document.getElementsByClassName("WindowCaption");
         let ewmover = document.getElementsByClassName("WindowMover");
@@ -156,21 +153,21 @@ function Facefull(native = false) {
         let ewctrlmax = document.getElementsByClassName("WindowControl Max");
         let ewctrlclose = document.getElementsByClassName("WindowControl Close");
         if (ewcaption.length) ewcaption[0].onmousedown = bind(function() {
-            this.doEventSend("onWindowCaptionMoving");
+            this.doEventSend("doWindowMove");
         }, this);
         if (ewmover.length) ewmover[0].onmousedown = bind(function() {
-            this.doEventSend("onWindowCaptionMoving");
+            this.doEventSend("doWindowMove");
         }, this);
         if (ewctrlmin.length) ewctrlmin[0].onclick = bind(function() {
-            this.doEventSend("onWindowMinimize");
+            this.doEventSend("doWindowMinimize");
         }, this);
         if (ewctrlmax.length) ewctrlmax[0].onclick = bind(function() {
             if (ewctrlmax[0].classList.contains("Restore")) ewctrlmax[0].classList.remove("Restore");
             else ewctrlmax[0].classList.add("Restore");
-            this.doEventSend("onWindowMaximize");
+            this.doEventSend("doWindowMaximize");
         }, this);
         if (ewctrlclose.length) ewctrlclose[0].onclick = bind(function() {
-            this.doEventSend("onWindowClose");
+            this.doEventSend("doWindowClose");
         }, this);
     }
 
