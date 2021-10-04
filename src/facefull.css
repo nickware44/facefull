@@ -2,6 +2,8 @@
 
 Available UI elements:
 
+WindowControl
+HeaderButton
 Page
 Subpage
 Box
@@ -131,9 +133,6 @@ canvas {
     color: #F3F3F3;
     font-size: 17px;
     padding-left: 15px;
-    padding-top: 9px;
-    display: inline-block;
-    vertical-align: middle;
     margin-top: 6px;
     font-family: 'Roboto', sans-serif;
     z-index: 999;
@@ -145,8 +144,7 @@ canvas {
     height: 100%;
     width: 100%;
     position: absolute;
-    display: inline-block;
-    z-index: 101;
+    z-index: 100;
 }
 
 .WindowControlsBlock {
@@ -232,6 +230,37 @@ canvas {
 
 .WindowControl.Min > div:after {
     content: "\F5B0";
+}
+
+.HeaderButtonsBlock {
+    width: 50%;
+    height: 100%;
+    float: right;
+    right: 80px;
+    margin-right: 50px;
+    top: 0;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.HeaderButton {
+    color: rgb(158, 158, 158);
+    border-radius: 999px;
+    margin-right: 15px;
+    z-index: 100;
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.52);
+    transition: 0.3s;
+    width: 27px;
+    height: 27px;
+    font-family: "MaterialDesignIcons", sans-serif;
+    font-size: 13px;
+}
+
+.HeaderButton:hover {
+    background-color: rgb(8, 39, 66);
 }
 
 /*============================ GlobalArea ============================*/
