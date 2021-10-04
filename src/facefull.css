@@ -31,12 +31,25 @@ Tabs
 
 */
 
+
+/*============================ Fonts ============================*/
+
+@font-face {
+    font-family: "Material Design Icons";
+    src: local('Material Design Icons'),
+    url("fonts/md-embedded.eot"),
+    url("fonts/md-embedded.woff") format("woff"),
+    url("fonts/md-embedded.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
 /*============================ General ============================*/
 
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Open Sans', sans-serif;
+    font-family: sans-serif;
     font-size: 15px;
     background-color: #171717;
     color: #171717;
@@ -166,7 +179,7 @@ canvas {
     width: 20px;
     height: 20px;
     vertical-align: middle;
-    font-family: "Material Design Icons";
+    font-family: "Material Design Icons", sans-serif;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     -moz-osx-font-smoothing: grayscale;
@@ -255,7 +268,7 @@ canvas {
     transition: 0.3s;
     width: 27px;
     height: 27px;
-    font-family: "MaterialDesignIcons", sans-serif;
+    font-family: "Material Design Icons", sans-serif;
     font-size: 13px;
 }
 
@@ -402,7 +415,11 @@ canvas {
 }
 
 .Box.Subpage .Title .BackButton {
-    font-family: "Material Design Icons";
+    font-family: "Material Design Icons", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'liga';
     display: inline-block;
     padding-left: 15px;
     padding-right: 50px;
@@ -453,7 +470,7 @@ canvas {
 }
 
 .Box.Subpage .Title .BackButtonIcon:before {
-    font-family: "Material Design Icons";
+    font-family: "Material Design Icons", sans-serif;
     content: '\F536';
 }
 
@@ -632,7 +649,6 @@ canvas {
 }
 
 .BoxCaption.Small {
-    font-family: "BloggerSans";
     margin-top: 10px;
     font-size: 15px;
 }
@@ -696,7 +712,7 @@ canvas {
 }
 
 .Tablist ul li > div:before {
-    font-family: "Material Design Icons";
+    font-family: "Material Design Icons", sans-serif;
     content: "\F379";
     font-size: 35px;
     vertical-align: middle;
@@ -779,7 +795,7 @@ canvas {
     background-color: #0A1219; /*rgba(13, 13, 13, 0.5);*/
     z-index: 101;
     /*border-left: 1px solid #fb6614;*/
-    font-family: "Material Design Icons";
+    font-family: "Material Design Icons", sans-serif;
     font-size: 28px;
     transition: 0.1s;
     cursor: default;
@@ -1265,9 +1281,11 @@ input[type="checkbox"]:not(:checked):not(:indeterminate) + .Checkbox:after {
     width: 20px;
     height: 20px;
     vertical-align: middle;
-    font-family: "Material Design Icons";
+    font-family: "Material Design Icons", sans-serif;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'liga';
     transition: 0.3s;
     font-weight: 300;
     font-size: 20px;
@@ -1417,8 +1435,6 @@ input[type="checkbox"]:not(:checked):not(:indeterminate) + .Checkbox:after {
 }
 
 .Label.Header {
-    /*font-family: "PTSansNarrow";*/
-    font-family: 'Open Sans', sans-serif;
     font-size: 18px;
     color: #FB6614;
     /*padding-top: 15px;*/
@@ -1444,7 +1460,6 @@ input[type="checkbox"]:not(:checked):not(:indeterminate) + .Checkbox:after {
     cursor: pointer;
     /*color: #bdc6cc;*/
     color: #0882FF;
-    font-family: 'Open Sans', sans-serif;;
 }
 
 .Link:hover {
@@ -1644,7 +1659,7 @@ input[type="checkbox"]:checked + .Toggle span:before {
 }
 
 .Categorylist > ul > li > div .ArrowP:before {
-    font-family: "Material Design Icons";
+    font-family: "Material Design Icons", sans-serif;
     content: '\F141';
     font-size: 25px;
 }
@@ -1717,7 +1732,7 @@ input[type="checkbox"]:checked + .Toggle span:before {
 }
 
 .PopupMenu ul li.ExtLink:after {
-    font-family: "Material Design Icons";
+    font-family: "Material Design Icons", sans-serif;
     content: '\F339';
     font-size: 15px;
     position: absolute;
@@ -1806,7 +1821,7 @@ input[type="checkbox"]:checked + .Toggle span:before {
 
 .List li > div.Action {
     transition: 0.3s;
-    font-family: "Material Design Icons";
+    font-family: "Material Design Icons", sans-serif;
 }
 
 .List li > div.Action:hover {
@@ -1885,7 +1900,7 @@ label.Search {
 }
 
 label.Search:before {
-    font-family: "Material Design Icons";
+    font-family: "Material Design Icons", sans-serif;
 }
 
 /*============================ Text ============================*/
