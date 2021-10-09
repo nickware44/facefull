@@ -15,7 +15,6 @@ Checkbox
 Combobox
 Alert
 Progressbar
-Loadingbar
 Label
 Link
 Toggle
@@ -1401,20 +1400,6 @@ input[type="checkbox"]:not(:checked):not(:indeterminate) + .Checkbox:after {
     width: 200px;
 }
 
-.LoadingbarLabel {
-    position: absolute;
-    width: 100px;
-    height: 28px;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    box-sizing: border-box;
-    margin: auto auto;
-    text-align: center;
-    font-size: 20px;
-}
-
 /*============================ Label ============================*/
 
 .Label {
@@ -1916,7 +1901,6 @@ label.Search:before {
     font-size: 16px;
     color: #f3f3f3;
     box-sizing: border-box;
-    /*height: 43px;*/
 }
 
 .Text.Rounded {

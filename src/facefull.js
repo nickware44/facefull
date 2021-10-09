@@ -34,7 +34,6 @@ function fixEvent(e) {
 
 function facefullCreate(native = false) {
     facefull = new Facefull(native);
-    facefull.doInit();
 }
 
 function Facefull(native = false) {
@@ -47,6 +46,8 @@ function Facefull(native = false) {
     this.SelectableLists = [];
     this.Tooltips = [];
     this.PopupMenus = [];
+    this.DropAreas = [];
+    this.Tabs = [];
     this.LastGlobalOpenedPopupMenu = null;
     this.LastGlobalOpenedPopupMenuTarget = null;
     this.Subpagelevel = 0;
@@ -153,21 +154,21 @@ function Facefull(native = false) {
         let ewctrlmax = document.getElementsByClassName("WindowControl Max");
         let ewctrlclose = document.getElementsByClassName("WindowControl Close");
         if (ewcaption.length) ewcaption[0].onmousedown = bind(function() {
-            this.doEventSend("doWindowMove");
+            facefull.doEventSend("doWindowMove");
         }, this);
         if (ewmover.length) ewmover[0].onmousedown = bind(function() {
-            this.doEventSend("doWindowMove");
+            facefull.doEventSend("doWindowMove");
         }, this);
         if (ewctrlmin.length) ewctrlmin[0].onclick = bind(function() {
-            this.doEventSend("doWindowMinimize");
+            facefull.doEventSend("doWindowMinimize");
         }, this);
         if (ewctrlmax.length) ewctrlmax[0].onclick = bind(function() {
             if (ewctrlmax[0].classList.contains("Restore")) ewctrlmax[0].classList.remove("Restore");
             else ewctrlmax[0].classList.add("Restore");
-            this.doEventSend("doWindowMaximize");
+            facefull.doEventSend("doWindowMaximize");
         }, this);
         if (ewctrlclose.length) ewctrlclose[0].onclick = bind(function() {
-            this.doEventSend("doWindowClose");
+            facefull.doEventSend("doWindowClose");
         }, this);
     }
 
@@ -187,19 +188,19 @@ function Facefull(native = false) {
         let comboxes = document.querySelectorAll(".Combobox");
         for (let i = 0; i < comboxes.length; i++) {
             let did = comboxes[i].getAttribute("data-comboboxname");
-            this.Comboboxes[did] = (new Combobox(comboxes[i]));
+            this.Comboboxes[did] = new Combobox(comboxes[i]);
         }
         let slists = document.querySelectorAll(".List.Selectable");
         for (let i = 0; i < slists.length; i++) {
             let did = slists[i].getAttribute("data-listname");
-            this.SelectableLists[did] = (new SelectableList(slists[i]));
+            this.SelectableLists[did] = new SelectableList(slists[i]);
         }
 
-        let lbarsc = document.querySelectorAll(".Loadingbar");
-        for (let i = 0; i < lbarsc.length; i++) {
-            if (lbarsc[i].className === "Loadingbar Random") this.Loadingbars.push(new Loadingbar(lbarsc[i], 'random'));
-            else this.Loadingbars.push(new Loadingbar(lbarsc[i], 'classic'));
-        }
+        // let lbarsc = document.querySelectorAll(".Loadingbar");
+        // for (let i = 0; i < lbarsc.length; i++) {
+        //     if (lbarsc[i].className === "Loadingbar Random") this.Loadingbars.push(new Loadingbar(lbarsc[i], 'random'));
+        //     else this.Loadingbars.push(new Loadingbar(lbarsc[i], 'classic'));
+        // }
         let catlists = document.querySelectorAll(".Categorylist");
         for (let i = 0; i < catlists.length; i++) this.Categorylists.push(new Categorylist(catlists[i]));
 
@@ -210,6 +211,18 @@ function Facefull(native = false) {
 
         let popupmenus = document.querySelectorAll(".PopupMenuTarget");
         for (let i = 0; i < popupmenus.length; i++) this.PopupMenus.push(new PopupMenu(popupmenus[i]));
+
+        let drops = document.querySelectorAll(".DropArea");
+        for (let i = 0; i < drops.length; i++) {
+            let did = drops[i].getAttribute("data-dropname");
+            this.DropAreas[did] = new DropArea(drops[i]);
+        }
+
+        let tabs = document.querySelectorAll(".Tabs");
+        for (let i = 0; i < tabs.length; i++) {
+            let did = tabs[i].getAttribute("data-tabsname");
+            this.Tabs[did] = new Tabs(tabs[i]);
+        }
 
         window.addEventListener("mousedown", bind(function(event) {
             this.doCloseAllPopup(event);
@@ -654,11 +667,11 @@ function AlertShowCustom(eid) {
     //let ov = dociment.createElement("div");
     //ov.classList.add("Overlay");
     //document.getElementById("W").appendChild(ov);
-    OverlayZIndex += 5;
+    facefull.OverlayZIndex += 5;
     document.getElementById("OV").style.display = "block";
-    document.getElementById("OV").style.zIndex = OverlayZIndex;
+    document.getElementById("OV").style.zIndex = facefull.OverlayZIndex;
     e.style.display = "block";
-    e.style.zIndex = OverlayZIndex + 1;
+    e.style.zIndex = facefull.OverlayZIndex + 1;
     document.getElementById("WA").className = "WorkArea Blur";
     setTimeout(function() {
         e.classList.remove("Scaled");
@@ -666,7 +679,7 @@ function AlertShowCustom(eid) {
 }
 
 function AlertHideCustom(e) {
-    //OverlayZIndex -= 5;
+    facefull.OverlayZIndex -= 5;
     e.style.display = "none";
     e.classList.add("Scaled");
     let eas = document.getElementsByClassName("Alert");
@@ -677,11 +690,11 @@ function AlertHideCustom(e) {
             break;
         }
     }
-    if (adflag) document.getElementById("OV").style.zIndex = OverlayZIndex;
+    if (adflag) document.getElementById("OV").style.zIndex = facefull.OverlayZIndex;
     else {
         document.getElementById("OV").style.display = "none";
         document.getElementById("WA").className = "WorkArea";
-        //OverlayZIndex = 200;
+        facefull.OverlayZIndex = 200;
     }
 }
 
@@ -726,7 +739,7 @@ function Categorylist(e) {
         if (this.ecatlist.parentElement.classList.contains("Scrolldata")) { // TODO: Scrollbox updater
             for (let i = 0; i < facefull.Scrollboxes.length; i++)
                 if (facefull.Scrollboxes[i].getScrollbox() === this.ecatlist.parentElement.parentElement)
-                    this.scrollbox = Scrollboxes[i];
+                    this.scrollbox = facefull.Scrollboxes[i];
         }
     };
 
@@ -1144,8 +1157,8 @@ function SelectableList(e) {
 
 /*===================== DropArea =====================*/
 
-function DropArea(eid) {
-    this.eda = document.getElementById(eid);
+function DropArea(e) {
+    this.eda = e;
     this.onFilesCaptured = function(filedata) {};
 
     ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
