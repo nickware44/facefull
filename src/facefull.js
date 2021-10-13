@@ -48,6 +48,7 @@ function Facefull(native = false) {
     this.PopupMenus = [];
     this.DropAreas = [];
     this.Tabs = [];
+    this.Circlebars = [];
     this.LastGlobalOpenedPopupMenu = null;
     this.LastGlobalOpenedPopupMenuTarget = null;
     this.Subpagelevel = 0;
@@ -205,6 +206,7 @@ function Facefull(native = false) {
         //     if (lbarsc[i].className === "Loadingbar Random") this.Loadingbars.push(new Loadingbar(lbarsc[i], 'random'));
         //     else this.Loadingbars.push(new Loadingbar(lbarsc[i], 'classic'));
         // }
+
         let catlists = document.querySelectorAll(".Categorylist");
         for (let i = 0; i < catlists.length; i++) this.Categorylists.push(new Categorylist(catlists[i]));
 
@@ -226,6 +228,12 @@ function Facefull(native = false) {
         for (let i = 0; i < tabs.length; i++) {
             let did = tabs[i].getAttribute("data-tabsname");
             this.Tabs[did] = new Tabs(tabs[i]);
+        }
+
+        let circles = document.querySelectorAll(".Circlebar");
+        for (let i = 0; i < circles.length; i++) {
+            let did = circles[i].getAttribute("data-circlebarname");
+            this.Circlebars[did] = new Circlebar(circles[i]);
         }
 
         window.addEventListener("mousedown", bind(function(event) {
@@ -1222,4 +1230,52 @@ function Tabs(e) {
     }
 
     this.doInitTabs();
+}
+
+/*===================== Circlebar =====================*/
+
+function Circlebar(e) {
+    this.ecb = e;
+    this.ns = "http://www.w3.org/2000/svg";
+    this.ecbback = document.createElementNS(this.ns, "circle");
+    this.ecbline = document.createElementNS(this.ns, "circle");
+    this.elabel = document.createElement("div");
+
+    this.setPos = function(pos) {
+        if (pos > 100) pos = 100;
+        else if (pos < 0) pos = 0;
+        let h = this.ecb.offsetHeight;
+        let r = (h-20)/2;
+        let s = 2*Math.PI*r;
+        let o = pos/100*s;
+        this.ecbback.setAttributeNS(null, "r", r+"px");
+        this.ecbline.setAttributeNS(null, "r", r+"px");
+        this.ecbline.setAttributeNS(null, "stroke-dasharray", s);
+        this.ecbline.setAttributeNS(null, "stroke-dashoffset", s-o);
+        this.elabel.innerHTML = pos;
+    }
+
+    this.doInit = function() {
+        let ecbbody = document.createElementNS(this.ns, "svg");
+        ecbbody.setAttributeNS(null, "width", "100%");
+        ecbbody.setAttributeNS(null, "height", "100%");
+        ecbbody.setAttributeNS(null, "class", "CircleBody");
+        this.ecbback.setAttributeNS(null, "cx", "50%");
+        this.ecbback.setAttributeNS(null, "cy", "50%");
+        this.ecbback.setAttributeNS(null, "class", "CircleProgress CircleBack");
+        this.ecbline.setAttributeNS(null, "cx", "50%");
+        this.ecbline.setAttributeNS(null, "cy", "50%");
+        this.ecbline.setAttributeNS(null, "class", "CircleProgress CircleLine");
+
+        ecbbody.appendChild(this.ecbback);
+        ecbbody.appendChild(this.ecbline);
+        this.ecb.appendChild(ecbbody);
+
+        this.elabel.className = "CirclebarLabel";
+        this.ecb.appendChild(this.elabel);
+
+        this.setPos(0);
+    }
+
+    this.doInit();
 }
