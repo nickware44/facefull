@@ -35,10 +35,7 @@ Tabs
 
 @font-face {
     font-family: "Material Design Icons";
-    src: local('Material Design Icons'),
-    url("fonts/md-embedded.eot"),
-    url("fonts/md-embedded.woff") format("woff"),
-    url("fonts/md-embedded.ttf") format("truetype");
+    src: local('Material Design Icons'), url("fonts/md-embedded.woff") format("woff");
     font-style: normal;
     font-weight: normal;
 }
@@ -283,21 +280,13 @@ canvas {
     width: 100%;
     height: 100%;
     padding-bottom: 35px;
-    /*background-color: #14222f;*/
-    /*background: radial-gradient(at bottom, #0a2c4e 30.1%, #14222f);*/
 }
 
 /*============================ WorkArea ============================*/
 
 .WorkArea {
     top: 0;
-    /*padding-top: 30px;*/
-    /*position: absolute;*/
-    /*width: 100%;*/
-    /*height: 100%;*/
     box-sizing: border-box;
-    /*border: 3px solid #14222f;*/
-    /*background-color: #14222f;*/
     z-index: 1;
     position: relative;
     display: table-cell;
@@ -305,21 +294,16 @@ canvas {
 
 .WorkArea.Blur {
     filter: blur(6px);
-    -webkit-filter: blur(4px);
+    -webkit-filter: blur(6px);
 }
 
 /*============================ Page ============================*/
 
 .Page {
-    /*top: 30px;*/
-    /*left: 0;*/
-    /*right: 60px;*/
-    /*top: 20px;*/
-    /*background-color: #14222f;*/
+    top: 0;
     position: absolute;
     cursor: default;
     overflow: hidden;
-    /*visibility: hidden;*/
     width: 100%;
     height: 100%;
     display: none;
@@ -341,25 +325,13 @@ canvas {
 }
 
 .Page .Title {
-    font-family: 'Roboto', sans-serif;
-    /*font-family: "PTSansNarrow";*/
-    /*font-family: "BloggerSans";*/
     font-size: 16px;
-    background-color: #0D151F;
+    background-color: #1E2C3E;
     display: flex;
     flex-direction: row;
     align-items: center;
     height: 80px;
     flex-shrink: 0;
-    /*background-color: #353535;*/
-    /*width: 100%;*/
-    /*padding-right: 20px;*/
-    /*padding-top: 20px;*/
-    /*border-bottom: 1px solid #292929;*/
-    /*margin-left: 40px;*/
-    /*margin-right: 40px;*/
-    /*box-shadow: 0 0 15px rgb(0, 0, 0);*/
-    /*margin-bottom: 20px;*/
 }
 
 .Page .Title .TitleText {
@@ -372,6 +344,12 @@ canvas {
 
 .Page .Title .TitleText .Subtitle {
     font-size: 13px;
+}
+
+.PageButtonsBlock {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 /*============================ Subpage ============================*/
@@ -433,8 +411,7 @@ canvas {
     color: #888;
     z-index: 10;
     border-radius: 9px;
-    margin: 10px;
-    margin-left: 33px;
+    margin: 10px 10px 10px 33px;
 }
 
 .Box.Subpage .Title .BackButton:before {
@@ -544,21 +521,57 @@ canvas {
 .Box.PageBody {
     margin-left: 0;
     margin-right: 0;
-    padding: 0;
-    padding-left: 18px;
-    padding-right: 18px;
+    padding: 0 18px;
     margin-top: 20px;
     flex-shrink: 0;
 }
 
-/*.Box.PageBody {*/
-/*    position: absolute;*/
-/*    height: 100%;*/
-/*    bottom: 0;*/
-/*    top: 80px;*/
-/*}*/
+.Box.Panel {
+    height: auto;
+    width: auto;
+    /*margin-top: 15px;*/
+    margin-left: 15px;
+    margin-right: 15px;
+    background-color: rgba(66, 66, 66, 0.18);
+    padding: 20px;
+    position: static;
+    margin-bottom: 15px;
+    border-radius: 8px;
+}
+
+.Box.PageBody .Box.Panel {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.Box.Panel.Blank {
+    visibility: hidden;
+}
+
+.Box.Panel > .Header {
+    /*text-transform: capitalize;*/
+    font-size: 16px;
+}
+
+.Box.Panel.Small {
+    max-width: 480px;
+    margin: 0 auto !important;
+}
+
+.Box.Panel.Medium {
+    max-width: 560px;
+    margin: 0 auto;
+}
+
+.Box.Fullwidth {
+    padding: 0;
+    margin: 0;
+    width: auto;
+}
 
 .Box.SettingsBlock {
+    margin-left: 0;
+    margin-right: 0;
     margin-bottom: 15px;
     padding-left: 0;
     overflow: visible;
@@ -735,7 +748,8 @@ canvas {
 .Scrolling {
     overflow: hidden;
     /*border-top: 1px solid #2F2F2F;*/
-    background-color: #0C131B;
+    /*background-color: #0C131B;*/
+    background-color: #262e3c;
     margin-top: 0 !important;
     flex-shrink: 1 !important;
 }
@@ -888,12 +902,12 @@ canvas {
 }
 
 .Button.Highlighted {
-    background-color: #c4c4c4;
-    color: #161616;
+    background-color: #2a618a;
+    color: #f3f3f3;
 }
 
 .Button.Highlighted:hover {
-    background-color: #949494;
+    background-color: #224c71;
 }
 
 .Button.Rounded {
@@ -1404,15 +1418,16 @@ input[type="checkbox"]:not(:checked):not(:indeterminate) + .Checkbox:after {
 
 .Label {
     display: block;
-    vertical-align: middle;
-    margin-left: 20px;
     line-height: 1.5em;
 }
 
-.Label.WOm {
-    display: block;
-    vertical-align: top;
-    margin-left: 0;
+.Label.ToggleText {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.Label.Wm {
+    margin-left: 20px;
 }
 
 .Label.Small {
@@ -1463,6 +1478,7 @@ input[type="checkbox"]:not(:checked):not(:indeterminate) + .Checkbox:after {
     -webkit-tap-highlight-color: transparent;
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
+    margin-right: 20px;
 }
 
 .ToggleBlock {
@@ -1745,13 +1761,10 @@ input[type="checkbox"]:checked + .Toggle span:before {
 /*============================ List ============================*/
 
 .List {
-    /*width: 100%;*/
     z-index: 5;
     list-style-type: none;
     padding: 0;
-    margin: 0;
-    margin-left: 15px;
-    margin-right: 15px;
+    margin: 0 15px;
 }
 
 .List.Selectable li {
@@ -1790,21 +1803,13 @@ input[type="checkbox"]:checked + .Toggle span:before {
     justify-content: space-between;
 }
 
-.List li > div:nth-child(2) {
-    padding-left: 15px;
-}
-
-.List li > div:nth-child(3) {
-    padding-left: 50px;
-}
-
 .List li > div:last-child {
-    /*position: absolute;*/
-    /*right: 60px;*/
     text-align: right;
 }
 
 .List li > div.Action {
+    right: 35px;
+    cursor: pointer;
     transition: 0.3s;
     font-family: "Material Design Icons", sans-serif;
 }
@@ -1813,12 +1818,16 @@ input[type="checkbox"]:checked + .Toggle span:before {
     color: #aaa;
 }
 
+.List li > div.Action:before {
+    content: "\F01D8";
+    font-size: 26px;
+}
+
 .List li {
     font-size: 13px;
     padding-left: 15px;
     padding-top: 15px;
     padding-bottom: 15px;
-    /*border-radius: 8px;*/
     background-color: rgba(66, 66, 66, 0.18);
 }
 
@@ -1832,10 +1841,7 @@ input[type="checkbox"]:checked + .Toggle span:before {
 
 .List.Blocks li {
     font-size: 13px;
-    padding-left: 15px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding-right: 15px;
+    padding: 20px 15px;
     margin-bottom: 12px;
     border-radius: 8px;
     background-color: rgba(66, 66, 66, 0.18);
@@ -1849,8 +1855,8 @@ input[type="checkbox"]:checked + .Toggle span:before {
     margin-top: 10px;
     margin-bottom: 10px;
     padding: 10px 10px 10px 15px;
-    background-color: #2a2a2a;
-    border: solid 1px #2a2a2a;
+    background-color: #202020;
+    border: solid 1px #202020;
     font-size: 16px;
     color: #f3f3f3;
     box-sizing: border-box;
@@ -1958,12 +1964,22 @@ label.Search:before {
 
 /*============================ Pulse chart ============================*/
 
+.PulseChart {
+    display: flex;
+    justify-content: center;
+    height: 100px;
+    padding: 0;
+}
+
 .PulseBlock {
-    width: 20px;
-    padding: 15px 4px;
+    width: 32px;
     position: relative;
     text-align: center;
     transition: 0.3s;
+    height: 100%;
+    box-sizing: border-box;
+    padding-top: 15px;
+    padding-bottom: 10px;
 }
 
 .PulseBlock:hover {
@@ -1972,11 +1988,13 @@ label.Search:before {
 
 .PulseValueBox {
     width: 8px;
-    height: 68px;
+    height: 80%;
     margin: 0 auto;
     display: flex;
     justify-content: center;
     flex-direction: column;
+    padding-bottom: 13px;
+    box-sizing: border-box;
 }
 
 .PulseValue {
@@ -1991,9 +2009,10 @@ label.Search:before {
 }
 
 .PulseLabel {
-    margin-top: 11px;
     font-size: 11px;
     color: #AAA;
+    height: 20%;
+    box-sizing: border-box;
 }
 
 /*============================ DropArea ============================*/
