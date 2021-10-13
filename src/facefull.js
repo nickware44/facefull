@@ -41,7 +41,6 @@ function Facefull(native = false) {
     this.Tablists = [];
     this.Scrollboxes = [];
     this.Comboboxes = [];
-    this.Loadingbars = [];
     this.Categorylists = [];
     this.SelectableLists = [];
     this.Tooltips = [];
@@ -1073,20 +1072,20 @@ function Tooltip(e) {
 
         switch (pos) {
             case 'left':
-                this.edefaulttooltip.style.left = this.etooltiptarget.offsetLeft - parseInt(dw) - 30 + "px";
+                this.edefaulttooltip.style.left = this.etooltiptarget.getBoundingClientRect().left - parseInt(dw) - 30 + "px";
                 ts = (this.etooltiptarget.offsetHeight-this.edefaulttooltip.offsetHeight) / 2;
-                this.edefaulttooltip.style.top = this.etooltiptarget.offsetTop + ts + "px";
+                this.edefaulttooltip.style.top = this.etooltiptarget.getBoundingClientRect().top + ts + "px";
                 break;
             case 'right':
-                this.edefaulttooltip.style.left = this.etooltiptarget.offsetLeft + this.etooltiptarget.offsetWidth + 10 + "px";
+                this.edefaulttooltip.style.left = this.etooltiptarget.getBoundingClientRect().left + this.etooltiptarget.offsetWidth + 10 + "px";
                 ts = (this.etooltiptarget.offsetHeight - this.edefaulttooltip.offsetHeight) / 2;
-                this.edefaulttooltip.style.top = this.etooltiptarget.offsetTop + ts + "px";
+                this.edefaulttooltip.style.top = this.etooltiptarget.getBoundingClientRect().top + ts + "px";
                 break;
             default:
             case 'bottom':
-                this.edefaulttooltip.style.top = this.etooltiptarget.offsetTop + this.etooltiptarget.offsetHeight + 20 + "px";
+                this.edefaulttooltip.style.top = this.etooltiptarget.getBoundingClientRect().top + this.etooltiptarget.offsetHeight + 20 + "px";
                 ts = (this.etooltiptarget.offsetWidth-this.edefaulttooltip.offsetWidth) / 2;
-                this.edefaulttooltip.style.left = this.etooltiptarget.offsetLeft + ts + "px";
+                this.edefaulttooltip.style.left = this.etooltiptarget.getBoundingClientRect().left + ts + "px";
                 break;
         }
 
