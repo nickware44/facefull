@@ -178,18 +178,22 @@ function Facefull(native = false) {
             let did = subpages[i].getAttribute("data-subpagename");
             this.Subpages[did] = new Subpage(subpages[i]);
         }
+
         let tablists = document.querySelectorAll(".Tablist");
         for (let i = 0; i < tablists.length; i++) this.Tablists.push(new Tablist(tablists[i]));
+
         let sboxes = document.querySelectorAll(".Box.Scrolling");
         for (let i = 0; i < sboxes.length; i++) {
             let did = sboxes[i].getAttribute("data-scrollboxname");
             this.Scrollboxes[did] = new Scrollbox(sboxes[i]);
         }
+
         let comboxes = document.querySelectorAll(".Combobox");
         for (let i = 0; i < comboxes.length; i++) {
             let did = comboxes[i].getAttribute("data-comboboxname");
             this.Comboboxes[did] = new Combobox(comboxes[i]);
         }
+
         let slists = document.querySelectorAll(".List.Selectable");
         for (let i = 0; i < slists.length; i++) {
             let did = slists[i].getAttribute("data-listname");
@@ -622,7 +626,7 @@ function AlertShow(caption, text, type = "info", buttons = "OK", callbacks = [],
     switch (buttons) {
         case "OK":
             eabok.style.display = "block";
-            eaby.onclick = function() {
+            eabok.onclick = function() {
                 AlertHideCustom(document.getElementById('AE'));
                 if (callbacks.length > 0) callbacks[0]();
             }
@@ -645,7 +649,6 @@ function AlertShow(caption, text, type = "info", buttons = "OK", callbacks = [],
     document.getElementById("AE").children[0].setAttribute("data-caption", captionlid);
     document.getElementById("AE").children[1].innerHTML = text;
     document.getElementById("AE").children[1].setAttribute("data-caption", textlid);
-    document.getElementById("AE").classList.remove("Scaled");
     document.getElementById("OV").style.display = "block";
     document.getElementById("AE").style.display = "block";
     document.getElementById("WA").className = "WorkArea Blur";
@@ -654,19 +657,9 @@ function AlertShow(caption, text, type = "info", buttons = "OK", callbacks = [],
     }, 4);
 }
 
-function AlertHide() {
-    document.getElementById("OV").style.display = "none";
-    document.getElementById("AE").style.display = "none";
-    document.getElementById("AE").classList.add("Scaled");
-    document.getElementById("WA").className = "WorkArea";
-}
-
 function AlertShowCustom(eid) {
     let e = document.getElementById(eid);
     e.classList.remove("Scaled");
-    //let ov = dociment.createElement("div");
-    //ov.classList.add("Overlay");
-    //document.getElementById("W").appendChild(ov);
     facefull.OverlayZIndex += 5;
     document.getElementById("OV").style.display = "block";
     document.getElementById("OV").style.zIndex = facefull.OverlayZIndex;
@@ -1027,8 +1020,23 @@ function PopupMenu(e) {
         if (!this.epmtarget.classList.contains("PopupMenuTarget")) return;
         let did = this.epmtarget.getAttribute("data-id");
         if (did !== undefined) this.epm.setAttribute("data-id", did);
-        this.epm.style.left = this.epmtarget.offsetLeft + "px";
-        this.epm.style.top = this.epmtarget.offsetTop + this.epmtarget.offsetHeight + 10 + "px";
+
+        let pos = this.epmtarget.getAttribute("data-popupmenu-pos");
+        let width = parseInt(this.epmtarget.getAttribute("data-popupmenu-width"));
+        if (isNaN(width)) width = 200;
+        this.epm.style.width = width + "px";
+        switch (pos) {
+            default:
+            case 'bottom-left':
+                this.epm.style.left = this.epmtarget.offsetLeft + "px";
+                this.epm.style.top = this.epmtarget.offsetTop + this.epmtarget.offsetHeight + 10 + "px";
+                break;
+            case 'bottom-right':
+                this.epm.style.left =  this.epmtarget.offsetLeft + (this.epmtarget.offsetWidth-width) + "px";
+                this.epm.style.top = this.epmtarget.offsetTop + this.epmtarget.offsetHeight + 10 + "px";
+                break;
+        }
+
         this.epm.style.display = "block";
         facefull.LastGlobalOpenedPopupMenu = this.epm;
         facefull.LastGlobalOpenedPopupMenuTarget = this.epmtarget;
@@ -1055,7 +1063,7 @@ function Tooltip(e) {
         let pos = this.etooltiptarget.getAttribute("data-tooltip-pos");
         let ts = 0;
 
-        switch(pos) {
+        switch (pos) {
             case 'left':
                 this.edefaulttooltip.style.left = this.etooltiptarget.offsetLeft - parseInt(dw) - 30 + "px";
                 ts = (this.etooltiptarget.offsetHeight-this.edefaulttooltip.offsetHeight) / 2;
@@ -1066,6 +1074,7 @@ function Tooltip(e) {
                 ts = (this.etooltiptarget.offsetHeight - this.edefaulttooltip.offsetHeight) / 2;
                 this.edefaulttooltip.style.top = this.etooltiptarget.offsetTop + ts + "px";
                 break;
+            default:
             case 'bottom':
                 this.edefaulttooltip.style.top = this.etooltiptarget.offsetTop + this.etooltiptarget.offsetHeight + 20 + "px";
                 ts = (this.etooltiptarget.offsetWidth-this.edefaulttooltip.offsetWidth) / 2;
