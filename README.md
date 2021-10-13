@@ -15,7 +15,7 @@ Just run `facefullCreate()` or `facefullCreate(true)` (for native desktop app) i
 
 And then:
 ```js
-document.addEventListener('DOMContentLoaded', function () {
+window.addEventListener('load', function () {
     facefull.doInit();
 });
 ```
