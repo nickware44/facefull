@@ -1063,6 +1063,8 @@ function Tooltip(e) {
         let dc = this.etooltiptarget.getAttribute("data-tooltip-text");
         let dcid = this.etooltiptarget.getAttribute("data-tooltip-textid");
         let dw = this.etooltiptarget.getAttribute("data-tooltip-width");
+        this.edefaulttooltip.setAttribute("data-caption", "");
+        this.edefaulttooltip.innerHTML = "";
         if (dcid && dcid !== "") this.edefaulttooltip.setAttribute("data-caption", dcid);
         if (dc && dc !== "") this.edefaulttooltip.innerHTML = dc;
         this.edefaulttooltip.style.width = dw + "px";
