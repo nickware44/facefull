@@ -1245,7 +1245,8 @@ function Circlebar(e) {
     this.setPos = function(pos) {
         if (pos > 100) pos = 100;
         else if (pos < 0) pos = 0;
-        let h = this.ecb.offsetHeight;
+        let h = this.ecb.getAttribute("data-circlebar-size");
+        if (h < 25) h = 25;
         let r = (h-20)/2;
         let s = 2*Math.PI*r;
         let o = pos/100*s;
