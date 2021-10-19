@@ -118,16 +118,16 @@ function Facefull(native = false) {
     }
 
     this.doCloseAllSubpages = function() {
-        for (let i = 0; i < this.Subpages.length; i++) {
-            let TL = this.Subpages[i];
-            TL.doSubpageClose();
+        for (let i in this.Subpages) {
+            if (this.Subpages.hasOwnProperty(i))
+                this.Subpages[i].doSubpageClose();
         }
     }
 
     this.doCloseAllTablists = function() {
-        for (let i = 0; i < this.Tablists.length; i++) {
-            let TL = this.Tablists[i];
-            TL.doTabClose();
+        for (let i in this.Tablists) {
+            if (this.Tablists.hasOwnProperty(i))
+                this.Tablists[i].doTabClose();
         }
     }
 
