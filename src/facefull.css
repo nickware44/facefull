@@ -470,11 +470,11 @@ canvas {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    padding: 10px;
+    /*padding: 10px;*/
     box-sizing: border-box;
     position: relative;
-    padding-left: 25px;
-    padding-right: 25px;
+    /*padding-left: 25px;*/
+    /*padding-right: 25px;*/
     margin-left: 5px;
     margin-right: 5px;
 }
@@ -482,7 +482,7 @@ canvas {
 .Box.PageBody {
     margin-left: 0;
     margin-right: 0;
-    padding: 0 18px;
+    padding: 0 28px;
     margin-top: 20px;
     flex-shrink: 0;
 }
@@ -491,8 +491,8 @@ canvas {
     height: auto;
     width: auto;
     /*margin-top: 15px;*/
-    margin-left: 15px;
-    margin-right: 15px;
+    /*margin-left: 15px;*/
+    /*margin-right: 15px;*/
     background-color: rgba(66, 66, 66, 0.18);
     padding: 20px;
     position: static;
@@ -501,8 +501,8 @@ canvas {
 }
 
 .Box.PageBody .Box.Panel {
-    margin-left: 0;
-    margin-right: 0;
+    /*margin-left: 0;*/
+    /*margin-right: 0;*/
 }
 
 .Box.Panel.Blank {
@@ -534,7 +534,7 @@ canvas {
     margin-left: 0;
     margin-right: 0;
     margin-bottom: 15px;
-    padding-left: 0;
+    padding: 10px 0;
     overflow: visible;
     height: auto;
 }
@@ -608,29 +608,26 @@ canvas {
     width: auto;
 }
 
-.BoxCaption {
-    /* text-transform: uppercase; */
-    /*font-family: "BloggerSans";*/
-    font-family: 'Roboto', sans-serif;
+.BoxTitle {
     margin-bottom: 20px;
     font-size: 17px;
     color: rgba(255, 255, 255, 0.5);
-    margin-top: 10px;
+    /*margin-top: 10px;*/
     text-align: left;
     z-index: 1;
     position: relative;
 }
 
-.BoxCaption.Small {
+.BoxTitle.Small {
     margin-top: 10px;
     font-size: 15px;
 }
 
-.BoxCaption.Center {
+.BoxTitle.Center {
     text-align: center;
 }
 
-.BoxCaptionInner {
+.BoxTitleInner {
     display: inline-block;
     /*vertical-align: middle;*/
 }
@@ -1838,7 +1835,7 @@ label.Search:before {
     padding: 10px 10px 10px 15px;
     background-color: #2a2a2a;
     border: solid 1px #2a2a2a;
-    font-size: 16px;
+    font: 14px sans-serif;
     color: #f3f3f3;
     box-sizing: border-box;
 }
@@ -1856,11 +1853,15 @@ label.Search:before {
 
 .Grid {
     display: flex;
-    padding: 0 10px 10px 10px;
+    /*padding: 0 10px 10px 10px;*/
 }
 
 .Grid .Box {
     flex-shrink: 1;
+}
+
+.Grid .Panel {
+    width: 100%;
 }
 
 /*============================ Tooltip ============================*/
