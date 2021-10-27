@@ -1029,18 +1029,51 @@ input[type="checkbox"]:not(:checked):not(:indeterminate) + .Checkbox:after {
 /*============================ Combobox ============================*/
 
 .Combobox {
-    color: #171717;
-    width: 230px;
-    background-color: #D7D7D7;
+    width: 280px;
     transition: 0.3s;
-    font-size: 13px;
-    padding-top: 7px;
-    padding-bottom: 7px;
-    outline: 1px solid #D7D7D7;
+    font-size: 14px;
     outline-offset: -1px;
     position: relative;
     box-sizing: border-box;
-    height: 32px;
+    height: 43px;
+    color: #F3F3F3;
+    background-color: #202020;
+    outline: 1px solid #202020;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.Combobox.Rounded {
+    border-radius: 5px;
+}
+
+.ComboboxHeader {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.ComboboxHeader:after {
+    content: '';
+    display: block;
+    width: 5px;
+    height: 5px;
+    border-radius: 5em;
+    background-color: #FB6614;
+    position: absolute;
+    right: 10px;
+}
+
+.ComboboxHeader > div {
+    padding-left: 10px;
+    padding-right: 20px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    box-sizing: border-box;
+    /*-webkit-mask-image: -webkit-gradient(linear, left top, right top, from(rgba(0, 0, 0, 1)), to(rgba(0, 0, 0, 0)));*/
 }
 
 .Combobox.Long {
@@ -1070,7 +1103,8 @@ input[type="checkbox"]:not(:checked):not(:indeterminate) + .Checkbox:after {
 }
 
 .Combobox:hover {
-    outline: 1px solid #00AEFF;
+    background-color: #262626;
+    outline: 1px solid #262626;
 }
 
 .Combobox.Opened {
@@ -1081,80 +1115,61 @@ input[type="checkbox"]:not(:checked):not(:indeterminate) + .Checkbox:after {
     outline-offset: -1px;
 }
 
-.ComboboxTitle {
-    display: inline-block;
-    margin-left: 10px;
-    width: 190px;
-    text-overflow: ellipsis;
-    /*white-space: normal !important;*/
-    overflow: hidden;
-    vertical-align: middle;
-    height: 16px;
-    /*-webkit-mask-image: -webkit-gradient(linear, left top, right top, from(rgba(0, 0, 0, 1)), to(rgba(0, 0, 0, 0)));*/
-}
-
-.Combobox.Long > .ComboboxTitle {
-    width: 440px;
-}
-
-.ComboboxDot {
-    display: inline-block;
-    width: 5px;
-    height: 5px;
-    border-radius: 5em;
-    margin-left: 8px;
-    background-color: #FB6614;
-    position: relative;
-    vertical-align: middle;
-}
-
 .Combobox ul {
-    width: 230px;
-    background-color: #D7D7D7;
+    width: 100%;
+    background-color: #202020;
     z-index: 5;
     list-style-type: none;
     display: none;
     padding: 0;
-    margin-top: 7px;
+    margin: 0;
     position: absolute;
+}
+
+.Combobox ul li {
+    background-color: #202020;
+    color: #F3F3F3;
+    padding: 12px 10px;
+    transition: 0.3s;
+    font-size: 13px;
+    z-index: 6;
+    position: relative;
+    word-wrap: break-word;
+}
+
+.Combobox ul li:hover {
+    background-color: #2e2e2e;
+}
+
+.Combobox.Long {
+    width: 440px;
 }
 
 .Combobox.Long ul {
     width: 480px;
 }
 
-.Combobox ul li {
-    background-color: #D7D7D7;
-    padding: 8px 10px;
-    transition: 0.3s;
-    font-size: 13px;
-    z-index: 6;
-    position: relative;
+.Combobox.Light {
     color: #171717;
-    word-wrap: break-word;
+    background-color: #D7D7D7;
+    outline: 1px solid #D7D7D7;
 }
 
-.Combobox ul li:hover {
+.Combobox.Light:hover {
+    outline: 1px solid #00AEFF;
+}
+
+.Combobox.Light ul {
+    background-color: #D7D7D7;
+}
+
+.Combobox.Light ul li {
+    background-color: #D7D7D7;
+    color: #171717;
+}
+
+.Combobox.Light ul li:hover {
     background-color: #C0C0C0;
-}
-
-.Combobox.Black {
-    color: #F3F3F3;
-    background-color: #171717;
-    outline: 1px solid #171717;
-}
-
-.Combobox.Black ul {
-    background-color: #171717;
-}
-
-.Combobox.Black ul li {
-    background-color: #171717;
-    color: #F3F3F3;
-}
-
-.Combobox.Black ul li:hover {
-    background-color: #2e2e2e;
 }
 
 /*============================ Overlay ============================*/

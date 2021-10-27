@@ -519,8 +519,8 @@ function Scrollbox(e) {
 
 function Combobox(e) {
     this.ecombobox = e;
-    this.ecomboboxtitle = e.children[0];
-    this.ecomboboxdata = e.children[2];
+    this.ecomboboxtitle = e.children[0].children[0];
+    this.ecomboboxdata = e.children[1];
     this.state = 0;
 
     this.doOpenComboboxList = function() {
