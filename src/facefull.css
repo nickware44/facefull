@@ -1749,10 +1749,6 @@ input[type="checkbox"]:checked + .Toggle span:before {
     margin-top: 30px;
 }
 
-.List li > div {
-    display: inline-block;
-}
-
 .List li {
     display: flex;
     align-items: center;
