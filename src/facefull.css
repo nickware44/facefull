@@ -37,6 +37,7 @@ Pulse chart
 DropArea
 Tabs
 Circlebar
+Counter
 
 */
 
@@ -2021,4 +2022,57 @@ label.Search:before {
 
 .CirclebarLabel:after {
     content: "%";
+}
+
+/*============================ Counter ============================*/
+
+.Counter {
+    width: 130px;
+    background-color: #202020;
+    display: flex;
+    align-items: center;
+}
+
+.Counter .CountBack, .Counter .CountForward {
+    font-family: "Material Design Icons", sans-serif;
+    font-size: 19px;
+    padding: 10px;
+    transition: 0.3s;
+}
+
+.Counter .CountBack:hover, .Counter .CountForward:hover {
+    color: #aaaaaa;
+}
+
+.Counter .CountForward:before {
+    content: '\F0415';
+}
+
+.Counter .CountBack:before {
+    content: '\F0374';
+}
+
+.Counter .CountValue {
+    position: relative;
+
+}
+
+.Counter .CountValue input {
+    display: block;
+    width: 100%;
+    font-size: 16px;
+    box-sizing: border-box;
+    text-align: center;
+    background-color: transparent;
+    border: none;
+    color: #F3F3F3;
+}
+
+.Counter .CountValue input:focus {
+    border: none;
+    outline: none;
+}
+
+.Counter.Rounded {
+    border-radius: 5px;
 }

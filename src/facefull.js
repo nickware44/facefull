@@ -56,6 +56,7 @@ function Facefull(native = false) {
     this.DropAreas = [];
     this.Tabs = [];
     this.Circlebars = [];
+    this.Counters = [];
     this.LastGlobalOpenedPopupMenu = null;
     this.LastGlobalOpenedPopupMenuTarget = null;
     this.Subpagelevel = 0;
@@ -208,12 +209,6 @@ function Facefull(native = false) {
             this.SelectableLists[did] = new SelectableList(slists[i]);
         }
 
-        // let lbarsc = document.querySelectorAll(".Loadingbar");
-        // for (let i = 0; i < lbarsc.length; i++) {
-        //     if (lbarsc[i].className === "Loadingbar Random") this.Loadingbars.push(new Loadingbar(lbarsc[i], 'random'));
-        //     else this.Loadingbars.push(new Loadingbar(lbarsc[i], 'classic'));
-        // }
-
         let catlists = document.querySelectorAll(".Categorylist");
         for (let i = 0; i < catlists.length; i++) this.Categorylists.push(new Categorylist(catlists[i]));
 
@@ -241,6 +236,12 @@ function Facefull(native = false) {
         for (let i = 0; i < circles.length; i++) {
             let did = circles[i].getAttribute("data-circlebarname");
             this.Circlebars[did] = new Circlebar(circles[i]);
+        }
+
+        let counters = document.querySelectorAll(".Counter");
+        for (let i = 0; i < counters.length; i++) {
+            let did = counters[i].getAttribute("data-countername");
+            this.Counters[did] = new Counter(counters[i]);
         }
 
         window.addEventListener("mousedown", bind(function(event) {
@@ -1285,6 +1286,114 @@ function Circlebar(e) {
         this.ecb.appendChild(this.elabel);
 
         this.setPos(0);
+    }
+
+    this.doInit();
+}
+
+/*===================== Counter =====================*/
+
+function Counter(e) {
+    this.ec = e;
+    this.ecback = e.children[0];
+    this.ecvalue = e.children[1].children[0];
+    this.ecforward = e.children[2];
+    this.value = 0;
+    this.backtimeout = null;
+    this.backtimer = null;
+    this.forwardtimeout = null;
+    this.forwardtimer = null;
+
+    this.onBeforeCount = function(direction){return true;}
+    this.onAfterCount = function(direction){}
+
+    this.doCountBack = function() {
+        if (!this.onBeforeCount(-1)) return;
+        this.value--;
+        this.ecvalue.value = this.value;
+        this.onAfterCount(-1);
+    }
+
+    this.doStartCountBack = function() {
+        if (this.backtimeout) return;
+        this.backtimeout = setTimeout(bind(function () {
+            if (this.backtimer) return;
+            this.backtimer = setInterval(bind(function() {
+                this.doCountBack();
+            }, this), 100);
+        }, this), 300);
+    }
+
+    this.doEndCountBack = function() {
+        if (this.backtimeout && !this.backtimer) this.doCountBack();
+        clearInterval(this.backtimer);
+        clearTimeout(this.backtimeout);
+        this.backtimer = null;
+        this.backtimeout = null;
+    }
+
+    this.doCountForward = function() {
+        if (!this.onBeforeCount(1)) return;
+        this.value++
+        this.ecvalue.value = this.value;
+        this.onAfterCount(1);
+    }
+
+    this.doStartCountForward = function() {
+        if (this.forwardtimeout) return;
+        this.forwardtimeout = setTimeout(bind(function () {
+            if (this.forwardtimer) return;
+            this.forwardtimer = setInterval(bind(function() {
+                this.doCountForward();
+            }, this), 100);
+        }, this), 300);
+    }
+
+    this.doEndCountForward = function() {
+        if (this.forwardtimeout && !this.forwardtimer) this.doCountForward();
+        clearInterval(this.forwardtimer);
+        clearTimeout(this.forwardtimeout);
+        this.forwardtimer = null;
+        this.forwardtimeout = null;
+    }
+
+    this.doParseEditedValue = function() {
+        this.setValue(this.ecvalue.value);
+    }
+
+    this.setValue = function(value) {
+        if (!value.toString().length) value = 0;
+        if (Number.isNaN(parseInt(value))) {
+            this.ecvalue.value = this.value;
+            return false;
+        }
+        if (!this.onBeforeCount(parseInt(value)-this.value)) {
+            this.ecvalue.value = this.value;
+            return;
+        }
+        this.ecvalue.value = parseInt(value);
+        this.value = parseInt(value);
+        this.onAfterCount();
+    }
+
+    this.getValue = function() {
+        return this.value;
+    }
+
+    this.doInit = function() {
+        if (!this.ec.classList.contains("Editable")) this.ecvalue.setAttribute("disabled", "");
+        else this.ecvalue.removeAttribute("disabled");
+        this.setValue(this.ecvalue.value);
+
+        this.ecback.onmousedown = bind(this.doStartCountBack, this);
+        this.ecback.onmouseup = bind(this.doEndCountBack, this);
+        this.ecback.onmouseleave = bind(this.doEndCountBack, this);
+
+        this.ecforward.onmousedown = bind(this.doStartCountForward, this);
+        this.ecforward.onmouseup = bind(this.doEndCountForward, this);
+        this.ecforward.onmouseleave = bind(this.doEndCountForward, this);
+
+        this.ecvalue.oninput = bind(this.doParseEditedValue,this);
     }
 
     this.doInit();

@@ -48,6 +48,17 @@ function App() {
 
     doLoadList1();
     doLoadList2();
+
+    facefull.Counters["CV1"].onBeforeCount = function(direction) {
+        if (facefull.Counters["CV1"].getValue()+direction > 50) {
+            facefull.Counters["CV1"].setValue(50);
+            return false;
+        } else if (facefull.Counters["CV1"].getValue()+direction < 0) {
+            facefull.Counters["CV1"].setValue(0);
+            return false;
+        }
+        return true;
+    }
 }
 
 function doShowTestMessage() {
