@@ -63,7 +63,7 @@ body {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    overflow:hidden;
+    overflow: hidden;
 }
 
 canvas {
@@ -135,26 +135,38 @@ canvas {
 }
 
 .WindowHeader {
-    height: 80px;
+    height: 50px;
     position: relative;
-    /*z-index: 9999;*/
     width: 100%;
-    /*background-color: #14222f;*/
-    /*background-color: #0f273d;*/
+    background-color: #0f273d;
     cursor: default;
-    /*box-shadow: 0 2px 5px #AAA;*/
-    /*border-bottom: 1px solid #1a4a6d;*/
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
+.WorkArea .WindowHeader {
+    height: 80px;
+}
+
+.WorkArea .HeaderButtonsBlock {
+    margin-right: 0;
+}
+
+.WindowIcon {
+    background-size: cover;
+    background-position: center;
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+    border-radius: 9999px;
+    z-index: 999;
+}
+
 .WindowCaption {
     color: #F3F3F3;
-    font-size: 17px;
+    font-size: 16px;
     padding-left: 15px;
-    margin-top: 6px;
-    font-family: 'Roboto', sans-serif;
     z-index: 999;
     position: relative;
 }
@@ -168,8 +180,7 @@ canvas {
 }
 
 .WindowControlsBlock {
-    background-color: #0a1219;
-    width: 80px;
+    width: 95px;
     height: 100%;
     display: flex;
     align-items: center;
@@ -180,8 +191,7 @@ canvas {
 }
 
 .WindowControl {
-    background-color: #000;
-    color: #9C9C9C;
+    color: #F3F3F3;
     border-radius: 999px;
     width: 20px;
     height: 20px;
@@ -195,13 +205,13 @@ canvas {
     /*z-index: 100;*/
     font-weight: 300;
     font-size: 20px;
-    margin-left: 1px;
-    margin-right: 1px;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 999;
     position: relative;
+    margin-left: 4px;
+    margin-right: 4px;
 }
 
 .WindowControl:hover {
@@ -213,50 +223,50 @@ canvas {
 }
 
 .WindowControl.Close > div {
-    width: 15px;
-    height: 16px;
-    font-size: 14px;
+    /*width: 24px;*/
+    /*height: 24px;*/
+    font-size: 21px;
 }
 
 .WindowControl.Close > div:after {
-    content: "\F5AD";
+    content: "\F0156";
 }
 
 .WindowControl.Max > div {
-    width: 18px;
-    height: 19px;
-    font-size: 18px;
+    /*width: 28px;*/
+    /*height: 25px;*/
+    font-size: 24px;
 }
 
 .WindowControl.Max > div:after {
-    content: "\F143";
+    content: "\F0143";
 }
 
 .WindowControl.Restore > div {
-    width: 18px;
-    height: 19px;
-    font-size: 19px;
+    /*width: 28px;*/
+    /*height: 26px;*/
+    font-size: 24px;
 }
 
 .WindowControl.Restore > div:after {
-    content: "\F140";
+    content: "\F0140";
 }
 
 .WindowControl.Min > div {
-    width: 11px;
-    height: 9px;
-    font-size: 10px;
+    /*width: 28px;*/
+    /*height: 25px;*/
+    font-size: 21px;
 }
 
 .WindowControl.Min > div:after {
-    content: "\F5B0";
+    content: "\F0374";
 }
 
 .HeaderButtonsBlock {
     width: 50%;
     height: 100%;
-    right: 80px;
-    margin-right: 50px;
+    right: 0;
+    margin-right: 130px;
     top: 0;
     position: absolute;
     display: flex;
@@ -322,15 +332,11 @@ canvas {
     height: 100%;
     display: none;
     flex-direction: column;
+    background-color: #283140;
 }
 
 .Page.Show {
     display: flex;
-}
-
-.Page.Black {
-    background-color: #171717;
-    color: #F3F3F3;
 }
 
 .Page.Transparent {
@@ -374,11 +380,9 @@ canvas {
     height: 100%;
     right: 0;
     width: 100%;
-    /*visibility: hidden;*/
     display: none;
     top: 0;
-    /*background-color: #14222f;*/
-    background-color: #0D151F;
+    background-color: #283140;
     margin-left: 0;
     margin-right: 0;
     padding: 0;
@@ -506,7 +510,6 @@ canvas {
     background-color: rgba(66, 66, 66, 0.18);
     padding: 20px;
     position: static;
-    margin-bottom: 15px;
     border-radius: 8px;
 }
 
@@ -1874,7 +1877,11 @@ label.Search:before {
 
 .Grid {
     display: flex;
-    /*padding: 0 10px 10px 10px;*/
+}
+
+.Grid.Vertical {
+    flex-direction: column;
+    margin-bottom: 0;
 }
 
 .Grid .Box {
@@ -1883,6 +1890,11 @@ label.Search:before {
 
 .Grid .Panel {
     width: 100%;
+    height: 100%;
+}
+
+.Grid > div {
+    margin-bottom: 15px;
 }
 
 /*============================ Tooltip ============================*/
