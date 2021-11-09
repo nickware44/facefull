@@ -251,7 +251,13 @@ function Facefull(native = false) {
             this.doUpdateAllScrollboxes();
         }, this));
 
-        if (native) this.doWindowHeaderInit();
+        if (native) {
+            document.addEventListener('contextmenu', function(event) {
+                event.preventDefault();
+                return false;
+            }, false);
+            this.doWindowHeaderInit();
+        }
     }
 }
 
