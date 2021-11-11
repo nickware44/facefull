@@ -49,3 +49,4 @@ window.addEventListener('load', function () {
 - DropArea
 - Tabs
 - Circlebar
+- Counter
