@@ -504,13 +504,11 @@ canvas {
 .Box.Panel {
     height: auto;
     width: auto;
-    /*margin-top: 15px;*/
-    /*margin-left: 15px;*/
-    /*margin-right: 15px;*/
     background-color: rgba(66, 66, 66, 0.18);
     padding: 20px;
     position: static;
     border-radius: 8px;
+    margin-bottom: 15px;
 }
 
 .Box.PageBody .Box.Panel {
@@ -1881,7 +1879,6 @@ label.Search:before {
 
 .Grid.Vertical {
     flex-direction: column;
-    margin-bottom: 0;
 }
 
 .Grid .Box {
@@ -1891,10 +1888,8 @@ label.Search:before {
 .Grid .Panel {
     width: 100%;
     height: 100%;
-}
-
-.Grid > div {
-    margin-bottom: 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 /*============================ Tooltip ============================*/
