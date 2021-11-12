@@ -394,10 +394,7 @@ canvas {
 }
 
 .Box.Subpage .Title {
-    font-family: 'Roboto', sans-serif;
-    /*font-family: "PTSansNarrow";*/
     font-size: 16px;
-    /*background-color: #353535;*/
     width: 100%;
     padding-right: 20px;
     padding-top: 0;
@@ -1334,12 +1331,10 @@ input[type="checkbox"]:not(:checked):not(:indeterminate) + .Checkbox:after {
     padding-top: 15px;
     font-size: 18px;
     position: relative;
-    font-family: 'Roboto', sans-serif;
 }
 
 .AlertText {
     padding: 40px 15px;
-    font-family: 'Roboto', sans-serif;
 }
 
 .AlertButtons {
