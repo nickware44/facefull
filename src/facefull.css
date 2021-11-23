@@ -1354,9 +1354,29 @@ input[type="checkbox"]:not(:checked):not(:indeterminate) + .Checkbox:after {
 /*============================ Progressbar ============================*/
 
 .Progressbar {
-    width: 500px;
+    width: 100%;
     height: 10px;
     background-color: #14222f;
+    overflow: hidden;
+}
+
+.Progressbar.Rounded {
+    border-radius: 8px;
+}
+
+.Progressbar.Stripes .ProgressbarIndicator {
+    background-size: 30px 30px;
+    background-image: linear-gradient(
+            135deg,
+            rgba(0, 0, 0, 0.15) 25%,
+            transparent 25%,
+            transparent 50%,
+            rgba(0, 0, 0, .15) 50%,
+            rgba(0, 0, 0, .15) 75%,
+            transparent 75%,
+            transparent
+    );
+    animation: animate-stripes 1.6s linear infinite;
 }
 
 .ProgressbarIndicator {
@@ -1364,6 +1384,16 @@ input[type="checkbox"]:not(:checked):not(:indeterminate) + .Checkbox:after {
     height: 100%;
     background-color: #20AAFA;
     transition: 0.3s;
+}
+
+@keyframes animate-stripes {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 60px 0;
+    }
 }
 
 /*============================ Label ============================*/
