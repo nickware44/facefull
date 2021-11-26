@@ -759,6 +759,7 @@ canvas {
     padding-bottom: 1px;
     /*margin-top: 0 !important;*/
     padding-top: 20px !important;
+    transition: 0.1s;
 }
 
 /*============================ MainMenu ============================*/
