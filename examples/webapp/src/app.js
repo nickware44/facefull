@@ -49,6 +49,13 @@ function App() {
     doLoadList1();
     doLoadList2();
 
+    facefull.HotkeyHolders["HH1"].onHotkey = function(hotkey) {
+        AlertShow("Alert", "Hotkey pressed!");
+    }
+    facefull.HotkeyHolders["HH1"].onHotkeySet = function(hotkey) {
+        console.log(hotkey);
+    }
+
     facefull.Counters["CV1"].onBeforeCount = function(direction) {
         if (facefull.Counters["CV1"].getValue()+direction > 50) {
             facefull.Counters["CV1"].setValue(50);

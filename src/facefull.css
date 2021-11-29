@@ -38,6 +38,7 @@ DropArea
 Tabs
 Circlebar
 Counter
+HotkeyHolder
 
 */
 
@@ -2103,5 +2104,59 @@ label.Search:before {
 }
 
 .Counter.Rounded {
+    border-radius: 5px;
+}
+
+/*============================ HotkeyHolder ============================*/
+
+.HotkeyHolder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 280px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #202020;
+    font-size: 16px;
+    color: #f3f3f3;
+    box-sizing: border-box;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.HotkeyHolder.Selected {
+    background-color: #fb6614;
+}
+
+.HotkeyHolder .KeyMod {
+    padding: 0 7px;
+    font-size: 12px;
+    border: 2px solid #f3f3f3;
+}
+
+.HotkeyHolder.Rounded .KeyMod {
+    border-radius: 8px;
+}
+
+.HotkeyHolder .KeyMod.Alt:before {
+    content: 'Alt';
+}
+
+.HotkeyHolder .KeyMod.Ctrl:before {
+    content: 'Ctrl';
+}
+
+.HotkeyHolder .KeyMod.Shift:before {
+    content: 'Shift';
+}
+
+.HotkeyHolder .Plus:after {
+    content: '+';
+    margin-left: 6px;
+    margin-right: 6px;
+}
+
+.HotkeyHolder.Rounded {
     border-radius: 5px;
 }

@@ -57,6 +57,7 @@ function Facefull(native = false) {
     this.Tabs = [];
     this.Circlebars = [];
     this.Counters = [];
+    this.HotkeyHolders = [];
     this.LastGlobalOpenedPopupMenu = null;
     this.LastGlobalOpenedPopupMenuTarget = null;
     this.Subpagelevel = 0;
@@ -242,6 +243,12 @@ function Facefull(native = false) {
         for (let i = 0; i < counters.length; i++) {
             let did = counters[i].getAttribute("data-countername");
             this.Counters[did] = new Counter(counters[i]);
+        }
+
+        let hotkeyholders = document.querySelectorAll(".HotkeyHolder");
+        for (let i = 0; i < hotkeyholders.length; i++) {
+            let did = hotkeyholders[i].getAttribute("data-hotkeyholdername");
+            this.HotkeyHolders[did] = new HotkeyHolder(hotkeyholders[i]);
         }
 
         window.addEventListener("mousedown", bind(function(event) {
@@ -462,7 +469,7 @@ function Scrollbox(e) {
     };
 
     this.OnWheelScrollbar = function(event) {
-        let d = 25;
+        let d = 60;
         event = event || window.event;
         let ep = event.target;
         let hasnested = false;
@@ -602,7 +609,6 @@ function MainMenu(e) {
         this.currentpage = document.getElementById("P"+this.currentmenuitem.getAttribute("data-pagename"));
         this.currentpage.classList.add("Show");
         //CloseAllSubpages();
-        //CloseAllTablists();
         facefull.doUpdateAllScrollboxes();
     };
 
@@ -613,6 +619,10 @@ function MainMenu(e) {
     this.doPageOpenByName = function(pname) {
         for (let i = 0; i < this.emainmenu.children.length; i++)
             if (this.emainmenu.children[i].getAttribute("data-pagename").toLowerCase() === pname) this.doPageOpen(this.emainmenu.children[i]);
+    }
+
+    this.isPageOpened = function(id) {
+        return this.currentpage.id === "P"+id;
     }
 
     this.getElement = function() {
@@ -1400,6 +1410,141 @@ function Counter(e) {
         this.ecforward.onmouseleave = bind(this.doEndCountForward, this);
 
         this.ecvalue.oninput = bind(this.doParseEditedValue,this);
+    }
+
+    this.doInit();
+}
+
+/*===================== Counter =====================*/
+
+function HotkeyHolder(e) {
+    this.ehh = e;
+    this.modkeys = {shift: false, ctrl: false, alt: false};
+    this.hotkey = {mods: this.modkeys, key: ''};
+    this.onHotkey = function(hotkey) {}
+    this.onHotkeySet = function(hotkey) {}
+
+    this.doInit = function() {
+        this.ehh.onclick = bind(function (){
+            if (this.ehh.classList.contains("Selected")) {
+                this.doUnselectHolder();
+            } else {
+                this.doSelectHolder();
+            }
+        }, this);
+        this.doReset();
+        document.onkeydown = bind(function(event) {
+            this.onHotkeyCatch(event);
+        }, this);
+    }
+
+    this.doSelectHolder = function() {
+        this.ehh.classList.add("Selected");
+        this.doResetModKeys();
+        document.onkeyup = bind(function(event) {
+            this.onHotkeyUncatchMod(event);
+        }, this);
+    }
+
+    this.doUnselectHolder = function() {
+        this.ehh.classList.remove("Selected");
+        document.onkeyup = null;
+    }
+
+    this.doResetModKeys = function() {
+        this.modkeys = {shift: false, ctrl: false, alt: false};
+    }
+
+    this.doReset = function() {
+        this.ehh.innerHTML = "<div>N/A</div>"
+        this.doResetModKeys();
+        this.hotkey = {mods: this.modkeys, key: ''};
+        this.doUnselectHolder();
+    }
+
+    this.onHotkeyUncatchMod = function(event) {
+        let key = event.keyCode;
+        if (key >= 16 && key <= 18) {
+            switch (key) {
+                case 16:
+                    this.modkeys.shift = false;
+                    break;
+                case 17:
+                    this.modkeys.ctrl = false;
+                    break;
+                case 18:
+                    this.modkeys.alt = false;
+            }
+            event.preventDefault();
+        } else if (key === 46) {
+            this.doReset();
+            event.preventDefault();
+        } else if (key === 27) {
+            this.doUnselectHolder();
+            event.preventDefault();
+        }
+    }
+
+    this.onHotkeyCatch = function(event) {
+        let key = event.keyCode;
+        if (key >= 16 && key <= 18) {
+            switch (key) {
+                case 16:
+                    this.modkeys.shift = true;
+                    break;
+                case 17:
+                    this.modkeys.ctrl = true;
+                    break;
+                case 18:
+                    this.modkeys.alt = true;
+            }
+            event.preventDefault();
+        } else if (key >= 48 && key <= 90) {
+            if (this.ehh.classList.contains("Selected")) {
+                let modstr = '';
+                if (this.modkeys.shift) modstr += '<div class="KeyMod Shift"></div><div class="Plus"></div>';
+                if (this.modkeys.ctrl) modstr += '<div class="KeyMod Ctrl"></div><div class="Plus"></div>';
+                if (this.modkeys.alt) modstr += '<div class="KeyMod Alt"></div><div class="Plus"></div>';
+                this.ehh.innerHTML = modstr + '<div>' + String.fromCharCode(key) + '</div>';
+                this.hotkey = {mods: this.modkeys, key: String.fromCharCode(key)};
+                event.preventDefault();
+                this.doUnselectHolder();
+                this.onHotkeySet(this.hotkey);
+            } else {
+                if (this.hotkey.mods.shift === this.modkeys.shift
+                        && this.hotkey.mods.ctrl === this.modkeys.ctrl
+                        && this.hotkey.mods.alt === this.modkeys.alt
+                        && this.hotkey.key === String.fromCharCode(key)) {
+                    this.onHotkey(this.hotkey);
+                    event.preventDefault();
+                }
+            }
+            this.doResetModKeys();
+        }
+    }
+
+    this.setHotkey = function(keychar, shiftmod = false, ctrlmod = false, altmod = false) {
+        this.doResetModKeys();
+        this.hotkey = {mods: this.modkeys, key: ''};
+        let modstr = '';
+        if (shiftmod) {
+            this.hotkey.mods.shift = true;
+            modstr += '<div class="KeyMod Shift"></div><div class="Plus"></div>';
+        }
+        if (ctrlmod) {
+            this.hotkey.mods.ctrl = true;
+            modstr += '<div class="KeyMod Ctrl"></div><div class="Plus"></div>';
+        }
+        if (altmod) {
+            this.hotkey.mods.alt = true;
+            modstr += '<div class="KeyMod Alt"></div><div class="Plus"></div>';
+        }
+        this.hotkey.key = keychar;
+        this.ehh.innerHTML = modstr + '<div>'+keychar+'</div>';
+    }
+
+    this.getHotkey = function() {
+        return this.hotkey;
     }
 
     this.doInit();
