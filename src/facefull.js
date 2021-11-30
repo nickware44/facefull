@@ -58,6 +58,7 @@ function Facefull(native = false) {
     this.Circlebars = [];
     this.Counters = [];
     this.HotkeyHolders = [];
+    this.ItemPickers = [];
     this.LastGlobalOpenedPopupMenu = null;
     this.LastGlobalOpenedPopupMenuTarget = null;
     this.Subpagelevel = 0;
@@ -249,6 +250,12 @@ function Facefull(native = false) {
         for (let i = 0; i < hotkeyholders.length; i++) {
             let did = hotkeyholders[i].getAttribute("data-hotkeyholdername");
             this.HotkeyHolders[did] = new HotkeyHolder(hotkeyholders[i]);
+        }
+
+        let itempickers = document.querySelectorAll(".ItemPicker");
+        for (let i = 0; i < itempickers.length; i++) {
+            let did = itempickers[i].getAttribute("data-itempickername");
+            this.ItemPickers[did] = new SelectableList(itempickers[i], "picker");
         }
 
         window.addEventListener("mousedown", bind(function(event) {
@@ -1159,18 +1166,23 @@ function doCreatePulseChart(eid, values, labels, data = []) {
 
 /*===================== Selectable list =====================*/
 
-function SelectableList(e) {
+function SelectableList(e, mode = "list") {
     this.elist = e;
     this.sid = 0;
+    this.mode = mode;
+    this.onSelect = function(id){};
 
     this.doSelect = function(sid) {
         if (this.sid !== null && this.sid >= 0 && this.sid < this.elist.children.length) this.elist.children[this.sid].classList.remove("Selected");
         this.sid = sid;
-        if (this.sid !== null && this.sid >= 0 && this.sid < this.elist.children.length) this.elist.children[this.sid].classList.add("Selected");
+        if (this.sid !== null && this.sid >= 0 && this.sid < this.elist.children.length) {
+            this.elist.children[this.sid].classList.add("Selected");
+            this.onSelect(sid);
+        }
     }
 
-    this.doAdd = function(data) {
-        let eli = document.createElement("li");
+    this.doAdd = function(data = "") {
+        let eli = this.mode==="picker"?document.createElement("div"):document.createElement("li");
         let i = this.elist.children.length;
         eli.innerHTML = data;
         eli.onclick = bind(function() {

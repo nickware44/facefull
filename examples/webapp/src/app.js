@@ -56,6 +56,32 @@ function App() {
         console.log(hotkey);
     }
 
+    facefull.ItemPickers["IP1"].onSelect = function(id) {
+        let str = "Selected color: ";
+        switch (id) {
+            case 0:
+                str += "yellow";
+                break;
+            case 1:
+                str += "light blue";
+                break;
+            case 2:
+                str += "green";
+                break;
+            case 3:
+                str += "red";
+                break;
+            case 4:
+                str += "purple";
+                break;
+            case 5:
+                str += "gray";
+                break;
+        }
+        document.getElementById("IPC").innerHTML = str;
+    }
+    facefull.ItemPickers["IP1"].doSelect(0);
+
     facefull.Counters["CV1"].onBeforeCount = function(direction) {
         if (facefull.Counters["CV1"].getValue()+direction > 50) {
             facefull.Counters["CV1"].setValue(50);
