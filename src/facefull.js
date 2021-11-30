@@ -62,7 +62,7 @@ function Facefull(native = false) {
     this.LastGlobalOpenedPopupMenu = null;
     this.LastGlobalOpenedPopupMenuTarget = null;
     this.Subpagelevel = 0;
-    this.MainMenuItem = null;
+    this.MainMenuBox = null;
     this.OverlayZIndex = 200;
     this.EventTable = [];
     this.native = native;
@@ -214,7 +214,7 @@ function Facefull(native = false) {
         let catlists = document.querySelectorAll(".Categorylist");
         for (let i = 0; i < catlists.length; i++) this.Categorylists.push(new Categorylist(catlists[i]));
 
-        this.MainMenuItem = new MainMenu(document.querySelectorAll(".MainMenuItems").item(0));
+        this.MainMenuBox = new MainMenu(document.querySelectorAll(".MainMenuItems").item(0));
 
         let tooltips = document.querySelectorAll(".TooltipTarget");
         for (let i = 0; i < tooltips.length; i++) this.Tooltips.push(new Tooltip(tooltips[i]));
@@ -284,23 +284,16 @@ function Subpage(e) {
 
     this.doSubpageClose = function() {
         if (!this.opened) return;
-        //this.esubpage.style.visibility = "hidden";
-        //this.esubpage.style.opacity = "0";
         this.esubpage.classList.remove("Show");
         if (facefull.Subpagelevel > 0) facefull.Subpagelevel--;
-        //console.log(facefull.Subpagelevel);
         this.opened = false;
     };
 
     this.doSubpageOpen = function() {
-        //this.esubpage.style.visibility = "inherit";
-        //this.esubpage.style.opacity = "1";
-        //console.log("SE "+facefull.Subpagelevel);
         if (this.opened) return;
         this.esubpage.classList.add("Show");
         this.esubpage.style.zIndex = (facefull.Subpagelevel+1)*10;
         facefull.Subpagelevel++;
-        //console.log("SO "+facefull.Subpagelevel);
         this.opened = true;
     };
 
@@ -607,16 +600,17 @@ function MainMenu(e) {
     this.currentmenuitem.classList.add("Active");
     this.currentpage = document.getElementById("P"+this.currentmenuitem.getAttribute("data-pagename"));
     this.currentpage.classList.add("Show");
+    this.onPageOpen = function(name) {}
 
     this.doPageOpen = function(e) {
         this.currentpage.classList.remove("Show");
         this.currentmenuitem.classList.remove("Active");
         this.currentmenuitem = e;
         this.currentmenuitem.classList.add("Active");
-        this.currentpage = document.getElementById("P"+this.currentmenuitem.getAttribute("data-pagename"));
+        let pname = this.currentmenuitem.getAttribute("data-pagename");
+        this.currentpage = document.getElementById("P"+pname);
         this.currentpage.classList.add("Show");
-        //CloseAllSubpages();
-        facefull.doUpdateAllScrollboxes();
+        this.onPageOpen(pname);
     };
 
     this.doPageOpenByEvent = function(event) {

@@ -9,6 +9,11 @@ window.addEventListener('load', function () {
 
 function App() {
     facefull.doInit();
+
+    facefull.MainMenuBox.onPageOpen = function(name) {
+        facefull.doUpdateAllScrollboxes();
+    }
+
     facefull.Circlebars["P1CB1"].setPos(90);
     facefull.Circlebars["P1CB2"].setPos(10);
     facefull.Circlebars["P1CB3"].setPos(55);
