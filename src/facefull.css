@@ -2001,8 +2001,9 @@ label.Search:before {
 
 .Tabs {
     padding: 0;
-    height: 50px;
     margin-bottom: 15px;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 .Tabs > div {
