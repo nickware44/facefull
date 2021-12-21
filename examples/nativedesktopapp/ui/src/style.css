@@ -158,3 +158,27 @@
 .Panel1Circlebar3 .CircleLine {
     stroke: #e8cb39;
 }
+
+.ItemPicker.Colors > div:nth-child(1) {
+    background-color: #e8cb39;
+}
+
+.ItemPicker.Colors > div:nth-child(2) {
+    background-color: #5cd2fd;
+}
+
+.ItemPicker.Colors > div:nth-child(3) {
+    background-color: #45e839;
+}
+
+.ItemPicker.Colors > div:nth-child(4) {
+    background-color: #e83953;
+}
+
+.ItemPicker.Colors > div:nth-child(5) {
+    background-color: #4a39e8;
+}
+
+.ItemPicker.Colors > div:nth-child(6) {
+    background-color: #b7b7b7;
+}
