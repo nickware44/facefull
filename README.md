@@ -3,7 +3,7 @@ Simple and small cross-platform UI controls JS library.
 
 Not a framework. No dependencies. Just a library.
 
-25+ UI controls (buttons, lists, switches, tabs, scrollboxes, progressbars, etc) based on JS. Build your web apps or native desktop apps with Facefull.
+30 UI controls (buttons, lists, switches, tabs, scrollboxes, progressbars, etc) based on JS. Build your web apps or native desktop apps with Facefull.
 
 ----------------------------------------------------------------
 ### LICENCE
@@ -50,3 +50,5 @@ window.addEventListener('load', function () {
 - Tabs
 - Circlebar
 - Counter
+- HotkeyHolder
+- ItemPicker
