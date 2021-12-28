@@ -10,6 +10,7 @@
 
 Available UI elements:
 
+Window
 WindowControl
 HeaderButton
 Page
@@ -27,13 +28,13 @@ Label
 Link
 Toggle
 Categorylist
-Popup Menu
+PopupMenu
 List
 Edit
 Text
 Grid
 Tooltip
-Pulse chart
+PulseChart
 DropArea
 Tabs
 Circlebar
@@ -1685,7 +1686,7 @@ input[type="checkbox"]:checked + .Toggle span:before {
     margin-top: 0;
 }
 
-/*============================ Popup Menu ============================*/
+/*============================ PopupMenu ============================*/
 
 .PopupMenu {
     position: absolute;
@@ -1933,7 +1934,7 @@ label.Search:before {
     font-size: 11px;
 }
 
-/*============================ Pulse chart ============================*/
+/*============================ PulseChart ============================*/
 
 .PulseChart {
     display: flex;
