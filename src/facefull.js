@@ -65,6 +65,7 @@ function Facefull(native = false) {
     this.MainMenuBox = null;
     this.OverlayZIndex = 200;
     this.EventTable = [];
+    this.Themes = null;
     this.native = native;
 
     this.doEventHandlerAttach = function(comm, handler = function(data = ""){}) {
@@ -265,6 +266,8 @@ function Facefull(native = false) {
             this.doUpdateAllScrollboxes();
         }, this));
 
+        this.Themes = new ThemeManager();
+
         if (native) {
             document.addEventListener('contextmenu', function(event) {
                 event.preventDefault();
@@ -273,6 +276,39 @@ function Facefull(native = false) {
             this.doWindowHeaderInit();
         }
     }
+}
+
+/*===================== ThemeManager =====================*/
+
+function ThemeManager() {
+    this.table = [];
+    this.current = 0;
+    this.onThemeApply = function(id){}
+
+    this.doAttachThemeFile = function(themename, filename) {
+        this.table.push({themename: themename, filename: filename});
+    }
+
+    this.doApplyTheme = function(id) {
+        if (this.current) facefull.doCSSUnload(this.table[this.current].filename);
+        this.current = id;
+        if (id) facefull.doCSSLoad(this.table[id].filename);
+        this.onThemeApply(id);
+    }
+    
+    this.setDefaultThemeName = function(name) {
+        this.table[0] = {themename: name, filename: ""};
+    }
+
+    this.getCurrentThemeID = function() {
+        return this.current;
+    }
+
+    this.getThemeList = function() {
+        return this.table;
+    }
+
+    this.doAttachThemeFile("Original", "");
 }
 
 /*===================== Subpage =====================*/
@@ -536,6 +572,7 @@ function Combobox(e) {
     this.ecomboboxtitle = e.children[0].children[0];
     this.ecomboboxdata = e.children[1];
     this.state = 0;
+    this.onChangeState = function(state){};
 
     this.doOpenComboboxList = function() {
         this.ecomboboxdata.style.display = "block";
@@ -561,6 +598,7 @@ function Combobox(e) {
             for (let i = 0; i < this.ecomboboxdata.childElementCount; i++) {
                 if (this.ecomboboxdata.children[i] === event.target) {
                     this.state = i;
+                    this.onChangeState(this.state);
                     break;
                 }
             }
@@ -570,6 +608,7 @@ function Combobox(e) {
 
     this.setState = function(state) {
         this.state = state;
+        this.onChangeState(this.state);
         this.doSetComboboxTitle(this.ecomboboxdata.children[state].innerHTML, this.ecomboboxdata.children[state].getAttribute("data-caption"));
     };
 
@@ -577,7 +616,7 @@ function Combobox(e) {
         return this.state;
     };
 
-    this.doAddItem = function(title, caption) {
+    this.doAddItem = function(title, caption = "") {
         let item = document.createElement("li");
         item.innerHTML = title;
         item.setAttribute("data-caption", caption);

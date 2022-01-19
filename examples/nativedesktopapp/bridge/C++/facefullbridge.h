@@ -11,7 +11,6 @@
 #define FACEFULLBRIDGE_H
 
 #include "facefullbridgeinterface.h"
-#include "frame.h"
 
 class FacefullBridge : public FacefullBridgeInterface {
 public:

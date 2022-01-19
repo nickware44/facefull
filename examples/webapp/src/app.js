@@ -9,6 +9,8 @@ window.addEventListener('load', function () {
 
 function App() {
     facefull.doInit();
+    facefull.Themes.setDefaultThemeName("Dark theme");
+    facefull.Themes.doAttachThemeFile("Light theme", "facefull/theme-light.min.css");
 
     facefull.MainMenuBox.onPageOpen = function(name) {
         facefull.doUpdateAllScrollboxes();
@@ -53,6 +55,14 @@ function App() {
 
     doLoadList1();
     doLoadList2();
+
+    facefull.Themes.getThemeList().forEach(theme => {
+        facefull.Comboboxes["SD"].doAddItem(theme.themename);
+    });
+    facefull.Comboboxes["SD"].setState(0);
+    facefull.Comboboxes["SD"].onChangeState = function(state) {
+        facefull.Themes.doApplyTheme(state);
+    };
 
     facefull.HotkeyHolders["HH1"].onHotkey = function(hotkey) {
         AlertShow("Alert", "Hotkey pressed!");
