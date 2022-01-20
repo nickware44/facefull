@@ -1896,7 +1896,6 @@ label.Search:before {
     background-color: var(--main-component-additional-color);
     border: 1px solid var(--main-component-additional-color);
     box-sizing: border-box;
-    box-shadow: 0 0 5px var(--main-component-additional-color);
 }
 
 .PulseLabel {
