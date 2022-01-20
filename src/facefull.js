@@ -724,29 +724,21 @@ function AlertShow(caption, text, type = "info", buttons = "OK", callbacks = [],
     document.getElementById("OV").style.display = "block";
     document.getElementById("AE").style.display = "block";
     document.getElementById("WA").className = "WorkArea Blur";
-    // setTimeout(function() {
-    //     document.getElementById("AE").classList.remove("Scaled");
-    // }, 4);
 }
 
 function AlertShowCustom(eid) {
     let e = document.getElementById(eid);
-    // e.classList.remove("Scaled");
     facefull.OverlayZIndex += 5;
     document.getElementById("OV").style.display = "block";
     document.getElementById("OV").style.zIndex = facefull.OverlayZIndex;
     e.style.display = "block";
     e.style.zIndex = facefull.OverlayZIndex + 1;
     document.getElementById("WA").className = "WorkArea Blur";
-    // setTimeout(function() {
-    //     e.classList.remove("Scaled");
-    // }, 4);
 }
 
 function AlertHideCustom(e) {
     facefull.OverlayZIndex -= 5;
     e.style.display = "none";
-    // e.classList.add("Scaled");
     let eas = document.getElementsByClassName("Alert");
     let adflag = false;
     for (let i = 0; i < eas.length; i++) {
