@@ -39,10 +39,6 @@
     margin-top: 5px;
 }
 
-.Box.Subpage .Title {
-    /*background-color: transparent;*/
-}
-
 .Box.Subpage .Title .BackButton {
     height: 33px;
     background-color: transparent;
@@ -55,11 +51,6 @@
 .Box.Subpage .Title .BackButton:hover {
     background-color: transparent;
     color: #dbdbdb;
-}
-
-.Box.PageBody {
-    /*padding-left: 33px;*/
-    /*padding-right: 33px;*/
 }
 
 .Box.ListFilter {

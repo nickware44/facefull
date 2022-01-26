@@ -285,14 +285,22 @@ function ThemeManager() {
     this.current = 0;
     this.onThemeApply = function(id){}
 
-    this.doAttachThemeFile = function(themename, filename) {
-        this.table.push({themename: themename, filename: filename});
+    this.doAttachThemeFile = function(themename, filenames = []) {
+        this.table.push({themename: themename, filenames: filenames});
     }
 
     this.doApplyTheme = function(id) {
-        if (this.current) facefull.doCSSUnload(this.table[this.current].filename);
+        if (this.current) {
+            this.table[this.current].filenames.forEach(filename => {
+                facefull.doCSSUnload(filename);
+            });
+        }
         this.current = id;
-        if (id) facefull.doCSSLoad(this.table[id].filename);
+        if (id) {
+            this.table[id].filenames.forEach(filename => {
+                facefull.doCSSLoad(filename);
+            });
+        }
         this.onThemeApply(id);
     }
     

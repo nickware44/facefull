@@ -10,7 +10,7 @@ window.addEventListener('load', function () {
 function App() {
     facefull.doInit();
     facefull.Themes.setDefaultThemeName("Dark theme");
-    facefull.Themes.doAttachThemeFile("Light theme", "facefull/theme-light.min.css");
+    facefull.Themes.doAttachThemeFile("Light theme", ["facefull/theme-light.min.css", "src/style-light.css"]);
 
     facefull.MainMenuBox.onPageOpen = function(name) {
         facefull.doUpdateAllScrollboxes();
