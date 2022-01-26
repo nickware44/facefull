@@ -81,7 +81,7 @@ ItemPicker
     --headerbutton-bg-hover-color: #082742;
     --headerbutton-font-color: var(--main-font-color);
     --page-bg-color: #283140;
-    --pagebackbutton-color: #888;
+    --pagebackbutton-font-hover-color: #888;
     --panel-bg-color: #4242422d;
     --paneldashboard-bg-color: #00000051;
     --boxtitle-font-color: #888;
@@ -467,31 +467,24 @@ canvas {
     -moz-osx-font-smoothing: grayscale;
     font-feature-settings: 'liga';
     display: inline-block;
-    padding-left: 15px;
-    padding-right: 50px;
     position: relative;
     vertical-align: middle;
-    /* border: 1px solid #F3F3F3; */
-    font-size: 35px;
-    /* padding-top: 3px; */
+    font-size: 30px;
     transition: 0.3s;
-    height: 36px;
-    /*background-color: rgba(170, 170, 170, 0.12);*/
-    color: var(--pagebackbutton-color);
+    height: 30px;
     z-index: 10;
-    border-radius: 9px;
-    margin: 10px 10px 10px 33px;
+    margin: 10px 34px 10px 29px;
 }
 
 .Box.Subpage .Title .BackButton:before {
-    content: '\F006E';
+    content: '\F030D';
     position: absolute;
     top: -2px;
     bottom: 0;
 }
 
 .Box.Subpage .Title .BackButton:hover {
-    /*background-color: rgba(170, 170, 170, 0.42);*/
+    color: var(--pagebackbutton-font-hover-color);
 }
 
 .Box.Subpage .Title .TitleText {
