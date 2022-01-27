@@ -84,6 +84,7 @@ ItemPicker
     --pagebackbutton-font-hover-color: #888;
     --panel-bg-color: #4242422d;
     --paneldashboard-bg-color: #00000051;
+    --alert-bg-color: var(--nw-dark-color);
     --boxtitle-font-color: #888;
     --scrollbox-bg-color: #262e3c;
     --scrollbar-bg-color: #000e17b7;
@@ -99,7 +100,7 @@ ItemPicker
     --toggle-inactive-bg2-color: #9a9999;
     --list-header-font-color: #4a86b8;
     --droparea-active-bg-color: #184e80;
-    --tabs-selected-bg-color: var(--nw-light-color);
+    --tabs-selected-bg-color: var(--main-component-additional-color);
     --tabs-selected-font-color: var(--nw-dark-color);
     --circlebar-filler-bg-color: #4040407f;
     --itempicker-border-color: #606060;
@@ -1173,7 +1174,7 @@ input[type="checkbox"]:not(:checked):not(:indeterminate) + .Checkbox:after {
     position: absolute;
     width: 450px;
     height: 250px;
-    background-color: var(--main-popup-bg-color);
+    background-color: var(--alert-bg-color);
     margin: auto auto;
     top: 0;
     bottom: 0;
@@ -1854,7 +1855,7 @@ label.Search:before {
     padding: 10px;
     font-size: 11px;
     opacity: 0.9;
-    box-shadow: 0 0 8px #0f0f0f33;
+    box-shadow: 0 0 3px #0f0f0f33;
 }
 
 /*============================ PulseChart ============================*/
