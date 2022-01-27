@@ -101,7 +101,7 @@ ItemPicker
     --list-header-font-color: #4a86b8;
     --droparea-active-bg-color: #184e80;
     --tabs-selected-bg-color: var(--main-component-additional-color);
-    --tabs-selected-font-color: var(--nw-dark-color);
+    --tabs-selected-font-color: var(--main-font-color);
     --circlebar-filler-bg-color: #4040407f;
     --itempicker-border-color: #606060;
 }
@@ -113,7 +113,7 @@ body {
     padding: 0;
     font-family: sans-serif;
     font-size: 15px;
-    background-color: #000;
+    background-color: var(--page-bg-color);
     color: var(--main-font-color);
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -361,6 +361,11 @@ canvas {
     display: flex;
 }
 
+.GlobalArea.Blur {
+    filter: blur(8px);
+    transition: filter 0.3s ease-out;
+}
+
 /*============================ WorkArea ============================*/
 
 .WorkArea {
@@ -368,11 +373,6 @@ canvas {
     z-index: 1;
     position: relative;
     width: 100%;
-}
-
-.WorkArea.Blur {
-    filter: blur(6px);
-    -webkit-filter: blur(6px);
 }
 
 /*============================ Page ============================*/
@@ -1162,8 +1162,7 @@ input[type="checkbox"]:not(:checked):not(:indeterminate) + .Checkbox:after {
     height: 100%;
     z-index: 200;
     background-color: #000;
-    opacity: 0.93;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+    opacity: 0.8;
     display: none;
     top: 0;
 }

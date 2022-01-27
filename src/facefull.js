@@ -731,7 +731,7 @@ function AlertShow(caption, text, type = "info", buttons = "OK", callbacks = [],
     document.getElementById("AE").children[1].setAttribute("data-caption", textlid);
     document.getElementById("OV").style.display = "block";
     document.getElementById("AE").style.display = "block";
-    document.getElementById("WA").className = "WorkArea Blur";
+    document.getElementsByClassName("GlobalArea")[0].classList.add("Blur");
 }
 
 function AlertShowCustom(eid) {
@@ -741,7 +741,7 @@ function AlertShowCustom(eid) {
     document.getElementById("OV").style.zIndex = facefull.OverlayZIndex;
     e.style.display = "block";
     e.style.zIndex = facefull.OverlayZIndex + 1;
-    document.getElementById("WA").className = "WorkArea Blur";
+    document.getElementsByClassName("GlobalArea")[0].classList.add("Blur");
 }
 
 function AlertHideCustom(e) {
@@ -758,7 +758,7 @@ function AlertHideCustom(e) {
     if (adflag) document.getElementById("OV").style.zIndex = facefull.OverlayZIndex;
     else {
         document.getElementById("OV").style.display = "none";
-        document.getElementById("WA").className = "WorkArea";
+        document.getElementsByClassName("GlobalArea")[0].classList.remove("Blur");
         facefull.OverlayZIndex = 200;
     }
 }
