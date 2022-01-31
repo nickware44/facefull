@@ -184,7 +184,7 @@ function Facefull(native = false) {
         }, this);
     }
 
-    this.doInit = function() {
+    this.doInit = function(disableContextmenu = false) {
         let subpages = document.querySelectorAll(".Subpage");
         for (let i = 0; i < subpages.length; i++) {
             let did = subpages[i].getAttribute("data-subpagename");
@@ -269,10 +269,12 @@ function Facefull(native = false) {
         this.Themes = new ThemeManager();
 
         if (native) {
-            document.addEventListener('contextmenu', function(event) {
-                event.preventDefault();
-                return false;
-            }, false);
+            if (disableContextmenu) {
+                document.addEventListener('contextmenu', function (event) {
+                    event.preventDefault();
+                    return false;
+                }, false);
+            }
             this.doWindowHeaderInit();
         }
     }
