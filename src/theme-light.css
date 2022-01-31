@@ -1,3 +1,13 @@
+/*
+/////////////////////////////////////////////////////////////////////////////
+// Name:        theme-light.css
+// Purpose:     Facefull light theme style
+// Author:      Nickolay Babbysh
+// Version:     0.9.4
+// Copyright:   (c) NickWare Group
+// Licence:     MIT
+/////////////////////////////////////////////////////////////////////////////
+*/
 
 :root {
     --main-font-color: var(--nw-dark-color);
