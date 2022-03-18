@@ -143,13 +143,15 @@ function Facefull(native = false) {
                     this.Comboboxes[i].doCloseComboboxList();
             }
         }
-        if (event.target === this.LastGlobalOpenedPopupMenuTarget) return;
-        if (!event || (event.target.className !== "PopupMenu" && event.target.parentElement.className !== "PopupMenu" && event.target.parentElement.parentElement.className !== "PopupMenu"))
-            this.doCloseGlobalPopupMenu();
+        if (this.LastGlobalOpenedPopupMenu) {
+            if (this.LastGlobalOpenedPopupMenu.epm.contains(event.target) ||
+                this.LastGlobalOpenedPopupMenu.epmtarget.contains(event.target) ) return;
+        }
+        this.doCloseGlobalPopupMenu();
     }
 
     this.doCloseGlobalPopupMenu = function() {
-        if (this.LastGlobalOpenedPopupMenu) this.LastGlobalOpenedPopupMenu.style.display = "none";
+        if (this.LastGlobalOpenedPopupMenu) this.LastGlobalOpenedPopupMenu.doClosePopupMenu();
     }
 
     this.doUpdateAllScrollboxes = function() {
@@ -221,7 +223,10 @@ function Facefull(native = false) {
         for (let i = 0; i < tooltips.length; i++) this.Tooltips.push(new Tooltip(tooltips[i]));
 
         let popupmenus = document.querySelectorAll(".PopupMenuTarget");
-        for (let i = 0; i < popupmenus.length; i++) this.PopupMenus.push(new PopupMenu(popupmenus[i]));
+        for (let i = 0; i < popupmenus.length; i++) {
+            let did = popupmenus[i].getAttribute("data-popupmenu");
+            this.PopupMenus[did] = new PopupMenu(popupmenus[i]);
+        }
 
         let drops = document.querySelectorAll(".DropArea");
         for (let i = 0; i < drops.length; i++) {
@@ -1084,14 +1089,24 @@ function Categorylist(e) {
 function PopupMenu(e) {
     this.epmtarget = e;
     this.epm = document.getElementById(this.epmtarget.getAttribute("data-popupmenu"));
+    this.autoclose = true;
+    this.onChangeState = function(state){}
+
+    if (this.epmtarget.getAttribute("data-popupmenu-autoclose") !== undefined)
+        this.autoclose = !(this.epmtarget.getAttribute("data-popupmenu-autoclose")==="0");
+
     this.epm.onmouseup = bind(function() {
-        setTimeout(function() {
+        setTimeout(bind(function() {
+            if (!this.autoclose) return;
             facefull.doCloseGlobalPopupMenu();
-        }, 10);
+        }, this), 10);
     }, this);
 
     this.doOpenPopupMenu = function() {
         if (!this.epmtarget.classList.contains("PopupMenuTarget")) return;
+
+        let notopenedflag = !this.isOpened();
+
         let did = this.epmtarget.getAttribute("data-id");
         if (did !== undefined) this.epm.setAttribute("data-id", did);
 
@@ -1109,14 +1124,31 @@ function PopupMenu(e) {
                 this.epm.style.left =  this.epmtarget.offsetLeft + (this.epmtarget.offsetWidth-width) + "px";
                 this.epm.style.top = this.epmtarget.offsetTop + this.epmtarget.offsetHeight + 10 + "px";
                 break;
+            case 'bottom-center':
+                this.epm.style.left =  this.epmtarget.offsetLeft - width/2 + this.epmtarget.offsetWidth/2 + "px";
+                this.epm.style.top = this.epmtarget.offsetTop + this.epmtarget.offsetHeight + 10 + "px";
+                break;
         }
 
         this.epm.style.display = "block";
-        facefull.LastGlobalOpenedPopupMenu = this.epm;
+        facefull.LastGlobalOpenedPopupMenu = this;
         facefull.LastGlobalOpenedPopupMenuTarget = this.epmtarget;
+        if (notopenedflag) this.onChangeState(true);
     }
 
-    this.epmtarget.onclick = bind(this.doOpenPopupMenu, this);
+    this.doClosePopupMenu = function() {
+        if (this.isOpened()) this.onChangeState(false);
+        this.epm.style.display = "none";
+    }
+
+    this.isOpened = function() {
+        return this.epm.style.display === "block";
+    }
+
+    this.epmtarget.onclick = bind(function() {
+        if (this.isOpened()) this.doClosePopupMenu();
+        else this.doOpenPopupMenu();
+    }, this);
 }
 
 /*===================== Tooltip =====================*/
