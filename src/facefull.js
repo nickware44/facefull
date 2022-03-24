@@ -1308,9 +1308,7 @@ function List(e, mode = "list") {
         if (flags.action !== undefined && flags.action === "arrow") {
             if (this.arrowdefaultopened === undefined || this.arrowdefaultopened === null || this.arrowdefaultopened === "0") eaction.className = "Arrow";
             else eaction.className = "Arrow Opened";
-            eli.addEventListener("click", bind(function() {
-                this.doOpenClose();
-            }, this));
+            eli.addEventListener("click", bind(this.doOpenClose, this));
         } else if (flags.action !== undefined && flags.action === "popupmenu") {
             eaction.className = "Action PopupMenuTarget";
             if (flags.popupmenu_name !== undefined)
