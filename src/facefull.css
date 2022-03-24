@@ -821,8 +821,8 @@ canvas {
 }
 
 .AppIcon {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border-radius: 999px;
     background-size: contain;
     background-repeat: no-repeat;
