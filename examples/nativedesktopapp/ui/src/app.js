@@ -165,26 +165,18 @@ function doLoadList1() {
 }
 
 function setList1() {
-    let egrouplist = document.getElementById("L1");
-    egrouplist.innerHTML = "";
-    for (let i = 0; i < List1.length; i++) {
-        if (!List1[i]) continue;
-        let gblock = document.createElement("li");
-        let gnum = document.createElement("div");
-        let gname = document.createElement("div");
-        let gaction = document.createElement("div");
-        gnum.innerHTML = i + 1;
-        gname.innerHTML = List1[i].name;
-        gaction.className = "Action PopupMenuTarget TooltipTarget";
-        gaction.setAttribute("data-popupmenu", "L1PM");
-        gaction.setAttribute("data-popupmenu-pos", "bottom-right");
-        gaction.setAttribute("data-id", i);
-        new PopupMenu(gaction);
-        gblock.appendChild(gnum);
-        gblock.appendChild(gname);
-        gblock.appendChild(gaction);
-        egrouplist.appendChild(gblock);
-    }
+    let i = 0;
+    facefull.Lists["L1"].doClear();
+    List1.forEach(item => {
+        if (item) {
+            i++;
+            facefull.Lists["L1"].doAdd([i, item.name], 0, {
+                action: "popupmenu",
+                popupmenu_name: "L1PM",
+                popupmenu_pos: "bottom-right"
+            });
+        }
+    });
     facefull.Scrollboxes["L1SB"].doUpdateScrollbar();
 }
 
@@ -195,29 +187,18 @@ function doLoadList2() {
 }
 
 function setList2() {
-    let egrouplist = document.getElementById("L2");
-    egrouplist.innerHTML = "";
-    for (let i = 0; i < List2.length; i++) {
-        if (!List2[i]) continue;
-        let gblock = document.createElement("li");
-        let gnum = document.createElement("div");
-        let gname = document.createElement("div");
-        let gcol = document.createElement("div");
-        let gaction = document.createElement("div");
-        gnum.innerHTML = i + 1;
-        gname.innerHTML = List2[i].name;
-        gcol.innerHTML = List2[i].somecolumn;
-        gaction.className = "Action PopupMenuTarget";
-        gaction.setAttribute("data-popupmenu", "L2PM");
-        gaction.setAttribute("data-popupmenu-pos", "bottom-right");
-        gaction.setAttribute("data-id", i);
-        new PopupMenu(gaction);
-        gblock.appendChild(gnum);
-        gblock.appendChild(gname);
-        gblock.appendChild(gcol);
-        gblock.appendChild(gaction);
-        egrouplist.appendChild(gblock);
-    }
+    let i = 0;
+    facefull.Lists["L2"].doClear();
+    List2.forEach(item => {
+        if (item) {
+            i++;
+            facefull.Lists["L2"].doAdd([i, item.name, item.somecolumn], 0, {
+                action: "popupmenu",
+                popupmenu_name: "L2PM",
+                popupmenu_pos: "bottom-right"
+            });
+        }
+    });
     facefull.Scrollboxes["L2SB"].doUpdateScrollbar();
 }
 

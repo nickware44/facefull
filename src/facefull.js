@@ -50,7 +50,7 @@ function Facefull(native = false) {
     this.Scrollboxes = [];
     this.Comboboxes = [];
     this.Categorylists = [];
-    this.SelectableLists = [];
+    this.Lists = [];
     this.Tooltips = [];
     this.PopupMenus = [];
     this.DropAreas = [];
@@ -208,10 +208,10 @@ function Facefull(native = false) {
             this.Comboboxes[did] = new Combobox(comboxes[i]);
         }
 
-        let slists = document.querySelectorAll(".List.Selectable");
-        for (let i = 0; i < slists.length; i++) {
-            let did = slists[i].getAttribute("data-listname");
-            this.SelectableLists[did] = new SelectableList(slists[i]);
+        let lists = document.querySelectorAll(".List");
+        for (let i = 0; i < lists.length; i++) {
+            let did = lists[i].getAttribute("data-listname");
+            this.Lists[did] = new List(lists[i]);
         }
 
         let catlists = document.querySelectorAll(".Categorylist");
@@ -261,7 +261,7 @@ function Facefull(native = false) {
         let itempickers = document.querySelectorAll(".ItemPicker");
         for (let i = 0; i < itempickers.length; i++) {
             let did = itempickers[i].getAttribute("data-itempickername");
-            this.ItemPickers[did] = new SelectableList(itempickers[i], "picker");
+            this.ItemPickers[did] = new List(itempickers[i], "picker");
         }
 
         window.addEventListener("mousedown", bind(function(event) {
@@ -1231,13 +1231,30 @@ function doCreatePulseChart(eid, values, labels, data = []) {
     }
 }
 
-/*===================== Selectable list =====================*/
+/*===================== List =====================*/
 
-function SelectableList(e, mode = "list") {
+function List(e, mode = "list") {
     this.elist = e;
-    this.sid = 0;
+    this.selectable = this.elist.classList.contains("Selectable");
+    this.arrowdefaultopened =  this.elist.getAttribute("data-list-defaultsubopened");
+    this.sid = null;
     this.mode = mode;
+    this.itemtree = [];
+    this.maxlevel = 0;
+    this.subitemmargin = this.elist.getAttribute("data-list-submargin");
     this.onSelect = function(id){};
+    this.onCheckboxChange = function(id, state){};
+    this.onOpenCloseSubItems = function(id, state){};
+
+    this.doInit = function() {
+        if (this.selectable || this.mode === "picker") {
+            for (let i = 0; i < this.elist.children.length; i++) {
+                this.elist.children[i].onclick = bind(function () {
+                    this.doSelect(i);
+                }, this);
+            }
+        }
+    }
 
     this.doSelect = function(sid) {
         if (this.sid !== null && this.sid >= 0 && this.sid < this.elist.children.length) this.elist.children[this.sid].classList.remove("Selected");
@@ -1248,33 +1265,227 @@ function SelectableList(e, mode = "list") {
         }
     }
 
-    this.doAdd = function(data = "") {
+    this.doAdd = function(data = [], level = 0, flags = {checkbox: "none", action: "none"}) {
         let eli = this.mode==="picker"?document.createElement("div"):document.createElement("li");
-        let i = this.elist.children.length;
-        eli.innerHTML = data;
-        eli.onclick = bind(function() {
-            this.doSelect(i);
-        }, this);
+        if (this.mode === "picker") {
+            this.elist.appendChild(eli);
+            return;
+        }
+        let lastindx = this.elist.children.length;
+        let einput = null;
+        if (this.maxlevel < level) this.maxlevel = level;
+        for (let i in data) {
+            let columndata = data[i];
+            let ecolumn = "";
+            if (columndata.element !== undefined) {
+                eli.appendChild(columndata.element);
+                ecolumn = columndata.element
+            } else {
+                ecolumn = document.createElement("div");
+                ecolumn.innerHTML = columndata;
+            }
+
+            if (i == 0 && flags.checkbox !== undefined && flags.checkbox !== "none") {
+                let name = this.elist.getAttribute("data-listname");
+                let echeckbox = document.createElement("div");
+                einput = document.createElement("input");
+                let elabel = document.createElement("label");
+                einput.type = "checkbox";
+                einput.id = name+'-I'+lastindx+'-CH';
+                if (flags.checkbox === "checked") einput.checked = true;
+                elabel.setAttribute("for", name+'-I'+lastindx+'-CH');
+                elabel.className = "Checkbox";
+                ecolumn.classList.add("Checkboxed");
+                elabel.appendChild(ecolumn);
+                einput.onclick = bind(this.doCheckboxUpdate, this);
+                echeckbox.appendChild(einput);
+                echeckbox.appendChild(elabel);
+                eli.appendChild(echeckbox);
+            } else eli.appendChild(ecolumn);
+        }
+
+        let eaction = document.createElement("div");
+        if (flags.action !== undefined && flags.action === "arrow") {
+            if (this.arrowdefaultopened === undefined || this.arrowdefaultopened === null || this.arrowdefaultopened === "0") eaction.className = "Arrow";
+            else eaction.className = "Arrow Opened";
+            eli.addEventListener("click", bind(function() {
+                this.doOpenClose();
+            }, this));
+        } else if (flags.action !== undefined && flags.action === "popupmenu") {
+            eaction.className = "Action PopupMenuTarget";
+            if (flags.popupmenu_name !== undefined)
+                eaction.setAttribute("data-popupmenu", flags.popupmenu_name);
+            if (flags.popupmenu_pos !== undefined)
+                eaction.setAttribute("data-popupmenu-pos", flags.popupmenu_pos);
+            else
+                eaction.setAttribute("data-popupmenu-pos", "bottom-center");
+            eaction.setAttribute("data-id", lastindx);
+            new PopupMenu(eaction);
+        }
+        eli.appendChild(eaction);
+
+        if (this.selectable) {
+            eli.addEventListener("click", bind(function() {
+                this.doSelect(lastindx);
+            }, this));
+        }
+
+        if (level > 0) {
+            if (this.arrowdefaultopened === undefined || this.arrowdefaultopened === null || this.arrowdefaultopened === "0")
+                eli.classList.add("Hidden");
+            eli.classList.add("Sub");
+            let margin = this.subitemmargin;
+            if (margin === undefined || margin === null) margin = 30;
+            eli.style.marginLeft = level*margin + "px";
+            eli.setAttribute("data-list-itemlevel", level);
+        } else eli.setAttribute("data-list-itemlevel", "0");
+
+        eli.setAttribute("data-list-itemid", lastindx);
         this.elist.appendChild(eli);
+
+        if (level > 0 && flags.checkbox !== undefined && flags.checkbox !== "none" && einput !== null) {
+            this._doCheckboxRecompute(einput);
+        }
+
+        let list = this.itemtree;
+        let lastlist = null;
+        for (let i = 0; i < level; i++) {
+            if (Array.isArray(list[list.length-1])) {
+                lastlist = list;
+                list = list[list.length-1];
+            } else {
+                list.push([]);
+                lastlist = list;
+                list = list[list.length-1];
+                break;
+            }
+        }
+        let current_level_index = 0;
+        if (list.length-1 >= 0) {
+            if (!Array.isArray(list[list.length-1]))
+                current_level_index = list[list.length-1].current_level_index + 1;
+            else if (list.length-2 >= 0)
+                current_level_index = list[list.length-2].current_level_index + 1;
+        }
+        let parent_index = -1;
+        if (lastlist && lastlist.length-2 >= 0) {
+            parent_index = lastlist[lastlist.length-2].current_level_index;
+        }
+        list.push({element: eli, level: level, current_level_index: current_level_index, parent_index: parent_index});
+    }
+
+    this.doCheckboxUpdate = function(e) {
+        let einput = e.target.tagName === "INPUT" ? e.target : e.target.parentElement.children[0];
+        let indx = this._doCheckboxRecompute(einput);
+        this.onCheckboxChange(indx, einput.checked);
+    }
+
+    this._doCheckboxRecompute = function(einput) {
+        let eitem = einput.parentElement.parentElement;
+        let level = parseInt(eitem.getAttribute("data-list-itemlevel"));
+        let indx = parseInt(eitem.getAttribute("data-list-itemid"));
+        for (let i = indx+1; i < this.elist.children.length; i++) {
+            let eitemfound = this.elist.children[i];
+            let levelfound = parseInt(eitemfound.getAttribute("data-list-itemlevel"));
+            if (levelfound > level) {
+                if (!(eitemfound.children[0].children.length > 0 && eitemfound.children[0].children[0].tagName === "INPUT")) continue;
+                let einputfound = eitemfound.children[0].children[0];
+                einputfound.checked = einput.checked;
+            } else break;
+        }
+
+        for (let l = level; l > 0; l--) {
+            for (let i = indx-1; i >= 0; i--) {
+                let eitemfound = this.elist.children[i];
+                let levelfound = parseInt(eitemfound.getAttribute("data-list-itemlevel"));
+                if (levelfound < l) {
+                    if (!(eitemfound.children[0].children.length > 0 && eitemfound.children[0].children[0].tagName === "INPUT")) continue;
+                    let einputfound = eitemfound.children[0].children[0];
+                    let state = 0;
+                    let checkscount = 0;
+                    let count = 0;
+                    for (let li = i+1; li < this.elist.children.length; li++) {
+                        let eitemfoundl = this.elist.children[li];
+                        let levelfoundl = parseInt(eitemfoundl.getAttribute("data-list-itemlevel"));
+                        if (levelfoundl === l) {
+                            if (!(eitemfoundl.children[0].children.length > 0 && eitemfoundl.children[0].children[0].tagName === "INPUT")) continue;
+                            let einputfoundl = eitemfoundl.children[0].children[0];
+                            count++;
+                            checkscount += einputfoundl.checked;
+                            if (einputfoundl.indeterminate) {
+                                state = 2;
+                                break;
+                            }
+                        } else if (levelfoundl < l) break;
+                    }
+                    if (state !== 2) {
+                        if (checkscount === count) state = 1;
+                        else if (!checkscount) state = 0;
+                        else state = 2;
+                    }
+                    if (!state) {
+                        einputfound.checked = false;
+                        einputfound.indeterminate = false;
+                    } else if (state === 1) {
+                        einputfound.checked = true;
+                        einputfound.indeterminate = false;
+                    } else {
+                        einputfound.checked = false;
+                        einputfound.indeterminate = true;
+                    }
+                    break;
+                }
+            }
+        }
+        return indx;
+    }
+
+    this.doOpenClose = function(e) {
+        let eitem = e.target;
+        if (eitem.classList.contains("Checkboxed") || eitem.tagName === "INPUT" || eitem.tagName === "LABEL") return;
+        while (eitem.tagName !== "LI") eitem = eitem.parentElement;
+        let eaction = eitem.children[eitem.children.length-1];
+        let level = parseInt(eitem.getAttribute("data-list-itemlevel"));
+        let indx = parseInt(eitem.getAttribute("data-list-itemid"));
+        for (let i = indx+1; i < this.elist.children.length; i++) {
+            let eitemfound = this.elist.children[i];
+            let levelfound = parseInt(eitemfound.getAttribute("data-list-itemlevel"));
+            if (levelfound > level) {
+                if (eaction.classList.contains("Opened")) eitemfound.classList.add("Hidden");
+                else eitemfound.classList.remove("Hidden");
+            } else break;
+        }
+        if (eaction.classList.contains("Opened")) eaction.classList.remove("Opened");
+        else eaction.classList.add("Opened");
+        this.onOpenCloseSubItems(indx, eaction.classList.contains("Opened"));
     }
 
     this.doClear = function() {
         this.elist.innerHTML = "";
+        this.itemtree = [];
+    }
+
+    this.isEmpty = function() {
+        return this.itemtree.length === 0;
     }
 
     this.getState = function() {
         return this.sid
     }
 
+    this.getItemTree = function() {
+        return this.itemtree;
+    }
+
+    this.getLength = function() {
+        return this.elist.children.length;
+    }
+
     this.getSelectedElement = function() {
         return this.sid !== null && this.sid >= 0?this.elist.children[this.sid]:null;
     }
 
-    for (let i = 0; i < this.elist.children.length; i++) {
-        this.elist.children[i].onclick = bind(function() {
-            this.doSelect(i);
-        }, this);
-    }
+    this.doInit();
 }
 
 /*===================== DropArea =====================*/
