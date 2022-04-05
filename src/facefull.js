@@ -1555,7 +1555,7 @@ function Circlebar(e) {
     this.ecbline = document.createElementNS(this.ns, "circle");
     this.elabel = document.createElement("div");
 
-    this.setPos = function(pos) {
+    this.setPos = function(pos, label = true) {
         if (pos > 100) pos = 100;
         else if (pos < 0) pos = 0;
         let h = this.ecb.getAttribute("data-circlebar-size");
@@ -1567,7 +1567,10 @@ function Circlebar(e) {
         this.ecbline.setAttributeNS(null, "r", r+"px");
         this.ecbline.setAttributeNS(null, "stroke-dasharray", s);
         this.ecbline.setAttributeNS(null, "stroke-dashoffset", s-o);
-        this.elabel.innerHTML = pos;
+        if (label) {
+            this.elabel.style.display = "block";
+            this.elabel.innerHTML = pos;
+        } else this.elabel.style.display = "none";
     }
 
     this.doInit = function() {
