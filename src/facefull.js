@@ -1540,6 +1540,11 @@ function Tabs(e) {
     }
 
     this.doSelectTab = function(num) {
+        if (num === -1) {
+            if (this.elasttab) this.elasttab.classList.remove("Selected");
+            this.elasttab = null;
+            return;
+        }
         this.etabs.children[num].onclick();
     }
 
