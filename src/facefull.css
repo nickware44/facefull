@@ -1673,7 +1673,7 @@ input[type="checkbox"]:checked + .Toggle span:before {
     z-index: 5;
     list-style-type: none;
     padding: 0;
-    margin: 0;
+    margin: 0 5px;
 }
 
 .List.Selectable li {
@@ -1689,8 +1689,7 @@ input[type="checkbox"]:checked + .Toggle span:before {
 }
 
 .List.Header {
-    margin-left: 15px !important;
-    margin-right: 15px !important;
+    padding: 0 10px;
     margin-bottom: 10px;
     color: var(--list-header-font-color);
     font-weight: 600;

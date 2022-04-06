@@ -90,9 +90,8 @@
     content: '\F086D';
 }
 
-.List.List1 {
-    margin-left: 33px;
-    margin-right: 33px;
+.List.DashboardList {
+    padding: 0 15px;
 }
 
 .List.List1 li > div {
@@ -101,11 +100,6 @@
 
 .List.List1 li > div:nth-child(2) {
     width: 350px;
-}
-
-.List.List2 {
-    margin-left: 33px;
-    margin-right: 33px;
 }
 
 .List.List2 li > div {
