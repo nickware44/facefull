@@ -153,14 +153,9 @@ function doPopupList2ItemDelete() {
         }]);
 }
 
-function doList1ItemDelete(itemid) {
-    List1[itemid] = null;
-    setList1();
-}
-
 function doLoadList1() {
     for (let i = 0; i < 15; i++)
-        List1.push({name: "List 1 item"});
+        List1.push({name: "List 1 item "+(i+1)});
     setList1();
 }
 
@@ -168,21 +163,24 @@ function setList1() {
     let i = 0;
     facefull.Lists["L1"].doClear();
     List1.forEach(item => {
-        if (item) {
-            i++;
-            facefull.Lists["L1"].doAdd([i, item.name], 0, {
-                action: "popupmenu",
-                popupmenu_name: "L1PM",
-                popupmenu_pos: "bottom-right"
-            });
-        }
+        i++;
+        facefull.Lists["L1"].doAdd([i, item.name], 0, {
+            action: "popupmenu",
+            popupmenu_name: "L1PM",
+            popupmenu_pos: "bottom-right"
+        });
     });
     facefull.Scrollboxes["L1SB"].doUpdateScrollbar();
 }
 
+function doList1ItemDelete(itemid) {
+    List1.splice(itemid, 1);
+    setList1();
+}
+
 function doLoadList2() {
     for (let i = 0; i < 30; i++)
-        List2.push({name: "List 2 item", somecolumn: "Column data"});
+        List2.push({name: "List 2 item "+(i+1), somecolumn: "Column data"});
     setList2();
 }
 
@@ -190,20 +188,18 @@ function setList2() {
     let i = 0;
     facefull.Lists["L2"].doClear();
     List2.forEach(item => {
-        if (item) {
-            i++;
-            facefull.Lists["L2"].doAdd([i, item.name, item.somecolumn], 0, {
-                action: "popupmenu",
-                popupmenu_name: "L2PM",
-                popupmenu_pos: "bottom-right"
-            });
-        }
+        i++;
+        facefull.Lists["L2"].doAdd([i, item.name, item.somecolumn], 0, {
+            action: "popupmenu",
+            popupmenu_name: "L2PM",
+            popupmenu_pos: "bottom-right"
+        });
     });
     facefull.Scrollboxes["L2SB"].doUpdateScrollbar();
 }
 
 function doList2ItemDelete(itemid) {
-    List2[itemid] = null;
+    List2.splice(itemid, 1);
     setList2();
 }
 
