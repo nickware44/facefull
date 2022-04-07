@@ -714,7 +714,7 @@ function AlertShow(caption, text, type = "info", buttons = "OK", callbacks = [],
         case "OK":
             eabok.style.display = "block";
             eabok.onclick = function() {
-                AlertHideCustom(document.getElementById('AE'));
+                AlertHideCustom('AE');
                 if (callbacks.length > 0) callbacks[0]();
             }
             break;
@@ -722,11 +722,11 @@ function AlertShow(caption, text, type = "info", buttons = "OK", callbacks = [],
             eaby.style.display = "block";
             eabn.style.display = "block";
             eaby.onclick = function() {
-                AlertHideCustom(document.getElementById('AE'));
+                AlertHideCustom('AE');
                 if (callbacks.length > 0) callbacks[0]();
             }
             eabn.onclick = function() {
-                AlertHideCustom(document.getElementById('AE'));
+                AlertHideCustom('AE');
                 if (callbacks.length > 1) callbacks[1]();
             }
             break;
@@ -751,7 +751,8 @@ function AlertShowCustom(eid) {
     document.getElementsByClassName("GlobalArea")[0].classList.add("Blur");
 }
 
-function AlertHideCustom(e) {
+function AlertHideCustom(eid) {
+    let e = document.getElementById(eid);
     facefull.OverlayZIndex -= 5;
     e.style.display = "none";
     let eas = document.getElementsByClassName("Alert");
