@@ -892,8 +892,12 @@ canvas {
     background-color: var(--main-component-bg-color);
 }
 
-.Button:hover {
+.Button:not(.Disabled):hover {
     background-color: var(--main-component-bg-hover-color);
+}
+
+.Button.Disabled {
+    opacity: 0.3;
 }
 
 .Button.Highlighted {
