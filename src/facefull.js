@@ -1449,10 +1449,18 @@ function List(e, mode = "list") {
         for (let i = indx+1; i < this.elist.children.length; i++) {
             let eitemfound = this.elist.children[i];
             let levelfound = parseInt(eitemfound.getAttribute("data-list-itemlevel"));
-            if (levelfound > level) {
-                if (eaction.classList.contains("Opened")) eitemfound.classList.add("Hidden");
-                else eitemfound.classList.remove("Hidden");
-            } else break;
+            if (eaction.classList.contains("Opened")) {
+                if (levelfound > level) {
+                    eitemfound.classList.add("Hidden");
+                    if (eitemfound.children[eitemfound.children.length-1].classList.contains("Opened"))
+                        eitemfound.children[eitemfound.children.length-1].classList.remove("Opened");
+                }
+            } else {
+                if (levelfound === level+1) {
+                    eitemfound.classList.remove("Hidden");
+                }
+            }
+            if (levelfound <= level) break;
         }
         if (eaction.classList.contains("Opened")) eaction.classList.remove("Opened");
         else eaction.classList.add("Opened");
