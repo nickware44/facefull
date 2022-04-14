@@ -1973,7 +1973,7 @@ label.Search:before {
     transition: 0.3s;
 }
 
-.Tabs > div.Selected {
+.Tabs > div.Selected:not(.Disabled) {
     background-color: var(--tabs-selected-bg-color);
     color: var(--tabs-selected-font-color);
 }
