@@ -73,14 +73,18 @@
                         </div>
                         <div id="BLH" class="Box PageBody" style="height: auto;">
                             <div id="BT" class="Tabs" data-tabsname="LT">
-                                <div class="Button">Tab 1</div>
-                                <div class="Button">Tab 2</div>
+                                <div class="Button">List 1</div>
+                                <div class="Button">List 2</div>
+                                <div class="Button">Checklist</div>
                             </div>
                             <div id="L1H">
                                 <ul class="List List1 Header"><li><div>#</div><div>Name</div><div>Action</div></li></ul>
                             </div>
                             <div id="L2H">
                                 <ul class="List List2 Header"><li><div>#</div><div>Name</div><div>Column</div><div>Action</div></li></ul>
+                            </div>
+                            <div id="L3H">
+                                <ul class="List List3 Header"><li><div>Name</div><div>Action</div></li></ul>
                             </div>
                         </div>
                         <div id="L1SB" class="Box PageBody Scrolling" data-scrollboxname="L1SB">
@@ -99,6 +103,16 @@
                                 <div id="L2PM" class="PopupMenu" data-popupmenu="L2PM">
                                     <ul>
                                         <li class="Caution" onclick="doPopupList2ItemDelete()">Delete</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="L3SB" class="Box PageBody Scrolling" data-scrollboxname="L3SB">
+                            <div class="Scrolldata">
+                                <div class="List Blocks List3" data-listname="L3"></div>
+                                <div id="L3PM" class="PopupMenu" data-popupmenu="L3PM">
+                                    <ul>
+                                        <li onclick="doList3ItemInfo()">Item info</li>
                                     </ul>
                                 </div>
                             </div>

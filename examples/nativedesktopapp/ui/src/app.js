@@ -1,5 +1,6 @@
 let List1 = [];
 let List2 = [];
+let List3 = [];
 
 facefullCreate(true);
 
@@ -32,12 +33,16 @@ function App() {
     facefull.Tabs["LT"].onTabChanged = function(tabnum) {
         let el1h = document.getElementById("L1H");
         let el2h = document.getElementById("L2H");
+        let el3h = document.getElementById("L3H");
         let el1sb = document.getElementById("L1SB");
         let el2sb = document.getElementById("L2SB");
+        let el3sb = document.getElementById("L3SB");
         el1h.style.display = "none";
         el2h.style.display = "none";
+        el3h.style.display = "none";
         el1sb.style.display = "none";
         el2sb.style.display = "none";
+        el3sb.style.display = "none";
         switch (tabnum) {
             case 0:
                 el1h.style.display = "block";
@@ -48,6 +53,11 @@ function App() {
                 el2h.style.display = "block";
                 el2sb.style.display = "block";
                 facefull.Scrollboxes["L2SB"].doUpdateScrollbar();
+                break;
+            case 2:
+                el3h.style.display = "block";
+                el3sb.style.display = "block";
+                facefull.Scrollboxes["L3SB"].doUpdateScrollbar();
         }
     }
 
@@ -55,6 +65,7 @@ function App() {
 
     doLoadList1();
     doLoadList2();
+    doLoadList3();
 
     facefull.Themes.getThemeList().forEach(theme => {
         facefull.Comboboxes["SD"].doAddItem(theme.themename);
@@ -106,6 +117,10 @@ function App() {
             return false;
         }
         return true;
+    }
+
+    facefull.Lists["L3"].onOpenCloseSubItems = function(id, state) {
+        facefull.Scrollboxes["L3SB"].doUpdateScrollbar();
     }
 }
 
@@ -201,6 +216,63 @@ function setList2() {
 function doList2ItemDelete(itemid) {
     List2.splice(itemid, 1);
     setList2();
+}
+
+function doLoadList3() {
+    for (let i = 0; i < 5; i++) {
+        let sublist = [];
+        if (i === 0 || i === 1)
+            for (let j = 0; j < 5; j++) {
+                sublist.push({name: "List 3 subitem "+(j+1), sublist: sublist})
+            }
+        List3.push({name: "List 3 item "+(i+1), sublist: sublist});
+    }
+
+    setList3();
+}
+
+function setList3() {
+    facefull.Lists["L3"].doClear();
+    List3.forEach(item => {
+        if (item.sublist.length) {
+            facefull.Lists["L3"].doAdd([item.name], 0, {
+                action: "arrow",
+                checkbox: "checked"
+            });
+            item.sublist.forEach(subitem => {
+                facefull.Lists["L3"].doAdd([subitem.name], 1, {
+                    action: "arrow",
+                    checkbox: "checked"
+                });
+                subitem.sublist.forEach(subsubitem => {
+                    facefull.Lists["L3"].doAdd([subsubitem.name], 2, {
+                        action: "popupmenu",
+                        popupmenu_name: "L3PM",
+                        popupmenu_pos: "bottom-right",
+                        checkbox: "checked"
+                    });
+                });
+            });
+        } else {
+            facefull.Lists["L3"].doAdd([item.name], 0, {
+                action: "popupmenu",
+                popupmenu_name: "L3PM",
+                popupmenu_pos: "bottom-right",
+                checkbox: "checked"
+            });
+        }
+    });
+    facefull.Scrollboxes["L3SB"].doUpdateScrollbar();
+}
+
+function doList3ItemInfo() {
+    let itemid = document.getElementById("L3PM").getAttribute("data-id");
+    let tree = facefull.Lists["L3"].getItemTree();
+    let flattree = tree.flat(Infinity);
+
+    AlertShow("Checklist item", "Item level: "+flattree[itemid].level+
+        ", current level item index: "+flattree[itemid].current_level_index+
+        ", parent item index: "+flattree[itemid].parent_index);
 }
 
 function doOpenAlertInfo() {
