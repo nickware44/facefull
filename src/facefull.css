@@ -3,7 +3,7 @@
 // Name:        facefull.css
 // Purpose:     Main Facefull style
 // Author:      Nickolay Babbysh
-// Version:     0.9.4
+// Version:     0.9.5
 // Copyright:   (c) NickWare Group
 // Licence:     MIT
 /////////////////////////////////////////////////////////////////////////////
@@ -1771,12 +1771,6 @@ input[type="checkbox"]:checked + .Toggle span:before {
 
 .List li > div.Arrow {
     transform: rotate(-90deg);
-    /*width: 30px !important;*/
-    /*height: 30px !important;*/
-    /*vertical-align: middle;*/
-    /*text-align: center;*/
-    /*position: absolute;*/
-    /*right: 35px;*/
 }
 
 .List li > div.Arrow.Opened {
