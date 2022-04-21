@@ -74,7 +74,11 @@ function Facefull(native = false) {
 
     this.doEventHandle = function(comm, data) {
         if (this.EventTable[comm] !== undefined && this.EventTable[comm] !== null) {
-            this.EventTable[comm].handler(data);
+            try {
+                this.EventTable[comm].handler(data);
+            } catch (err) {
+                console.error(err.stack);
+            }
         }
     }
 
