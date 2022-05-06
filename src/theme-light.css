@@ -20,7 +20,7 @@
     --main-warning-color: #ffd700;
     --main-error-color: #b22222;
     --main-caution-color: #fd5954;
-    --main-popup-bg-color: #e9e8ffc4;
+    --main-popup-bg-color: #e9e8ff;
 
     --windowheader-bg-color: #aaa;
     --windowheader-control-hover-color: var(--nw-blue-color);
@@ -47,6 +47,9 @@
     --toggle-inactive-bg1-color: #9b9b9b;
     --toggle-inactive-bg2-color: #c5c5c5;
     --list-header-font-color: #4a86b8;
+    --list-odd-bg-color: #f7f7f7;
+    --list-even-bg-color: #efefef;
+    --list-selectable-bg-hover-color: var(--main-component-bg-hover-color);
     --droparea-active-bg-color: #62b6ff;
     --tabs-selected-bg-color: var(--main-component-additional-color);
     --tabs-selected-font-color: var(--nw-light-color);
