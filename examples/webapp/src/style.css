@@ -1,81 +1,35 @@
+
 .AppIcon {
     background-image: url("../res/icon.png");
 }
 
 .HeaderButton.TestHeaderButton1:before {
     content: "\F01E7";
-    margin-left: 7px;
-    margin-top: 5px;
 }
 
 .HeaderButton.TestHeaderButton2:before {
     content: "\F043C";
-    margin-left: 7px;
-    margin-top: 6px;
 }
 
 .HeaderButton.TestHeaderButton3:before {
     content: "\F15FC";
-    margin-left: 6px;
-    margin-top: 5px;
     font-size: 15px;
 }
 
 .HeaderButton.TestHeaderButton4:before {
     content: "\F0B8A";
-    margin-left: 7px;
-    margin-top: 5px;
 }
 
 .HeaderButton.TestHeaderButton5:before {
     content: "\F06BE";
-    margin-left: 7px;
-    margin-top: 6px;
 }
 
 .HeaderButton.TestHeaderButton6:before {
     content: "\F04CE";
-    margin-left: 7px;
-    margin-top: 5px;
-}
-
-.Box.Subpage .Title .BackButton {
-    height: 33px;
-    background-color: transparent;
-}
-
-.Box.Subpage .Title .BackButton:before {
-    content: '\F006E';
-}
-
-.Box.Subpage .Title .BackButton:hover {
-    background-color: transparent;
-    color: #dbdbdb;
-}
-
-.Box.ListFilter {
-    margin: 0;
 }
 
 .Button {
     width: 200px;
-}
-
-.Button.WarningAction {
-    color: #ff5252;
-}
-
-.Button.GoodAction {
-    color: #52ff63;
-}
-
-.Button.ListFilter {
-    width: 140px;
-    background-color: rgba(36, 36, 36, 0.5);
-}
-
-.Link {
-    color: #2E92F9;
 }
 
 .MainMenu > .MainMenuItems {
