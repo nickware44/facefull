@@ -41,6 +41,7 @@ Circlebar
 Counter
 HotkeyHolder
 ItemPicker
+MobileActionButton
 
 */
 
@@ -99,6 +100,9 @@ ItemPicker
     --toggle-inactive-bg1-color: var(--nw-light-color);
     --toggle-inactive-bg2-color: #9a9999;
     --list-header-font-color: #4a86b8;
+    --list-odd-bg-color: #5e5e5e2e;
+    --list-even-bg-color: #42424245;
+    --list-selectable-bg-hover-color: #1F2C3A;
     --droparea-active-bg-color: #184e80;
     --tabs-selected-bg-color: var(--main-component-additional-color);
     --tabs-selected-font-color: var(--main-font-color);
@@ -203,6 +207,10 @@ canvas {
 
 .WorkArea .WindowHeader {
     height: 80px;
+}
+
+.GlobalArea.Mobile .WorkArea .WindowHeader {
+    height: 60px;
 }
 
 .WorkArea .HeaderButtonsBlock {
@@ -328,6 +336,13 @@ canvas {
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    overflow: visible;
+}
+
+.GlobalArea.Mobile .HeaderButtonsBlock {
+    justify-content: unset;
+    position: relative;
+    width: 100%;
 }
 
 .HeaderButton {
@@ -342,10 +357,17 @@ canvas {
     height: 27px;
     font-family: "Material Design Icons", sans-serif;
     font-size: 13px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .HeaderButton:before {
     display: block;
+}
+
+.GlobalArea.Mobile .HeaderButton {
+    background-color: transparent !important;
 }
 
 .HeaderButton:hover {
@@ -364,6 +386,10 @@ canvas {
 .GlobalArea.Blur {
     filter: blur(8px);
     transition: filter 0.3s ease-out;
+}
+
+.GlobalArea.Mobile {
+    flex-direction: column-reverse;
 }
 
 /*============================ WorkArea ============================*/
@@ -386,8 +412,8 @@ canvas {
     height: 100%;
     display: none;
     flex-direction: column;
-    /*background-color: #283140;*/
     background-color: var(--page-bg-color);
+    box-sizing: border-box;
 }
 
 .Page.Show {
@@ -406,12 +432,13 @@ canvas {
     align-items: center;
     height: 80px;
     flex-shrink: 0;
+    margin-left: 33px;
+    margin-right: 33px;
 }
 
 .Page .Title .TitleText {
     display: inline-block;
     vertical-align: middle;
-    margin-left: 33px;
     position: relative;
     /*padding-top: 11px;*/
 }
@@ -425,6 +452,25 @@ canvas {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 15px;
+}
+
+.GlobalArea.Mobile .Page {
+    padding-top: 60px;
+}
+
+.GlobalArea.Mobile .Page .Title {
+    height: 60px;
+    font-size: 18px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.GlobalArea.Mobile .Page .Title .TitleText .Subtitle {
+    display: none;
+}
+
+.GlobalArea.Mobile .PageButtonsBlock {
+    display: block;
 }
 
 /*============================ Subpage ============================*/
@@ -450,7 +496,6 @@ canvas {
 .Box.Subpage .Title {
     font-size: 16px;
     width: 100%;
-    padding-right: 20px;
     padding-top: 0;
     padding-bottom: 0;
     background-color: var(--page-bg-color);
@@ -459,6 +504,8 @@ canvas {
     align-items: center;
     height: 80px;
     flex-shrink: 0;
+    margin-left: 33px;
+    margin-right: 33px;
 }
 
 .Box.Subpage .Title .BackButton {
@@ -474,13 +521,12 @@ canvas {
     transition: 0.3s;
     height: 30px;
     z-index: 10;
-    margin: 10px 34px 10px 29px;
+    margin: 10px 30px 10px 0;
 }
 
 .Box.Subpage .Title .BackButton:before {
     content: '\F030D';
     position: absolute;
-    top: -2px;
     bottom: 0;
 }
 
@@ -494,24 +540,20 @@ canvas {
     margin-left: 10px;
 }
 
-.Box.Subpage .Title .BackButtonIcon {
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    transform: rotate(-90deg);
-    -webkit-transform: rotate(-90deg);
-    display: inline-block;
-    position: relative;
-    vertical-align: middle;
+.GlobalArea.Mobile .Box.Subpage {
+    padding-top: 60px;
 }
 
-.Box.Subpage .Title .BackButtonIcon:before {
-    font-family: "Material Design Icons", sans-serif;
-    content: '\F536';
+.GlobalArea.Mobile .Box.Subpage .Title {
+    height: 60px;
+    font-size: 18px;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
-/*.Box.Subpage > .Box {*/
-    /*padding-bottom: 70px;*/
-/*}*/
+.GlobalArea.Mobile .Box.Subpage .Title .TitleText .Subtitle {
+    display: none;
+}
 
 /*============================ Box ============================*/
 
@@ -528,11 +570,8 @@ canvas {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    /*padding: 10px;*/
     box-sizing: border-box;
     position: relative;
-    /*padding-left: 25px;*/
-    /*padding-right: 25px;*/
     margin-left: 5px;
     margin-right: 5px;
 }
@@ -545,6 +584,12 @@ canvas {
     flex-shrink: 0;
 }
 
+.GlobalArea.Mobile .Box.PageBody {
+    margin-top: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
 .Box.Panel {
     height: auto;
     width: auto;
@@ -553,11 +598,6 @@ canvas {
     position: static;
     border-radius: 8px;
     margin-bottom: 15px;
-}
-
-.Box.PageBody .Box.Panel {
-    /*margin-left: 0;*/
-    /*margin-right: 0;*/
 }
 
 .Box.Panel.Blank {
@@ -662,7 +702,9 @@ canvas {
     /*margin-top: 10px;*/
     text-align: left;
     z-index: 1;
-    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .BoxTitle.Small {
@@ -677,6 +719,20 @@ canvas {
 .BoxTitleInner {
     display: inline-block;
     /*vertical-align: middle;*/
+}
+
+.BoxTitle .Action {
+    transition: 0.3s;
+    font-family: "Material Design Icons", sans-serif;
+}
+
+.BoxTitle .Action:hover {
+    color: #aaa;
+}
+
+.BoxTitle .Action:before {
+    content: "\F01D9";
+    font-size: 26px;
 }
 
 .Box.AlertButtons {
@@ -800,6 +856,19 @@ canvas {
     transition: 0.1s;
 }
 
+.GlobalArea.Touch .Scrolldata {
+    transition: none;
+}
+
+.GlobalArea.Touch .Scrollbar-block {
+    width: 6px;
+    right: 0;
+}
+
+.GlobalArea.Touch .Scrollbar-track {
+    width: 6px !important;
+}
+
 /*============================ MainMenu ============================*/
 
 .MainMenu {
@@ -872,6 +941,24 @@ canvas {
     display: block;
     text-align: center;
 }
+
+.GlobalArea.Mobile .MainMenu {
+    height: 80px;
+    width: 100%;
+}
+
+.GlobalArea.Mobile .MainMenu > .MainMenuItems {
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 0;
+    padding: 0;
+    font-size: 24px;
+}
+
+.GlobalArea.Mobile .MainMenu .AppIconBlock {
+    display: none;
+}
+
 
 /*============================ Button ============================*/
 
@@ -1160,6 +1247,10 @@ input[type="checkbox"]:not(:checked):not(:indeterminate) + .Checkbox:after {
     background-color: var(--main-component-bg-hover-color);
 }
 
+.GlobalArea.Mobile .Combobox {
+    width: 100%;
+}
+
 /*============================ Overlay ============================*/
 
 .Overlay {
@@ -1284,6 +1375,21 @@ input[type="checkbox"]:not(:checked):not(:indeterminate) + .Checkbox:after {
     width: 170px;
     margin-left: 5px;
     margin-right: 5px;
+}
+
+.Alert.Mobile {
+    width: auto;
+    left: 20px;
+    right: 20px;
+}
+
+.Alert.Mobile .AlertButtons {
+    flex-direction: column;
+    align-items: center;
+}
+
+.Alert.Mobile .AlertButtons .Button {
+    margin-bottom: 10px;
 }
 
 /*============================ Progressbar ============================*/
@@ -1620,7 +1726,6 @@ input[type="checkbox"]:checked + .Toggle span:before {
     background-color: var(--main-popup-bg-color);
     border-radius: 7px;
     overflow: hidden;
-    cursor: pointer;
     z-index: 1000;
     font-size: 12px;
     box-shadow: 0 0 8px #51515112;
@@ -1671,6 +1776,32 @@ input[type="checkbox"]:checked + .Toggle span:before {
     background-color: var(--main-component-disabled-bg-color);
 }
 
+.GlobalArea.Mobile .PopupMenu {
+    font-size: 15px;
+    top: auto !important;
+    bottom: -150px;
+    left: 10px !important;
+    right: 10px;
+    width: auto !important;
+    position: fixed;
+    box-shadow: 0 0 130px #515151bf;
+    animation: popup-mobile-showup .2s cubic-bezier(0.18, 0.77, 0.58, 1) forwards
+}
+
+.GlobalArea.Mobile .PopupMenu ul li:not(.Separator) {
+    padding: 18px 10px
+}
+
+@keyframes popup-mobile-showup {
+    0% {
+        bottom: -150px;
+    }
+
+    100% {
+        bottom: 90px;
+    }
+}
+
 /*============================ List ============================*/
 
 .List {
@@ -1685,7 +1816,7 @@ input[type="checkbox"]:checked + .Toggle span:before {
 }
 
 .List.Selectable li:hover {
-    background-color: #1F2C3A;
+    background-color: var(--list-selectable-bg-hover-color);
 }
 
 .List.Selectable li.Selected {
@@ -1717,7 +1848,6 @@ input[type="checkbox"]:checked + .Toggle span:before {
 
 .List li > div.Action {
     right: 35px;
-    cursor: pointer;
     transition: 0.3s;
     font-family: "Material Design Icons", sans-serif;
 }
@@ -1740,11 +1870,11 @@ input[type="checkbox"]:checked + .Toggle span:before {
 }
 
 .List li:nth-child(odd) {
-    background-color: rgba(94, 94, 94, 0.18);
+    background-color: var(--list-odd-bg-color);
 }
 
 .List li:nth-child(even) {
-    background-color: rgba(66, 66, 66, 0.27);
+    background-color: var(--list-even-bg-color);
 }
 
 .List.Blocks li {
@@ -1822,12 +1952,34 @@ input[type="checkbox"]:checked + .Toggle span:before {
     padding-left: 40px;
 }
 
+.GlobalArea.Mobile .Edit {
+    width: 100% !important;
+}
+
 label.Search {
     position: relative;
+    align-items: center;
+    display: flex;
 }
 
 label.Search:before {
     font-family: "Material Design Icons", sans-serif;
+    content: '\F0016';
+    font-size: 20px;
+    width: 20px;
+    height: 25px;
+    display: block;
+    position: absolute;
+    left: 12px;
+    z-index: 1;
+}
+
+.GlobalArea.Mobile label.Search {
+    width: 100%;
+}
+
+.GlobalArea.Mobile label.Search .Edit {
+    border-radius: 9999px;
 }
 
 /*============================ Text ============================*/
@@ -1957,25 +2109,36 @@ label.Search:before {
 /*============================ Tabs ============================*/
 
 .Tabs {
-    padding: 0;
+    padding: 0 5px;
     margin-bottom: 15px;
-    margin-left: 5px;
-    margin-right: 5px;
+    margin-left: 0;
+    display: flex;
+    box-sizing: border-box;
+    position: relative;
 }
 
 .Tabs > div {
+    flex-shrink: 0;
     font-size: 12px;
-    display: inline-block;
     width: 115px;
     margin-right: 20px;
-    padding: 7px 0;
+    padding: 9px 0;
     border-radius: 999px;
     transition: 0.3s;
+}
+
+.Tabs > div:last-child {
+    margin-right: 0;
 }
 
 .Tabs > div.Selected:not(.Disabled) {
     background-color: var(--tabs-selected-bg-color);
     color: var(--tabs-selected-font-color);
+}
+
+.GlobalArea.Mobile .Tabs .Button {
+    width: 40vw;
+    max-width: 200px;
 }
 
 /*============================ Circlebar ============================*/
@@ -2042,7 +2205,7 @@ label.Search:before {
 
 .Counter .CountValue {
     position: relative;
-
+    width: 100%;
 }
 
 .Counter .CountValue input {
@@ -2165,4 +2328,18 @@ label.Search:before {
 
 .ItemPicker > div.Selected:after {
     border: 2px solid var(--main-component-additional-color);
+}
+
+/*============================ MobileActionButton ============================*/
+
+.MobileActionButton {
+    font-family: "Material Design Icons", sans-serif;
+    font-size: 29px;
+    padding: 15px;
+    border-radius: 9999px;
+    background-color: var(--button-highlighted-bg-color);
+    position: fixed;
+    right: 22px;
+    bottom: 92px;
+    z-index: 9;
 }

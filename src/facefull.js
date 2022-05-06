@@ -276,6 +276,7 @@ function Facefull(native = false) {
         }, this));
 
         this.Themes = new ThemeManager();
+        this.Viewports = new ViewportManager();
 
         if (native) {
             if (disableContextmenu) {
@@ -328,6 +329,41 @@ function ThemeManager() {
     }
 
     this.doAttachThemeFile("Original", "");
+}
+
+/*===================== ViewportManager =====================*/
+
+function ViewportManager() {
+    this.ruletable = [];
+    this.devdeftable = [];
+
+    this.isRuleActive = function(devdef) {
+        let activeflag = true;
+        if (devdef.width !== "none") {
+            activeflag &= window.innerWidth <= devdef.width;
+        }
+        if (devdef.height !== "none") {
+            activeflag &= window.innerHeight <= devdef.height;
+        }
+        return activeflag;
+    }
+
+    this.doAddDeviceDefinition = function(name, width, height = "none", os = "none") {
+        this.devdeftable[name] = {width: width, height: height, os: os};
+    }
+
+    this.doAddRule = function(devdefname, rulecallback) {
+        this.ruletable.push({devdefname: devdefname, action: rulecallback});
+    }
+
+    this.doProcessRules = function() {
+        this.ruletable.forEach(rule => {
+            let devdef = this.devdeftable[rule.devdefname];
+            if (devdef) {
+                rule.action(this.isRuleActive(devdef));
+            }
+        });
+    }
 }
 
 /*===================== Subpage =====================*/
@@ -468,8 +504,9 @@ function Tablist(e) {
 function Scrollbox(e) {
     this.escrollbox = e;
     this.escrolldata = e.children[0];
+    this.lasttouchshift = 0;
 
-    this.CreateScrollbar = function() {
+    this.doCreateScrollbar = function() {
         this.escrollbarblock = document.createElement("div");
         this.escrollbartrack = document.createElement("div");
         this.escrollbarblock.className = "Scrollbar-block";
@@ -480,12 +517,16 @@ function Scrollbox(e) {
         this.escrollbartrack.ondragstart = function() {
             return false;
         };
-        this.escrollbartrack.onmousedown = bind(this.OnStartMoveScrollbarTrack, this);
-        this.escrollbox.onwheel = bind(this.OnWheelScrollbar, this);
-        this.escrollbox.onmousewheel = bind(this.OnWheelScrollbar, this);
+        this.escrollbartrack.addEventListener("mousedown", bind(this.onStartMoveScrollbarTrack, this));
+        this.escrollbox.addEventListener("wheel", bind(this.onWheelScrollbar, this));
+        this.escrollbox.addEventListener("mousewheel", bind(this.onWheelScrollbar, this));
+        this.escrollbarblock.addEventListener("touchstart", bind(this.onTouchScrollbarStart, this));
+        this.escrollbarblock.addEventListener("touchmove", bind(this.onTouchScrollbarMove, this));
+        this.escrollbox.addEventListener("touchstart", bind(this.onTouchScrollboxStart, this));
+        this.escrollbox.addEventListener("touchmove", bind(this.onTouchScrollboxMove, this));
     };
 
-    this.RemoveScrollbar = function() {
+    this.doRemoveScrollbar = function() {
         if (this.escrollbarblock !== undefined) {
             this.escrollbox.removeChild(this.escrollbarblock);
             this.escrolldata.style.marginTop = "0px";
@@ -502,28 +543,28 @@ function Scrollbox(e) {
                     this.escrollbartrack.style.marginTop = this.escrollbox.offsetHeight - this.escrollbartrack.offsetHeight + "px";
                 this.escrolldata.style.marginTop = - this.escrollbartrack.offsetTop * (this.escrolldata.offsetHeight-this.escrollbox.offsetHeight)/(this.escrollbox.offsetHeight-this.escrollbartrack.offsetHeight) + "px";
             }
-            else this.CreateScrollbar();
-        } else this.RemoveScrollbar();
+            else this.doCreateScrollbar();
+        } else this.doRemoveScrollbar();
     };
 
-    this.OnStartMoveScrollbarTrack = function(event) {
+    this.onStartMoveScrollbarTrack = function(event) {
         event = event || fixEvent.call(this, window.event);
         this.scrollbartrackoffset = event.clientY - this.escrollbartrack.offsetTop;
-        document.onmousemove = bind(this.OnMoveScrollbarTrack, this);
-        document.onmouseup = bind(this.OnEndMoveScrollbarTrack, this);
+        document.onmousemove = bind(this.onMoveScrollbarTrack, this);
+        document.onmouseup = bind(this.onEndMoveScrollbarTrack, this);
     };
 
-    this.OnMoveScrollbarTrack = function(event) {
+    this.onMoveScrollbarTrack = function(event) {
         event = event || fixEvent.call(this, window.event);
         this.doMoveScrollbar(event.clientY-this.scrollbartrackoffset);
     };
 
-    this.OnEndMoveScrollbarTrack = function() {
+    this.onEndMoveScrollbarTrack = function() {
         document.onmousemove = null;
         document.onmouseup = null;
     };
 
-    this.OnWheelScrollbar = function(event) {
+    this.onWheelScrollbar = function(event) {
         let d = 60;
         event = event || window.event;
         let ep = event.target;
@@ -539,7 +580,6 @@ function Scrollbox(e) {
             delta = d * this.escrollbartrack.offsetHeight / this.escrollbox.offsetHeight;
             this.doMoveScrollbar(this.escrollbartrack.offsetTop+delta);
         } else this.doMoveScrollbar(0);
-        //doCloseAllPopup(0);
     };
 
     this.doMoveScrollbar = function(pos) {
@@ -552,7 +592,63 @@ function Scrollbox(e) {
             this.escrollbartrack.style.marginTop = this.escrollbox.offsetHeight - this.escrollbartrack.offsetHeight + "px";
         else if (this.escrollbartrack.offsetTop < 0)
             this.escrollbartrack.style.marginTop = 0 + "px";
-        this.escrolldata.style.marginTop = -this.escrollbartrack.offsetTop * (this.escrolldata.offsetHeight-this.escrollbox.offsetHeight)/(this.escrollbox.offsetHeight-this.escrollbartrack.offsetHeight) + "px";
+        this.escrolldata.style.marginTop = -this.escrollbartrack.offsetTop * (this.escrolldata.offsetHeight-this.escrollbox.offsetHeight) / (this.escrollbox.offsetHeight-this.escrollbartrack.offsetHeight) + "px";
+    };
+
+    this.doMoveScrolldata = function(pos) {
+        if (this.escrollbartrack === undefined) {
+            this.escrolldata.style.marginTop = "0";
+            return;
+        }
+        this.escrolldata.style.marginTop = pos + "px";
+        if (this.escrolldata.offsetHeight+this.escrolldata.offsetTop < this.escrollbox.offsetHeight)
+            this.escrolldata.style.marginTop = -(this.escrolldata.offsetHeight-this.escrollbox.offsetHeight) + "px";
+        else if (this.escrolldata.offsetTop > 0)
+            this.escrolldata.style.marginTop = 0 + "px";
+        this.escrollbartrack.style.marginTop = -this.escrolldata.offsetTop / (this.escrolldata.offsetHeight-this.escrollbox.offsetHeight) * (this.escrollbox.offsetHeight-this.escrollbartrack.offsetHeight) + "px";
+    };
+
+    this.onTouchScrollbarStart = function(event) {
+        let touches = event.changedTouches;
+        if (touches.length >= 0) {
+            this.lasttouchshift = touches[0].pageY;
+        }
+    };
+
+    this.onTouchScrollbarMove = function(event) {
+        let touches = event.changedTouches;
+        if (touches.length >= 0) {
+            if (this.escrollbartrack !== undefined) {
+                let delta = touches[0].pageY - this.lasttouchshift;
+                this.lasttouchshift = touches[0].pageY;
+                this.doMoveScrollbar(this.escrollbartrack.offsetTop+delta);
+            } else this.doMoveScrollbar(0);
+        }
+    };
+
+    this.onTouchScrollboxStart = function(event) {
+        let touches = event.changedTouches;
+        if (touches.length >= 0) {
+            this.lasttouchshift = touches[0].pageY;
+        }
+    };
+
+    this.onTouchScrollboxMove = function(event) {
+        let touches = event.changedTouches;
+        if (touches.length >= 0) {
+            let ep = event.target;
+            let hasnested = false;
+            while (ep !== undefined && ep !== null && ep !== this.escrollbox) {
+                if (ep.classList.contains("Scrolling")) hasnested = true;
+                ep = ep.parentElement;
+            }
+            if (hasnested) return;
+            if (this.escrollbartrack !== undefined) {
+                let delta = touches[0].pageY - this.lasttouchshift;
+                this.lasttouchshift = touches[0].pageY;
+                this.doMoveScrolldata(this.escrolldata.offsetTop+delta);
+            } else this.doMoveScrolldata(0);
+        }
     };
 
     this.doScrollToEnd = function() {
@@ -580,7 +676,7 @@ function Scrollbox(e) {
         return this.escrollbox;
     };
 
-    if (this.escrollbox.offsetHeight < this.escrolldata.offsetHeight) this.CreateScrollbar();
+    if (this.escrollbox.offsetHeight < this.escrolldata.offsetHeight) this.doCreateScrollbar();
     this.escrolldata.style.marginTop = "0px";
 }
 
@@ -1162,8 +1258,9 @@ function Tooltip(e) {
     this.etooltiptarget = e;
     this.edefaulttooltip = document.getElementById("TT");
     this.timer = null;
+    this.touchtooltipshow = false;
 
-    this.onMouseOver = function() {
+    this._doTooltipInit = function() {
         let dc = this.etooltiptarget.getAttribute("data-tooltip-text");
         let dcid = this.etooltiptarget.getAttribute("data-tooltip-textid");
         let dw = this.etooltiptarget.getAttribute("data-tooltip-width");
@@ -1172,12 +1269,17 @@ function Tooltip(e) {
         if (dcid && dcid !== "") this.edefaulttooltip.setAttribute("data-caption", dcid);
         if (dc && dc !== "") this.edefaulttooltip.innerHTML = dc;
         this.edefaulttooltip.style.width = dw + "px";
+    }
 
+    this.onMouseOver = function() {
+        if (this.edefaulttooltip.classList.contains("Touch")) return;
+        this._doTooltipInit();
         let pos = this.etooltiptarget.getAttribute("data-tooltip-pos");
         let ts = 0;
 
         switch (pos) {
             case 'left':
+                let dw = this.etooltiptarget.getAttribute("data-tooltip-width");
                 this.edefaulttooltip.style.left = this.etooltiptarget.getBoundingClientRect().left - parseInt(dw) - 30 + "px";
                 ts = (this.etooltiptarget.offsetHeight-this.edefaulttooltip.offsetHeight) / 2;
                 this.edefaulttooltip.style.top = this.etooltiptarget.getBoundingClientRect().top + ts + "px";
@@ -1205,8 +1307,30 @@ function Tooltip(e) {
         this.edefaulttooltip.style.visibility = "hidden";
     };
 
+    this.onTouchStart = function() {
+        this.touchtooltipshow = true;
+        setTimeout(bind(function() {
+            if (this.touchtooltipshow) {
+                this._doTooltipInit();
+                this.edefaulttooltip.style.top = (window.innerHeight-150) + "px";
+                let ts = (window.innerWidth-this.edefaulttooltip.offsetWidth) / 2;
+                this.edefaulttooltip.style.left = ts + "px";
+                this.edefaulttooltip.style.visibility = "visible";
+                setTimeout(bind(function() {
+                    this.edefaulttooltip.style.visibility = "hidden";
+                }, this), 3000);
+            }
+        }, this), 800);
+    };
+
+    this.onTouchEnd = function() {
+        this.touchtooltipshow = false;
+    };
+
     this.etooltiptarget.onmouseover = bind(this.onMouseOver, this);
     this.etooltiptarget.onmouseout = bind(this.onMouseOut, this);
+    this.etooltiptarget.ontouchstart = bind(this.onTouchStart, this);
+    this.etooltiptarget.ontouchend = bind(this.onTouchEnd, this);
 }
 
 /*===================== Pulse chart =====================*/
@@ -1538,8 +1662,46 @@ function DropArea(e) {
 function Tabs(e) {
     this.etabs = e;
     this.elasttab = null;
+    this.lasttouchshift = 0;
+    this.baseshift = 0;
+    this.width = 0;
 
     this.onTabChanged = function(i){};
+
+    this.onTouchStart = function(event) {
+        let touches = event.changedTouches;
+        if (touches.length >= 0) {
+            this.width = 0;
+            for (let i = 0; i < this.etabs.children.length; i++) {
+                let style = getComputedStyle(this.etabs.children[i]);
+                this.width += this.etabs.children[i].offsetWidth + parseInt(style.marginRight);
+            }
+            this.lasttouchshift = touches[0].pageX;
+            if (!this.baseshift) {
+                this.etabs.style.marginLeft = 0;
+                this.baseshift = this.etabs.offsetLeft;
+            }
+        }
+    }
+
+    this.onTouchMove = function(event) {
+        let touches = event.changedTouches;
+        if (touches.length >= 0) {
+            let diff = touches[0].pageX - this.lasttouchshift;
+            this.lasttouchshift = touches[0].pageX;
+            if (parseInt(this.etabs.style.marginLeft)+diff > 0) {
+                this.etabs.style.marginLeft = 0;
+                return;
+            }
+            let shift = -(parseInt(this.etabs.style.marginLeft)+diff);
+            //console.log((this.width-shift+this.baseshift*2)-window.innerWidth)
+            if (this.width-shift+this.baseshift*2 < window.innerWidth) {
+                this.etabs.style.marginLeft = -(this.width-window.innerWidth+this.baseshift*2) + "px";
+                return;
+            }
+            this.etabs.style.marginLeft = parseInt(this.etabs.style.marginLeft) + diff + "px";
+        }
+    }
 
     this.doInitTabs = function() {
         for (let i = 0; i < this.etabs.children.length; i++) {
@@ -1550,6 +1712,9 @@ function Tabs(e) {
                 this.onTabChanged(i);
             }, this);
         }
+        this.etabs.style.marginLeft = 0;
+        this.etabs.addEventListener("touchstart", bind(this.onTouchStart, this));
+        this.etabs.addEventListener("touchmove", bind(this.onTouchMove, this));
     }
 
     this.doSelectTab = function(num) {
