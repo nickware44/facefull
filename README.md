@@ -46,7 +46,6 @@ window.addEventListener('load', function () {
 - [Label](https://github.com/nickware44/facefull/wiki/Label)
 - [Link](https://github.com/nickware44/facefull/wiki/Link)
 - [Toggle](https://github.com/nickware44/facefull/wiki/Toggle)
-- [Categorylist](https://github.com/nickware44/facefull/wiki/Categorylist)
 - [PopupMenu](https://github.com/nickware44/facefull/wiki/PopupMenu)
 - [List](https://github.com/nickware44/facefull/wiki/List)
 - [Edit](https://github.com/nickware44/facefull/wiki/Edit)
@@ -60,3 +59,4 @@ window.addEventListener('load', function () {
 - [Counter](https://github.com/nickware44/facefull/wiki/Counter)
 - [HotkeyHolder](https://github.com/nickware44/facefull/wiki/HotkeyHolder)
 - [ItemPicker](https://github.com/nickware44/facefull/wiki/ItemPicker)
+- [MobileActionButton](https://github.com/nickware44/facefull/wiki/MobileActionButton)
