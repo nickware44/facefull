@@ -36,7 +36,6 @@ window.addEventListener('load', function () {
 - [Subpage](https://github.com/nickware44/facefull/wiki/Subpage)
 - [Box](https://github.com/nickware44/facefull/wiki/Box)
 - [Mainmenu](https://github.com/nickware44/facefull/wiki/Mainmenu)
-- [Tablist](https://github.com/nickware44/facefull/wiki/Tablist)
 - [Scrollbox](https://github.com/nickware44/facefull/wiki/Scrollbox)
 - [Button](https://github.com/nickware44/facefull/wiki/Button)
 - [Checkbox](https://github.com/nickware44/facefull/wiki/Checkbox)
