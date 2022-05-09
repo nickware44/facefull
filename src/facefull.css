@@ -214,7 +214,8 @@ canvas {
 }
 
 .WorkArea .HeaderButtonsBlock {
-    margin-right: 0;
+    margin-left: 33px;
+    margin-right: 33px;
 }
 
 .WindowIcon {
@@ -343,6 +344,8 @@ canvas {
     justify-content: unset;
     position: relative;
     width: 100%;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .HeaderButton {
@@ -362,12 +365,20 @@ canvas {
     align-items: center;
 }
 
+.HeaderButtonsBlock .HeaderButton:last-child {
+    margin-right: 0;
+}
+
 .HeaderButton:before {
     display: block;
 }
 
 .GlobalArea.Mobile .HeaderButton {
     background-color: transparent !important;
+    width: auto;
+    height: auto;
+    font-size: 18px;
+    margin-right: 20px;
 }
 
 .HeaderButton:hover {
@@ -399,6 +410,7 @@ canvas {
     z-index: 1;
     position: relative;
     width: 100%;
+    height: 100%;
 }
 
 /*============================ Page ============================*/
@@ -586,8 +598,8 @@ canvas {
 
 .GlobalArea.Mobile .Box.PageBody {
     margin-top: 0;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .Box.Panel {
@@ -911,9 +923,9 @@ canvas {
     /*list-style-type: none;*/
     padding: 0;
     margin: 0;
-    /*display: flex;*/
+    display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     height: 100%;
     padding-bottom: 28px;
     padding-top: 20px;
@@ -2021,7 +2033,6 @@ label.Search:before {
 }
 
 .Grid .Panel {
-    width: 100%;
     height: 100%;
     margin-top: 5px;
     margin-bottom: 5px;
@@ -2279,6 +2290,10 @@ label.Search:before {
 
 .HotkeyHolder.Rounded {
     border-radius: 5px;
+}
+
+.GlobalArea.Mobile .HotkeyHolder {
+    width: 100%;
 }
 
 /*============================ ItemPicker ============================*/

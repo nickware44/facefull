@@ -302,6 +302,7 @@ function ThemeManager() {
     }
 
     this.doApplyTheme = function(id) {
+        if (this.current === id) return;
         if (this.current) {
             this.table[this.current].filenames.forEach(filename => {
                 facefull.doCSSUnload(filename);
@@ -520,10 +521,10 @@ function Scrollbox(e) {
         this.escrollbartrack.addEventListener("mousedown", bind(this.onStartMoveScrollbarTrack, this));
         this.escrollbox.addEventListener("wheel", bind(this.onWheelScrollbar, this));
         this.escrollbox.addEventListener("mousewheel", bind(this.onWheelScrollbar, this));
-        this.escrollbarblock.addEventListener("touchstart", bind(this.onTouchScrollbarStart, this));
-        this.escrollbarblock.addEventListener("touchmove", bind(this.onTouchScrollbarMove, this));
-        this.escrollbox.addEventListener("touchstart", bind(this.onTouchScrollboxStart, this));
-        this.escrollbox.addEventListener("touchmove", bind(this.onTouchScrollboxMove, this));
+        this.escrollbarblock.addEventListener("touchstart", bind(this.onTouchStartScrollbar, this));
+        this.escrollbarblock.addEventListener("touchmove", bind(this.onTouchMoveScrollbar, this));
+        this.escrollbox.addEventListener("touchstart", bind(this.onTouchStartScrollbox, this));
+        this.escrollbox.addEventListener("touchmove", bind(this.onTouchMoveScrollbox, this));
     };
 
     this.doRemoveScrollbar = function() {
@@ -608,14 +609,14 @@ function Scrollbox(e) {
         this.escrollbartrack.style.marginTop = -this.escrolldata.offsetTop / (this.escrolldata.offsetHeight-this.escrollbox.offsetHeight) * (this.escrollbox.offsetHeight-this.escrollbartrack.offsetHeight) + "px";
     };
 
-    this.onTouchScrollbarStart = function(event) {
+    this.onTouchStartScrollbar = function(event) {
         let touches = event.changedTouches;
         if (touches.length >= 0) {
             this.lasttouchshift = touches[0].pageY;
         }
     };
 
-    this.onTouchScrollbarMove = function(event) {
+    this.onTouchMoveScrollbar = function(event) {
         let touches = event.changedTouches;
         if (touches.length >= 0) {
             if (this.escrollbartrack !== undefined) {
@@ -626,14 +627,14 @@ function Scrollbox(e) {
         }
     };
 
-    this.onTouchScrollboxStart = function(event) {
+    this.onTouchStartScrollbox = function(event) {
         let touches = event.changedTouches;
         if (touches.length >= 0) {
             this.lasttouchshift = touches[0].pageY;
         }
     };
 
-    this.onTouchScrollboxMove = function(event) {
+    this.onTouchMoveScrollbox = function(event) {
         let touches = event.changedTouches;
         if (touches.length >= 0) {
             let ep = event.target;
