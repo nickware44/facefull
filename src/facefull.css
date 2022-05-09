@@ -1605,7 +1605,7 @@ input[type="checkbox"]:checked + .Toggle span:before {
 }
 
 .GlobalArea.Mobile .PopupMenu ul li:not(.Separator) {
-    padding: 18px 10px
+    padding: 18px 28px;
 }
 
 @keyframes popup-mobile-showup {
