@@ -17,7 +17,6 @@ Page
 Subpage
 Box
 MainMenu
-Tablist (deprecated)
 Scrollbox
 Button
 Checkbox
@@ -27,7 +26,6 @@ Progressbar
 Label
 Link
 Toggle
-Categorylist (deprecated)
 PopupMenu
 List
 Edit
@@ -756,64 +754,6 @@ canvas {
     height: auto;
     padding: 0;
     margin: 0;
-}
-
-/*============================ Tablist ============================*/
-
-.Tablist {
-    position: absolute;
-    height: 100%;
-    width: 190px;
-    background-color: rgb(20, 54, 83);
-    border-right: 1px solid #fb6614;
-    overflow: hidden;
-    box-sizing: border-box;
-}
-
-.Tablist ul {
-    width: 100%;
-    z-index: 5;
-    list-style-type: none;
-    padding: 0;
-    margin-top: 0;
-}
-
-.Tablist ul li {
-    padding: 8px 10px;
-    transition: 0.3s;
-    font-size: 13px;
-    z-index: 6;
-    position: relative;
-    color: #f3f3f3;
-    word-wrap: break-word;
-}
-
-.Tablist ul li:hover {
-    background-color: #2a66a2;
-}
-
-.Tablist ul li.Selected {
-    background-color: #fb6614;
-}
-
-.Tablist ul li > div:before {
-    font-family: "Material Design Icons", sans-serif;
-    content: "\F379";
-    font-size: 35px;
-    vertical-align: middle;
-    margin-right: 10px;
-    display: inline-block;
-}
-
-.Tablist ul li div div {
-    display: inline-block;
-    vertical-align: middle
-}
-
-.Tablist ul li div div:after {
-    color: #cfcfcf;
-    font-size: 12px;
-    display: block;
 }
 
 /*============================ Scrollbar ============================*/
@@ -1591,142 +1531,6 @@ input[type="checkbox"]:checked + .Toggle span:before {
     transform: scale(1);
     opacity: 0;
     transition: all 0.4s ease;
-}
-
-/*============================ Categorylist ============================*/
-
-.Categorylist {
-    padding: 25px 25px 40px;
-}
-
-.Categorylist ul {
-    width: 100%;
-    z-index: 5;
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-.Categorylist ul li ul li {
-    padding: 8px 30px;
-    transition: 0.3s;
-    font-size: 13px;
-    z-index: 6;
-    position: relative;
-    color: #f3f3f3;
-    word-wrap: break-word;
-}
-
-.Categorylist ul li ul li:nth-child(odd) {
-    background-color: #0d1f31;
-}
-
-.Categorylist ul li ul li:nth-child(even) {
-    background-color: #0b1b2a;
-}
-
-.Categorylist.Selectable ul li ul li:hover {
-    background-color: #1F2C3A;
-}
-
-.Categorylist.Selectable ul li ul li.Selected {
-    background-color: #3B444C;
-}
-
-.Categorylist.Selectable ul li ul li.ChangeMark:before {
-    content: '';
-    position: absolute;
-    box-sizing: border-box;
-    width: 3px;
-    height: 100%;
-    background-color: #fb6614;
-    left: 0;
-    top: 0;
-}
-
-.Categorylist > ul > li > div {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 10px;
-    width: 100%;
-    cursor: pointer;
-    transition: 0.3s;
-    background-color: #123652;
-    box-sizing: border-box;
-    border-bottom: 1px solid #111;
-}
-
-.Categorylist > ul > li > div:hover {
-    background-color: #204e7d;
-}
-
-.Categorylist > ul > li > div > span {
-    vertical-align: middle;
-    display: inline-block;
-    position: relative;
-    line-height: 20px;
-}
-
-.Categorylist > ul > li > div .ArrowP {
-    transform: rotate(-90deg);
-    -webkit-transform: rotate(-90deg);
-    width: 30px;
-    height: 30px;
-    margin-top: -4px;
-    margin-right: 10px;
-    float: right;
-    /*display: inline-block;*/
-    vertical-align: middle;
-    text-align: center;
-    /*margin-left: 660px;*/
-    display: none;
-}
-
-.Categorylist > ul > li > div .ArrowP.Opened {
-    transform: rotate(-270deg);
-    -webkit-transform: rotate(-270deg);
-    margin-right: 11px;
-}
-
-.Categorylist > ul > li > div .ArrowP:before {
-    font-family: "Material Design Icons", sans-serif;
-    content: '\F141';
-    font-size: 25px;
-}
-
-.Categorylist > ul > li > ul {
-    font-size: 10px;
-    transition: 0.15s;
-    overflow: hidden;
-}
-
-.Categorylist > ul > li > ul.Closed {
-    height: 0 !important;
-}
-
-.Categorylist .ListItem {
-    word-break: break-all;
-    vertical-align: middle;
-    display: inline-block;
-    position: relative;
-    line-height: 20px;
-    width: 90%;
-}
-
-.Categorylist .ListItem:first-child {
-    width: 100%;
-}
-
-.Categorylist > ul > li.Header {
-    font-size: 16px;
-    padding-left: 10px;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    background-color: #353535;
-}
-
-.Categorylist > ul > li.Header:first-child {
-    margin-top: 0;
 }
 
 /*============================ PopupMenu ============================*/
