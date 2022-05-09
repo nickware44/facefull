@@ -13,6 +13,39 @@ function App() {
     facefull.Themes.setDefaultThemeName("Dark theme");
     facefull.Themes.doAttachThemeFile("Light theme", ["facefull/theme-light.min.css", "src/style-light.css"]);
 
+    facefull.Viewports.doAddDeviceDefinition("dashboard-min", 900);
+    facefull.Viewports.doAddDeviceDefinition("mobile", 500);
+
+    facefull.Viewports.doAddRule("dashboard-min", function(isactive) {
+        if (isactive) {
+            document.getElementById("MPW").classList.remove("CenterWrapper");
+            document.getElementById("MP").classList.remove("Grid");
+            document.getElementById("MP").classList.remove("MainPanels");
+        } else {
+            document.getElementById("MPW").classList.add("CenterWrapper");
+            document.getElementById("MP").classList.add("Grid");
+            document.getElementById("MP").classList.add("MainPanels");
+        }
+    });
+    facefull.Viewports.doAddRule("mobile", function(isactive) {
+        if (isactive) {
+            document.getElementById("G").classList.add("Mobile");
+            document.getElementById("G").classList.add("Touch");
+            document.getElementById("TT").classList.add("Touch");
+            document.getElementById("AE").classList.add("Mobile");
+        } else {
+            document.getElementById("G").classList.remove("Mobile");
+            document.getElementById("G").classList.remove("Touch");
+            document.getElementById("TT").classList.remove("Touch");
+            document.getElementById("AE").classList.remove("Mobile");
+        }
+    });
+
+    facefull.Viewports.doProcessRules();
+    window.addEventListener("resize", function() {
+        facefull.Viewports.doProcessRules();
+    });
+
     facefull.MainMenuBox.onPageOpen = function(name) {
         facefull.doUpdateAllScrollboxes();
     }

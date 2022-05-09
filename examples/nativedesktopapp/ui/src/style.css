@@ -44,6 +44,10 @@
     content: '\F086D';
 }
 
+.Grid.MainPanels {
+    max-width: 1000px;
+}
+
 .List.DashboardList {
     padding: 0 15px;
 }
