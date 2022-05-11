@@ -793,6 +793,7 @@ function PopupMenu(e) {
         let width = parseInt(this.epmtarget.getAttribute("data-popupmenu-width"));
         if (isNaN(width)) width = 200;
         this.epm.style.width = width + "px";
+        this.epm.style.display = "block";
         switch (pos) {
             default:
             case 'bottom-left':
@@ -807,9 +808,12 @@ function PopupMenu(e) {
                 this.epm.style.left =  this.epmtarget.offsetLeft - width/2 + this.epmtarget.offsetWidth/2 + "px";
                 this.epm.style.top = this.epmtarget.offsetTop + this.epmtarget.offsetHeight + 10 + "px";
                 break;
+            case 'top-right':
+                this.epm.style.left =  this.epmtarget.offsetLeft + (this.epmtarget.offsetWidth-width) + "px";
+                this.epm.style.top = this.epmtarget.offsetTop - this.epm.offsetHeight - 10 + "px";
+                break;
         }
 
-        this.epm.style.display = "block";
         facefull.LastGlobalOpenedPopupMenu = this;
         facefull.LastGlobalOpenedPopupMenuTarget = this.epmtarget;
         if (notopenedflag) this.onChangeState(true);
