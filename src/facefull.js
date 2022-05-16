@@ -931,7 +931,8 @@ function doCreatePulseChart(eid, values, labels, data = []) {
         epv.className = "PulseValue";
         epl.className = "PulseLabel";
 
-        epv.style.height = values[i]+"%";
+        let vmax = Math.max.apply(null, values);
+        epv.style.height = (values[i]/vmax*100)+"%";
         epl.innerHTML = labels[i];
 
         epvb.appendChild(epv);
