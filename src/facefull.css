@@ -715,6 +715,7 @@ canvas {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
 }
 
 .BoxTitle.Small {
@@ -1815,6 +1816,12 @@ label.Search:before {
 
 .Text.Rounded {
     border-radius: 5px;
+}
+
+.Text.Disabled {
+    background-color: var(--main-component-disabled-bg-color);
+    border: solid 1px var(--main-component-disabled-bg-color);
+    color: var(--main-font-disabled-color);
 }
 
 .Text:focus {
