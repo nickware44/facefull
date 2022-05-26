@@ -841,8 +841,11 @@ function Tooltip(e) {
     this.edefaulttooltip = document.getElementById("TT");
     this.timer = null;
     this.touchtooltipshow = false;
+    this.onCustomText = function(){};
 
     this._doTooltipInit = function() {
+        let customtooltip = this.etooltiptarget.getAttribute("data-tooltip-custom-name");
+        if (customtooltip !== null && customtooltip !== undefined) this.edefaulttooltip = document.getElementById(customtooltip);
         let dc = this.etooltiptarget.getAttribute("data-tooltip-text");
         let dcid = this.etooltiptarget.getAttribute("data-tooltip-textid");
         let dw = this.etooltiptarget.getAttribute("data-tooltip-width");
@@ -879,6 +882,8 @@ function Tooltip(e) {
                 break;
         }
 
+        this.onCustomText();
+
         this.timer = setTimeout(bind(function() {
             this.edefaulttooltip.style.visibility = "visible";
         }, this), 800);
@@ -894,6 +899,7 @@ function Tooltip(e) {
         setTimeout(bind(function() {
             if (this.touchtooltipshow) {
                 this._doTooltipInit();
+                this.onCustomText();
                 this.edefaulttooltip.style.top = (window.innerHeight-150) + "px";
                 let ts = (window.innerWidth-this.edefaulttooltip.offsetWidth) / 2;
                 this.edefaulttooltip.style.left = ts + "px";
