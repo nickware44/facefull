@@ -99,31 +99,16 @@
                         <div id="L1SB" class="Box PageBody Scrolling" data-scrollboxname="L1SB">
                             <div class="Scrolldata">
                                 <ul class="List Blocks List1" data-listname="L1"></ul>
-                                <div id="L1PM" class="PopupMenu" data-popupmenu="L1PM">
-                                    <ul>
-                                        <li class="Caution" onclick="doPopupList1ItemDelete()">Delete</li>
-                                    </ul>
-                                </div>
                             </div>
                         </div>
                         <div id="L2SB" class="Box PageBody Scrolling" data-scrollboxname="L2SB">
                             <div class="Scrolldata">
                                 <div class="List Blocks List2" data-listname="L2"></div>
-                                <div id="L2PM" class="PopupMenu" data-popupmenu="L2PM">
-                                    <ul>
-                                        <li class="Caution" onclick="doPopupList2ItemDelete()">Delete</li>
-                                    </ul>
-                                </div>
                             </div>
                         </div>
                         <div id="L3SB" class="Box PageBody Scrolling" data-scrollboxname="L3SB">
                             <div class="Scrolldata">
                                 <div class="List Blocks List3" data-listname="L3"></div>
-                                <div id="L3PM" class="PopupMenu" data-popupmenu="L3PM">
-                                    <ul>
-                                        <li onclick="doList3ItemInfo()">Item info</li>
-                                    </ul>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -212,6 +197,15 @@
                 </div>
             </div>
             <div id="TT" class="Tooltip"></div>
+            <div id="L1PM" class="PopupMenu" data-popupmenu="L1PM">
+                <ul><li class="Caution" onclick="doPopupList1ItemDelete()">Delete</li></ul>
+            </div>
+            <div id="L2PM" class="PopupMenu" data-popupmenu="L2PM">
+                <ul><li class="Caution" onclick="doPopupList2ItemDelete()">Delete</li></ul>
+            </div>
+            <div id="L3PM" class="PopupMenu" data-popupmenu="L3PM">
+                <ul><li onclick="doList3ItemInfo()">Item info</li></ul>
+            </div>
             <div id="OV" class="Overlay"></div>
             <div id="AE" class="Alert Rounded">
                 <div class="AlertCaption"></div>

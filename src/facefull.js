@@ -449,6 +449,7 @@ function Scrollbox(e) {
     };
 
     this.onWheelScrollbar = function(event) {
+        facefull.doCloseGlobalPopupMenu();
         let d = 60;
         event = event || window.event;
         let ep = event.target;
@@ -794,24 +795,33 @@ function PopupMenu(e) {
         if (isNaN(width)) width = 200;
         this.epm.style.width = width + "px";
         this.epm.style.display = "block";
+        let rect = this.epmtarget.getBoundingClientRect();
         switch (pos) {
             default:
             case 'bottom-left':
-                this.epm.style.left = this.epmtarget.offsetLeft + "px";
-                this.epm.style.top = this.epmtarget.offsetTop + this.epmtarget.offsetHeight + 10 + "px";
+                this.epm.style.left = rect.left + "px";
+                this.epm.style.top = rect.top + this.epmtarget.offsetHeight + 10 + "px";
                 break;
             case 'bottom-right':
-                this.epm.style.left =  this.epmtarget.offsetLeft + (this.epmtarget.offsetWidth-width) + "px";
-                this.epm.style.top = this.epmtarget.offsetTop + this.epmtarget.offsetHeight + 10 + "px";
+                this.epm.style.left =  rect.left + (this.epmtarget.offsetWidth-width) + "px";
+                this.epm.style.top = rect.top + this.epmtarget.offsetHeight + 10 + "px";
                 break;
             case 'bottom-center':
-                this.epm.style.left =  this.epmtarget.offsetLeft - width/2 + this.epmtarget.offsetWidth/2 + "px";
-                this.epm.style.top = this.epmtarget.offsetTop + this.epmtarget.offsetHeight + 10 + "px";
+                this.epm.style.left =  rect.left - width/2 + this.epmtarget.offsetWidth/2 + "px";
+                this.epm.style.top = rect.top + this.epmtarget.offsetHeight + 10 + "px";
                 break;
             case 'top-right':
-                this.epm.style.left =  this.epmtarget.offsetLeft + (this.epmtarget.offsetWidth-width) + "px";
-                this.epm.style.top = this.epmtarget.offsetTop - this.epm.offsetHeight - 10 + "px";
+                this.epm.style.left =  rect.left + (this.epmtarget.offsetWidth-width) + "px";
+                this.epm.style.top = rect.top - this.epm.offsetHeight - 10 + "px";
                 break;
+        }
+
+        rect = this.epm.getBoundingClientRect();
+        if (rect.top+this.epm.offsetHeight > window.innerHeight) {
+            this.epm.style.top = window.innerHeight - this.epm.offsetHeight - 10 + "px";
+        }
+        if (rect.left+this.epm.offsetWidth > window.innerWidth) {
+            this.epm.style.left = window.innerWidth - this.epm.offsetWidth - 10 + "px";
         }
 
         facefull.LastGlobalOpenedPopupMenu = this;
