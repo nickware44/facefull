@@ -985,6 +985,10 @@ function List(e, mode = "list") {
     }
 
     this.doSelect = function(sid) {
+        if (sid >= 0 && sid < this.elist.children.length && this.elist.children[sid].classList.contains("Disabled")) {
+            this.onSelect(sid);
+            return;
+        }
         if (this.sid !== null && this.sid >= 0 && this.sid < this.elist.children.length) this.elist.children[this.sid].classList.remove("Selected");
         this.sid = sid;
         if (this.sid !== null && this.sid >= 0 && this.sid < this.elist.children.length) {

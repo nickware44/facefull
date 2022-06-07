@@ -1632,11 +1632,15 @@ input[type="checkbox"]:checked + .Toggle span:before {
     transition: 0.3s;
 }
 
-.List.Selectable li:hover {
+.List.Selectable li.Disabled {
+    opacity: 0.4;
+}
+
+.List.Selectable li:not(.Disabled):hover {
     background-color: var(--list-selectable-bg-hover-color);
 }
 
-.List.Selectable li.Selected {
+.List.Selectable li.Selected:not(.Disabled) {
     background-color: var(--main-component-additional-color);
 }
 
