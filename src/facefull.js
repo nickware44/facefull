@@ -677,6 +677,7 @@ function MainMenu(e) {
 function AlertShow(caption, text, type = "info", buttons = "OK", callbacks = [], captionlid = "", textlid = "") {
     document.getElementById("AE").classList.remove("Warning");
     document.getElementById("AE").classList.remove("Error");
+    facefull.OverlayZIndex += 5;
     switch (type) {
         case "info":
             break;
@@ -722,7 +723,9 @@ function AlertShow(caption, text, type = "info", buttons = "OK", callbacks = [],
     document.getElementById("AE").children[1].innerHTML = text;
     document.getElementById("AE").children[1].setAttribute("data-caption", textlid);
     document.getElementById("OV").style.display = "block";
-    document.getElementById("AE").style.display = "block";
+    document.getElementById("AE").classList.remove("Hidden");
+    document.getElementById("OV").style.zIndex = facefull.OverlayZIndex;
+    document.getElementById("AE").style.zIndex = facefull.OverlayZIndex + 1;
     document.getElementsByClassName("GlobalArea")[0].classList.add("Blur");
 }
 
@@ -731,7 +734,7 @@ function AlertShowCustom(eid) {
     facefull.OverlayZIndex += 5;
     document.getElementById("OV").style.display = "block";
     document.getElementById("OV").style.zIndex = facefull.OverlayZIndex;
-    e.style.display = "block";
+    e.classList.remove("Hidden");
     e.style.zIndex = facefull.OverlayZIndex + 1;
     document.getElementsByClassName("GlobalArea")[0].classList.add("Blur");
 }
@@ -739,11 +742,11 @@ function AlertShowCustom(eid) {
 function AlertHideCustom(eid) {
     let e = document.getElementById(eid);
     facefull.OverlayZIndex -= 5;
-    e.style.display = "none";
+    e.classList.add("Hidden");
     let eas = document.getElementsByClassName("Alert");
     let adflag = false;
     for (let i = 0; i < eas.length; i++) {
-        if (eas[i].style.display === "block") {
+        if (!eas[i].classList.contains("Hidden")) {
             adflag = true;
             break;
         }
