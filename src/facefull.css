@@ -548,6 +548,7 @@ canvas {
     display: inline-block;
     vertical-align: middle;
     margin-left: 10px;
+    text-transform: uppercase;
 }
 
 .GlobalArea.Mobile .Box.Subpage {
@@ -1230,7 +1231,6 @@ input[type="checkbox"]:not(:checked):not(:indeterminate) + .Checkbox:after {
     left: 0;
     right: 0;
     border-top: 4px solid var(--main-good-color);
-    display: none;
     z-index: 201;
     transition: 0.2s;
     cursor: default;
@@ -1330,6 +1330,10 @@ input[type="checkbox"]:not(:checked):not(:indeterminate) + .Checkbox:after {
     margin-right: 5px;
 }
 
+.AlertBody {
+    margin: 15px 15px 0;
+}
+
 .Alert.Mobile {
     width: auto;
     left: 20px;
@@ -1378,6 +1382,7 @@ input[type="checkbox"]:not(:checked):not(:indeterminate) + .Checkbox:after {
     height: 100%;
     background-color: var(--progressbarindicator-bg-color);
     transition: 0.3s;
+    box-sizing: border-box;
 }
 
 @keyframes animate-stripes {
