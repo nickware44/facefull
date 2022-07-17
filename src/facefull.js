@@ -1271,6 +1271,7 @@ function Tabs(e) {
     this.lasttouchshift = 0;
     this.baseshift = 0;
     this.width = 0;
+    this.selected = -1;
 
     this.onTabChanged = function(i){};
 
@@ -1315,6 +1316,7 @@ function Tabs(e) {
                 if (this.elasttab) this.elasttab.classList.remove("Selected");
                 this.etabs.children[i].classList.add("Selected");
                 this.elasttab = this.etabs.children[i];
+                this.selected = i;
                 this.onTabChanged(i);
             }, this);
         }
@@ -1324,12 +1326,17 @@ function Tabs(e) {
     }
 
     this.doSelectTab = function(num) {
+        this.selected = num;
         if (num === -1) {
             if (this.elasttab) this.elasttab.classList.remove("Selected");
             this.elasttab = null;
             return;
         }
         this.etabs.children[num].onclick();
+    }
+
+    this.getSelectedTab = function() {
+        return this.selected;
     }
 
     this.doInitTabs();
