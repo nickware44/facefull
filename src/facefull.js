@@ -85,6 +85,10 @@ function Facefull(native = false) {
         document.title = comm+"|"+data;
     }
 
+    this.doEventSendEx = function(comm, data = "") {
+        window.facefullio.postMessage(comm+"|"+data)
+    }
+
     this.getColorFromGrid = function(id) {
         let colors = [
             '#FF4A0C',
