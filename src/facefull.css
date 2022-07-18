@@ -176,6 +176,10 @@ canvas {
     display: inline-block !important;
 }
 
+.Hidden {
+    display: none !important;
+}
+
 .OfV {
     overflow: visible !important;
 }
