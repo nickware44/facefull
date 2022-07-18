@@ -943,6 +943,7 @@ function Tooltip(e) {
 function doCreatePulseChart(eid, values, labels, data = []) {
     this.e = document.getElementById(eid);
     this.e.innerHTML = "";
+    let vmax = Math.max.apply(null, values);
     for (let i = 0; i < values.length; i++) {
         let epb = document.createElement("div");
         let epvb = document.createElement("div");
@@ -954,8 +955,10 @@ function doCreatePulseChart(eid, values, labels, data = []) {
         epv.className = "PulseValue";
         epl.className = "PulseLabel";
 
-        let vmax = Math.max.apply(null, values);
-        epv.style.height = (values[i]/vmax*100)+"%";
+        if (!vmax)
+            epv.style.height = "0%";
+        else
+            epv.style.height = (values[i]/vmax*100)+"%";
         epl.innerHTML = labels[i];
 
         epvb.appendChild(epv);
