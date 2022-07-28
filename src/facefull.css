@@ -1222,6 +1222,10 @@ input[type="checkbox"]:not(:checked):not(:indeterminate) + .Checkbox:after {
     top: 0;
 }
 
+.Overlay.MiddleOpacity {
+    opacity: 0.4;
+}
+
 /*============================ Alert ============================*/
 
 .Alert {
@@ -1602,7 +1606,7 @@ input[type="checkbox"]:checked + .Toggle span:before {
     background-color: var(--main-component-disabled-bg-color);
 }
 
-.GlobalArea.Mobile .PopupMenu {
+.PopupMenu.Mobile {
     font-size: 15px;
     top: auto !important;
     bottom: -150px;
@@ -1610,11 +1614,10 @@ input[type="checkbox"]:checked + .Toggle span:before {
     right: 10px;
     width: auto !important;
     position: fixed;
-    box-shadow: 0 0 130px #515151bf;
     animation: popup-mobile-showup .2s cubic-bezier(0.18, 0.77, 0.58, 1) forwards
 }
 
-.GlobalArea.Mobile .PopupMenu > ul li:not(.Separator) {
+.PopupMenu.Mobile > ul li:not(.Separator) {
     padding: 18px 28px;
 }
 
@@ -1624,7 +1627,7 @@ input[type="checkbox"]:checked + .Toggle span:before {
     }
 
     100% {
-        bottom: 90px;
+        bottom: 10px;
     }
 }
 

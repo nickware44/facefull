@@ -791,6 +791,14 @@ function PopupMenu(e) {
     this.doOpenPopupMenu = function() {
         if (!this.epmtarget.classList.contains("PopupMenuTarget")) return;
 
+        if (this.epm.classList.contains("Mobile")) {
+            document.getElementById("OV").classList.add("MiddleOpacity");
+            document.getElementById("OV").style.display = "block";
+            document.getElementById("OV").style.zIndex = facefull.OverlayZIndex;
+            this.epm.style.zIndex = facefull.OverlayZIndex + 1;
+            document.getElementsByClassName("GlobalArea")[0].classList.add("Blur");
+        }
+
         let notopenedflag = !this.isOpened();
 
         let did = this.epmtarget.getAttribute("data-id");
@@ -836,6 +844,23 @@ function PopupMenu(e) {
     }
 
     this.doClosePopupMenu = function() {
+        if (this.epm.classList.contains("Mobile")) {
+            document.getElementById("OV").classList.remove("MiddleOpacity");
+            let eas = document.getElementsByClassName("Alert");
+            let adflag = false;
+            for (let i = 0; i < eas.length; i++) {
+                if (!eas[i].classList.contains("Hidden")) {
+                    adflag = true;
+                    break;
+                }
+            }
+            if (adflag) document.getElementById("OV").style.zIndex = facefull.OverlayZIndex;
+            else {
+                document.getElementById("OV").style.display = "none";
+                document.getElementsByClassName("GlobalArea")[0].classList.remove("Blur");
+                facefull.OverlayZIndex = 200;
+            }
+        }
         if (this.isOpened()) this.onChangeState(false);
         this.epm.style.display = "none";
     }
