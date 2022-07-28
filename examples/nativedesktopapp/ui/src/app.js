@@ -28,16 +28,23 @@ function App() {
         }
     });
     facefull.Viewports.doAddRule("mobile", function(isactive) {
+        let popupmenus = document.getElementsByClassName("PopupMenu");
         if (isactive) {
             document.getElementById("G").classList.add("Mobile");
             document.getElementById("G").classList.add("Touch");
             document.getElementById("TT").classList.add("Touch");
             document.getElementById("AE").classList.add("Mobile");
+            Array.from(popupmenus).forEach((el) => {
+                el.classList.add("Mobile");
+            });
         } else {
             document.getElementById("G").classList.remove("Mobile");
             document.getElementById("G").classList.remove("Touch");
             document.getElementById("TT").classList.remove("Touch");
             document.getElementById("AE").classList.remove("Mobile");
+            Array.from(popupmenus).forEach((el) => {
+                el.classList.remove("Mobile");
+            });
         }
     });
 
@@ -49,6 +56,8 @@ function App() {
     facefull.MainMenuBox.onPageOpen = function(name) {
         facefull.doUpdateAllScrollboxes();
     }
+
+    facefull.doUpdateAllScrollboxes();
 
     facefull.Circlebars["P1CB1"].setPos(90);
     facefull.Circlebars["P1CB2"].setPos(10);
@@ -175,6 +184,10 @@ function doGenPanel3List() {
         epb.innerHTML += "<li>Item "+(i+1)+"</li>"
     }
     facefull.Scrollboxes["P3SB"].doUpdateScrollbar();
+}
+
+function doPopupList1ItemTest() {
+    AlertShow("Info alert", "Test popup menu item", "info", "OK");
 }
 
 function doPopupList1ItemDelete() {
