@@ -406,12 +406,8 @@ function Scrollbox(e) {
             return false;
         };
         this.escrollbartrack.addEventListener("mousedown", bind(this.onStartMoveScrollbarTrack, this));
-        this.escrollbox.addEventListener("wheel", bind(this.onWheelScrollbar, this));
-        this.escrollbox.addEventListener("mousewheel", bind(this.onWheelScrollbar, this));
         this.escrollbarblock.addEventListener("touchstart", bind(this.onTouchStartScrollbar, this));
         this.escrollbarblock.addEventListener("touchmove", bind(this.onTouchMoveScrollbar, this));
-        this.escrollbox.addEventListener("touchstart", bind(this.onTouchStartScrollbox, this));
-        this.escrollbox.addEventListener("touchmove", bind(this.onTouchMoveScrollbox, this));
     };
 
     this.doRemoveScrollbar = function() {
@@ -430,8 +426,7 @@ function Scrollbox(e) {
                 if (this.escrollbartrack.offsetTop+this.escrollbartrack.offsetHeight > this.escrollbox.offsetHeight)
                     this.escrollbartrack.style.marginTop = this.escrollbox.offsetHeight - this.escrollbartrack.offsetHeight + "px";
                 this.escrolldata.style.marginTop = - this.escrollbartrack.offsetTop * (this.escrolldata.offsetHeight-this.escrollbox.offsetHeight)/(this.escrollbox.offsetHeight-this.escrollbartrack.offsetHeight) + "px";
-            }
-            else this.doCreateScrollbar();
+            } else this.doCreateScrollbar();
         } else this.doRemoveScrollbar();
     };
 
@@ -565,6 +560,10 @@ function Scrollbox(e) {
         return this.escrollbox;
     };
 
+    this.escrollbox.addEventListener("wheel", bind(this.onWheelScrollbar, this));
+    this.escrollbox.addEventListener("mousewheel", bind(this.onWheelScrollbar, this));
+    this.escrollbox.addEventListener("touchstart", bind(this.onTouchStartScrollbox, this));
+    this.escrollbox.addEventListener("touchmove", bind(this.onTouchMoveScrollbox, this));
     if (this.escrollbox.offsetHeight < this.escrolldata.offsetHeight) this.doCreateScrollbar();
     this.escrolldata.style.marginTop = "0px";
 }
