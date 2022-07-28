@@ -2,7 +2,7 @@
 // Name:        facefull.js
 // Purpose:     Main Facefull module
 // Author:      Nickolay Babbysh
-// Version:     0.9.6
+// Version:     0.9.7
 // Copyright:   (c) NickWare Group
 // Licence:     MIT
 /////////////////////////////////////////////////////////////////////////////
