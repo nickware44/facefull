@@ -1287,8 +1287,8 @@ input[type="checkbox"]:not(:checked):not(:indeterminate) + .Checkbox:after {
     font-size: 20px;
     z-index: 999;
     position: absolute;
-    margin-top: 12px;
-    right: -10px;
+    margin-top: 15px;
+    right: 15px;
 }
 
 .Alert .Close:hover {
