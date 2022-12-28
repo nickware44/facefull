@@ -4,3 +4,4 @@ node_modules/
 /workspace.xml
 /httpRequests/
 resources/
+docs-built/

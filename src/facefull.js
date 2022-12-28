@@ -2,7 +2,7 @@
 // Name:        facefull.js
 // Purpose:     Main Facefull module
 // Author:      Nickolay Babbysh
-// Version:     0.9.7
+// Version:     0.9.8
 // Copyright:   (c) NickWare Group
 // Licence:     MIT
 /////////////////////////////////////////////////////////////////////////////
@@ -40,36 +40,108 @@ function fixEvent(e) {
     return e;
 }
 
+/**
+ * Create main class.
+ * @param native Set to true if you want to initialize window caption and control buttons for native application.
+ */
 function facefullCreate(native = false) {
     facefull = new Facefull(native);
 }
 
+/**
+ * Main facefull class.
+ * @param native
+ * @constructor
+ */
 function Facefull(native = false) {
+    /**
+     * Subpages associative array. Use data-subpagename HTML tag to set element name.
+     * @type {array}
+     */
     this.Subpages = [];
+    /**
+     * Scrollboxes associative array. Use data-scrollboxname HTML tag to set element name.
+     * @type {array}
+     */
     this.Scrollboxes = [];
+    /**
+     * Comboboxes associative array. Use data-comboboxname HTML tag to set element name.
+     * @type {array}
+     */
     this.Comboboxes = [];
+    /**
+     * Lists associative array. Use data-listname HTML tag to set element name.
+     * @type {array}
+     */
     this.Lists = [];
+    /**
+     * Tooltips associative array.
+     * @type {array}
+     */
     this.Tooltips = [];
+    /**
+     * Popup menus associative array. Use data-popupmenu HTML tag to set element name.
+     * @type {array}
+     */
     this.PopupMenus = [];
+    /**
+     * Drop areas associative array. Use data-dropname HTML tag to set element name.
+     * @type {array}
+     */
     this.DropAreas = [];
+    /**
+     * Tabs associative array. Use data-tabsname HTML tag to set element name.
+     * @type {array}
+     */
     this.Tabs = [];
+    /**
+     * Circlebars associative array. Use data-circlebarname HTML tag to set element name.
+     * @type {array}
+     */
     this.Circlebars = [];
+    /**
+     * Counters associative array. Use data-countername HTML tag to set element name.
+     * @type {array}
+     */
     this.Counters = [];
+    /**
+     * Hotkey holders associative array. Use data-hotkeyholdername HTML tag to set element name.
+     * @type {array}
+     */
     this.HotkeyHolders = [];
+    /**
+     * Item pickers associative array. Use data-itempickername HTML tag to set element name.
+     * @type {array}
+     */
     this.ItemPickers = [];
     this.LastGlobalOpenedPopupMenu = null;
     this.LastGlobalOpenedPopupMenuTarget = null;
     this.Subpagelevel = 0;
+    /**
+     * Main menu object.
+     * @type {null}
+     */
     this.MainMenuBox = null;
     this.OverlayZIndex = 200;
     this.EventTable = [];
     this.Themes = null;
+    this.Viewports = null;
     this.native = native;
 
+    /**
+     * Attaches an event handler to the bridge event name.
+     * @param comm
+     * @param handler
+     */
     this.doEventHandlerAttach = function(comm, handler = function(data = ""){}) {
         this.EventTable[comm] = {handler: handler};
     }
 
+    /**
+     * Handles an incoming bridge event.
+     * @param comm
+     * @param data
+     */
     this.doEventHandle = function(comm, data) {
         if (this.EventTable[comm] !== undefined && this.EventTable[comm] !== null) {
             try {
@@ -80,15 +152,29 @@ function Facefull(native = false) {
         }
     }
 
+    /**
+     * Sends event to the bridge. Uses title tag to pass event name and data across the bridge.
+     * @param comm
+     * @param data
+     */
     this.doEventSend = function(comm, data = "") {
         document.title = "0";
         document.title = comm+"|"+data;
     }
 
+    /**
+     * Sends event to the bridge. Uses 'facefullio' script message handler to pass event name and data across the bridge.
+     * @param comm
+     * @param data
+     */
     this.doEventSendEx = function(comm, data = "") {
         window.facefullio.postMessage(comm+"|"+data)
     }
 
+    /**
+     * Returns HEX color string from predefined color circular list.
+     * @param id
+     */
     this.getColorFromGrid = function(id) {
         let colors = [
             '#FF4A0C',
@@ -102,6 +188,10 @@ function Facefull(native = false) {
         return colors[id-Math.floor(id/colors.length)*colors.length];
     }
 
+    /**
+     * Loads CSS by filename.
+     * @param file
+     */
     this.doCSSLoad = function(file) {
         let link = document.createElement("link");
         link.setAttribute("rel", "stylesheet");
@@ -110,6 +200,10 @@ function Facefull(native = false) {
         document.getElementsByTagName("head")[0].appendChild(link);
     }
 
+    /**
+     * Unloads CSS by filename.
+     * @param file
+     */
     this.doCSSUnload = function(file) {
         let ehead = document.getElementsByTagName("head")[0];
         for (let i = 0; i < ehead.childElementCount; i++) {
@@ -118,6 +212,11 @@ function Facefull(native = false) {
         }
     }
 
+    /**
+     * Decodes HES string to UTF-8 text.
+     * @param hexdata
+     * @returns {string}
+     */
     this.doHex2String = function(hexdata) {
         let hexstr = hexdata.toString();
         let str = "";
@@ -127,6 +226,9 @@ function Facefull(native = false) {
         return str;
     }
 
+    /**
+     * Close all opened subpages.
+     */
     this.doCloseAllSubpages = function() {
         for (let i in this.Subpages) {
             if (this.Subpages.hasOwnProperty(i))
@@ -149,10 +251,16 @@ function Facefull(native = false) {
         this.doCloseGlobalPopupMenu();
     }
 
+    /**
+     * Close all popup menus.
+     */
     this.doCloseGlobalPopupMenu = function() {
         if (this.LastGlobalOpenedPopupMenu) this.LastGlobalOpenedPopupMenu.doClosePopupMenu();
     }
 
+    /**
+     * Uodate scrollbars on all scrollboxes.
+     */
     this.doUpdateAllScrollboxes = function() {
         for (let i in this.Scrollboxes) {
             if (this.Scrollboxes.hasOwnProperty(i))
@@ -185,6 +293,10 @@ function Facefull(native = false) {
         }, this);
     }
 
+    /**
+     * Starts Facefull initialization.
+     * @param disableContextmenu
+     */
     this.doInit = function(disableContextmenu = false) {
         let subpages = document.querySelectorAll(".Subpage");
         for (let i = 0; i < subpages.length; i++) {
@@ -264,7 +376,16 @@ function Facefull(native = false) {
             this.doUpdateAllScrollboxes();
         }, this));
 
+        /**
+         * Theme management system that provides the easiest way to control application styles.
+         * @type {ThemeManager}
+         */
         this.Themes = new ThemeManager();
+
+        /**
+         * Viewport manager system that provides control display modes on different devices.
+         * @type {ViewportManager}
+         */
         this.Viewports = new ViewportManager();
 
         if (native) {
@@ -281,15 +402,28 @@ function Facefull(native = false) {
 
 /*===================== ThemeManager =====================*/
 
+/**
+ * Theme manager class.
+ * @constructor
+ */
 function ThemeManager() {
     this.table = [];
     this.current = 0;
     this.onThemeApply = function(id){}
 
+    /**
+     * Adds a theme with the given CSS filename and name to the theme table. Default theme will be added automatically during initialization with index 0.
+     * @param themename
+     * @param filenames
+     */
     this.doAttachThemeFile = function(themename, filenames = []) {
         this.table.push({themename: themename, filenames: filenames});
     }
 
+    /**
+     * Apply theme with specified id.
+     * @param id
+     */
     this.doApplyTheme = function(id) {
         if (this.current === id) return;
         if (this.current) {
@@ -305,15 +439,27 @@ function ThemeManager() {
         }
         this.onThemeApply(id);
     }
-    
+
+    /**
+     * Sets the name of default theme.
+     * @param name
+     */
     this.setDefaultThemeName = function(name) {
         this.table[0] = {themename: name, filename: ""};
     }
 
+    /**
+     * Get last applied theme id.
+     * @returns {number|*}
+     */
     this.getCurrentThemeID = function() {
         return this.current;
     }
 
+    /**
+     * Get contents of theme table.
+     * @returns {array}
+     */
     this.getThemeList = function() {
         return this.table;
     }
@@ -323,6 +469,10 @@ function ThemeManager() {
 
 /*===================== ViewportManager =====================*/
 
+/**
+ * Viewport manager class.
+ * @constructor
+ */
 function ViewportManager() {
     this.ruletable = [];
     this.devdeftable = [];
@@ -338,14 +488,29 @@ function ViewportManager() {
         return activeflag;
     }
 
+    /**
+     * Adds new device definition with specified name. An execution rule contains information about the conditions under which it will be executed. You can set a specific screen width and height, as well as the operating system of the device.
+     * @param name
+     * @param width
+     * @param height
+     * @param os
+     */
     this.doAddDeviceDefinition = function(name, width, height = "none", os = "none") {
         this.devdeftable[name] = {width: width, height: height, os: os};
     }
 
+    /**
+     * Allows you to associate a device definition with a callback function
+     * @param devdefname
+     * @param rulecallback
+     */
     this.doAddRule = function(devdefname, rulecallback) {
         this.ruletable.push({devdefname: devdefname, action: rulecallback});
     }
 
+    /**
+     * Starts condition processing and calls appropriate handlers.
+     */
     this.doProcessRules = function() {
         this.ruletable.forEach(rule => {
             let devdef = this.devdeftable[rule.devdefname];
@@ -358,11 +523,19 @@ function ViewportManager() {
 
 /*===================== Subpage =====================*/
 
+/**
+ * Subpage UI element class. Use data-subpagename HTML tag to set element name.
+ * @param e
+ * @constructor
+ */
 function Subpage(e) {
     this.esubpage = e;
     this.ebackbutton = this.esubpage.children[0].children[0];
     this.opened = false;
 
+    /**
+     * Closes the subpage.
+     */
     this.doSubpageClose = function() {
         if (!this.opened) return;
         this.esubpage.classList.remove("Show");
@@ -370,6 +543,9 @@ function Subpage(e) {
         this.opened = false;
     };
 
+    /**
+     * Opens the subpage.
+     */
     this.doSubpageOpen = function() {
         if (this.opened) return;
         this.esubpage.classList.add("Show");
@@ -378,6 +554,10 @@ function Subpage(e) {
         this.opened = true;
     };
 
+    /**
+     * Checks if subpage opened.
+     * @returns {boolean|*}
+     */
     this.isOpened = function() {
         return this.opened;
     };
@@ -389,6 +569,11 @@ function Subpage(e) {
 
 /*===================== Scrollbox =====================*/
 
+/**
+ * Scrollbox UI element class. Use data-scrollboxname HTML tag to set element name.
+ * @param e
+ * @constructor
+ */
 function Scrollbox(e) {
     this.escrollbox = e;
     this.escrolldata = e.children[0];
@@ -419,6 +604,9 @@ function Scrollbox(e) {
         }
     };
 
+    /**
+     * Update scrollbar on this scrollbox.
+     */
     this.doUpdateScrollbar = function() {
         if (this.escrollbox.offsetHeight < this.escrolldata.offsetHeight) {
             if (this.escrollbarblock !== undefined) {
@@ -535,11 +723,18 @@ function Scrollbox(e) {
         }
     };
 
+    /**
+     * Sets srollbar to end position.
+     */
     this.doScrollToEnd = function() {
         this.escrollbartrack.style.marginTop = this.escrollbox.offsetHeight - this.escrollbartrack.offsetHeight + "px";
         this.escrolldata.style.marginTop = -this.escrollbartrack.offsetTop * (this.escrolldata.offsetHeight-this.escrollbox.offsetHeight)/(this.escrollbox.offsetHeight-this.escrollbartrack.offsetHeight) + "px";
     }
 
+    /**
+     * Sets scrollbar to specified position.
+     * @param position
+     */
     this.setScrollPosition = function(position) {
         let dx = 0;
         if (this.escrollbartrack !== undefined)
@@ -551,11 +746,19 @@ function Scrollbox(e) {
         this.doMoveScrollbar(this.escrollbox.offsetHeight);
     }
 
+    /**
+     * Checks if scrollbar is at its end position.
+     * @returns {boolean}
+     */
     this.isScrollOnEnd = function() {
         if (this.escrollbartrack === undefined) return true;
         return this.escrollbartrack.offsetTop+this.escrollbartrack.offsetHeight === this.escrollbox.offsetHeight;
     }
-    
+
+    /**
+     * Get scrollbox object.
+     * @returns {*}
+     */
     this.getScrollbox = function () {
         return this.escrollbox;
     };
@@ -570,6 +773,11 @@ function Scrollbox(e) {
 
 /*===================== Combobox =====================*/
 
+/**
+ * Combobox UI element class. Use data-comboboxname HTML tag to set element name.
+ * @param e
+ * @constructor
+ */
 function Combobox(e) {
     this.ecombobox = e;
     this.ecomboboxtitle = e.children[0].children[0];
@@ -587,6 +795,11 @@ function Combobox(e) {
         this.ecombobox.classList.remove("Opened");
     };
 
+    /**
+     * Sets combobox default title.
+     * @param title
+     * @param caption
+     */
     this.doSetComboboxTitle = function(title, caption) {
         this.ecomboboxtitle.innerHTML = title;
         this.ecomboboxtitle.setAttribute("data-caption", caption);
@@ -609,16 +822,29 @@ function Combobox(e) {
         }
     };
 
+    /**
+     * Choose specified combobox element.
+     * @param state
+     */
     this.setState = function(state) {
         this.state = state;
         this.onChangeState(this.state);
         this.doSetComboboxTitle(this.ecomboboxdata.children[state].innerHTML, this.ecomboboxdata.children[state].getAttribute("data-caption"));
     };
 
+    /**
+     * Get current combobox element.
+     * @returns {number|*}
+     */
     this.getState = function() {
         return this.state;
     };
 
+    /**
+     * Add item to the combobox list.
+     * @param title
+     * @param caption
+     */
     this.doAddItem = function(title, caption = "") {
         let item = document.createElement("li");
         item.innerHTML = title;
@@ -626,6 +852,9 @@ function Combobox(e) {
         this.ecomboboxdata.appendChild(item);
     };
 
+    /**
+     * Clear the combobox list.
+     */
     this.doClear = function() {
         this.ecomboboxtitle.innerHTML = "";
         this.ecomboboxdata.innerHTML = "";
@@ -636,6 +865,11 @@ function Combobox(e) {
 
 /*===================== MainMenu =====================*/
 
+/**
+ * Main menu UI element class.
+ * @param e
+ * @constructor
+ */
 function MainMenu(e) {
     this.emainmenu = e;
     this.currentmenuitem = this.emainmenu.children[0];
@@ -659,11 +893,20 @@ function MainMenu(e) {
         this.doPageOpen(event.target);
     }
 
+    /**
+     * Open page specified by name.
+     * @param pname
+     */
     this.doPageOpenByName = function(pname) {
         for (let i = 0; i < this.emainmenu.children.length; i++)
             if (this.emainmenu.children[i].getAttribute("data-pagename").toLowerCase() === pname) this.doPageOpen(this.emainmenu.children[i]);
     }
 
+    /**
+     * Checks if the page is open.
+     * @param id
+     * @returns {boolean}
+     */
     this.isPageOpened = function(id) {
         return this.currentpage.id === "P"+id;
     }
@@ -677,6 +920,17 @@ function MainMenu(e) {
 
 /*===================== Alert =====================*/
 
+/**
+ * Show an alert window.
+ * @param caption
+ * @param text
+ * @param type
+ * @param buttons
+ * @param callbacks
+ * @param captionlid
+ * @param textlid
+ * @constructor
+ */
 function AlertShow(caption, text, type = "info", buttons = "OK", callbacks = [], captionlid = "", textlid = "") {
     document.getElementById("AE").classList.remove("Warning");
     document.getElementById("AE").classList.remove("Error");
@@ -732,6 +986,11 @@ function AlertShow(caption, text, type = "info", buttons = "OK", callbacks = [],
     document.getElementsByClassName("GlobalArea")[0].classList.add("Blur");
 }
 
+/**
+ * Show custom alert.
+ * @param eid
+ * @constructor
+ */
 function AlertShowCustom(eid) {
     let e = document.getElementById(eid);
     facefull.OverlayZIndex += 5;
@@ -742,6 +1001,11 @@ function AlertShowCustom(eid) {
     document.getElementsByClassName("GlobalArea")[0].classList.add("Blur");
 }
 
+/**
+ * Hide custom alert.
+ * @param eid
+ * @constructor
+ */
 function AlertHideCustom(eid) {
     let e = document.getElementById(eid);
     facefull.OverlayZIndex -= 5;
@@ -764,6 +1028,11 @@ function AlertHideCustom(eid) {
 
 /*===================== Progressbar =====================*/
 
+/**
+ * Set position of progress bar specified by element id (pbid).
+ * @param pbid
+ * @param pos
+ */
 function setProgressbarPosition(pbid, pos) {
     if (pos > 100) pos = 100;
     else if (pos < 0) pos = 0;
@@ -772,6 +1041,11 @@ function setProgressbarPosition(pbid, pos) {
 
 /*===================== Popup Menu =====================*/
 
+/**
+ * Popup menu UI element class. Use data-popupmenu HTML tag to set element name.
+ * @param e
+ * @constructor
+ */
 function PopupMenu(e) {
     this.epmtarget = e;
     this.epm = document.getElementById(this.epmtarget.getAttribute("data-popupmenu"));
@@ -865,6 +1139,10 @@ function PopupMenu(e) {
         this.epm.style.display = "none";
     }
 
+    /**
+     * Checks if the popup menu is open.
+     * @returns {boolean}
+     */
     this.isOpened = function() {
         return this.epm.style.display === "block";
     }
@@ -877,6 +1155,11 @@ function PopupMenu(e) {
 
 /*===================== Tooltip =====================*/
 
+/**
+ * Tooltip UI element class.
+ * @param e
+ * @constructor
+ */
 function Tooltip(e) {
     this.etooltiptarget = e;
     this.edefaulttooltip = document.getElementById("TT");
@@ -964,6 +1247,13 @@ function Tooltip(e) {
 
 /*===================== Pulse chart =====================*/
 
+/**
+ * Create pulse chart UI element for HTML element with specified id.
+ * @param eid
+ * @param values
+ * @param labels
+ * @param data
+ */
 function doCreatePulseChart(eid, values, labels, data = []) {
     this.e = document.getElementById(eid);
     this.e.innerHTML = "";
@@ -995,6 +1285,12 @@ function doCreatePulseChart(eid, values, labels, data = []) {
 
 /*===================== List =====================*/
 
+/**
+ * List UI element class. Use data-listname HTML tag to set element name.
+ * @param e
+ * @param mode
+ * @constructor
+ */
 function List(e, mode = "list") {
     this.elist = e;
     this.selectable = this.elist.classList.contains("Selectable");
@@ -1018,6 +1314,10 @@ function List(e, mode = "list") {
         }
     }
 
+    /**
+     * Select specified item in the list.
+     * @param sid
+     */
     this.doSelect = function(sid) {
         if (sid >= 0 && sid < this.elist.children.length && this.elist.children[sid].classList.contains("Disabled")) {
             this.onSelect(sid);
@@ -1031,6 +1331,12 @@ function List(e, mode = "list") {
         }
     }
 
+    /**
+     * Add new item to the list.
+     * @param data
+     * @param level
+     * @param flags
+     */
     this.doAdd = function(data = [], level = 0, flags = {checkbox: "none", action: "none"}) {
         let eli = this.mode==="picker"?document.createElement("div"):document.createElement("li");
         if (this.mode === "picker") {
@@ -1232,19 +1538,34 @@ function List(e, mode = "list") {
         this.onOpenCloseSubItems(indx, eaction.classList.contains("Opened"));
     }
 
+    /**
+     * Clear the list.
+     */
     this.doClear = function() {
         this.elist.innerHTML = "";
         this.itemtree = [];
     }
 
+    /**
+     * Checks if list is empty.
+     * @returns {boolean}
+     */
     this.isEmpty = function() {
         return this.itemtree.length === 0;
     }
 
+    /**
+     * Get id of current selected item (for selectable list).
+     * @returns {null|*}
+     */
     this.getState = function() {
         return this.sid
     }
 
+    /**
+     * Get list item tree.
+     * @returns {array|*}
+     */
     this.getItemTree = function() {
         return this.itemtree;
     }
@@ -1253,6 +1574,10 @@ function List(e, mode = "list") {
         return this.elist.children.length;
     }
 
+    /**
+     * Get current selected item (for selectable list).
+     * @returns {*|null}
+     */
     this.getSelectedElement = function() {
         return this.sid !== null && this.sid >= 0?this.elist.children[this.sid]:null;
     }
@@ -1262,6 +1587,11 @@ function List(e, mode = "list") {
 
 /*===================== DropArea =====================*/
 
+/**
+ * DropArea UI element class. Use data-dropname HTML tag to set element name.
+ * @param e
+ * @constructor
+ */
 function DropArea(e) {
     this.eda = e;
     this.onFilesCaptured = function(filedata) {};
@@ -1296,6 +1626,11 @@ function DropArea(e) {
 
 /*===================== Tabs =====================*/
 
+/**
+ * Tabs UI element class. Use data-tabsname HTML tag to set element name.
+ * @param e
+ * @constructor
+ */
 function Tabs(e) {
     this.etabs = e;
     this.elasttab = null;
@@ -1356,6 +1691,10 @@ function Tabs(e) {
         this.etabs.addEventListener("touchmove", bind(this.onTouchMove, this));
     }
 
+    /**
+     * Select tab with specified id.
+     * @param num
+     */
     this.doSelectTab = function(num) {
         this.selected = num;
         if (num === -1) {
@@ -1366,6 +1705,10 @@ function Tabs(e) {
         this.etabs.children[num].onclick();
     }
 
+    /**
+     * Get id of current selected tab.
+     * @returns {number|*}
+     */
     this.getSelectedTab = function() {
         return this.selected;
     }
@@ -1375,6 +1718,11 @@ function Tabs(e) {
 
 /*===================== Circlebar =====================*/
 
+/**
+ * Circle bar UI element class. Use data-circlebarname HTML tag to set element name.
+ * @param e
+ * @constructor
+ */
 function Circlebar(e) {
     this.ecb = e;
     this.ns = "http://www.w3.org/2000/svg";
@@ -1382,6 +1730,11 @@ function Circlebar(e) {
     this.ecbline = document.createElementNS(this.ns, "circle");
     this.elabel = document.createElement("div");
 
+    /**
+     * Set position of circle bar.
+     * @param pos
+     * @param label
+     */
     this.setPos = function(pos, label = true) {
         if (pos > 100) pos = 100;
         else if (pos < 0) pos = 0;
@@ -1427,6 +1780,11 @@ function Circlebar(e) {
 
 /*===================== Counter =====================*/
 
+/**
+ * Counter UI element class. Use data-countername HTML tag to set element name.
+ * @param e
+ * @constructor
+ */
 function Counter(e) {
     this.ec = e;
     this.ecback = e.children[0];
@@ -1441,6 +1799,9 @@ function Counter(e) {
     this.onBeforeCount = function(direction){return true;}
     this.onAfterCount = function(direction){}
 
+    /**
+     * Decrement counter.
+     */
     this.doCountBack = function() {
         if (!this.onBeforeCount(-1)) return;
         this.value--;
@@ -1466,6 +1827,9 @@ function Counter(e) {
         this.backtimeout = null;
     }
 
+    /**
+     * Increment counter.
+     */
     this.doCountForward = function() {
         if (!this.onBeforeCount(1)) return;
         this.value++
@@ -1495,6 +1859,11 @@ function Counter(e) {
         this.setValue(this.ecvalue.value);
     }
 
+    /**
+     * Set counter value.
+     * @param value
+     * @returns {boolean}
+     */
     this.setValue = function(value) {
         if (!value.toString().length) value = 0;
         if (Number.isNaN(parseInt(value))) {
@@ -1510,6 +1879,10 @@ function Counter(e) {
         this.onAfterCount();
     }
 
+    /**
+     * Get counter value.
+     * @returns {number|number|*}
+     */
     this.getValue = function() {
         return this.value;
     }
@@ -1535,6 +1908,11 @@ function Counter(e) {
 
 /*===================== Counter =====================*/
 
+/**
+ * Hotkey manager UI element class. Use data-hotkeyholdername HTML tag to set element name.
+ * @param e
+ * @constructor
+ */
 function HotkeyHolder(e) {
     this.ehh = e;
     this.modkeys = {shift: false, ctrl: false, alt: false};
@@ -1573,6 +1951,9 @@ function HotkeyHolder(e) {
         this.modkeys = {shift: false, ctrl: false, alt: false};
     }
 
+    /**
+     * Reset hotkey.
+     */
     this.doReset = function() {
         this.ehh.innerHTML = "<div>N/A</div>"
         this.doResetModKeys();
@@ -1641,6 +2022,13 @@ function HotkeyHolder(e) {
         }
     }
 
+    /**
+     * Set hotkey.
+     * @param keychar
+     * @param shiftmod
+     * @param ctrlmod
+     * @param altmod
+     */
     this.setHotkey = function(keychar, shiftmod = false, ctrlmod = false, altmod = false) {
         this.doResetModKeys();
         this.hotkey = {mods: this.modkeys, key: ''};
@@ -1661,6 +2049,10 @@ function HotkeyHolder(e) {
         this.ehh.innerHTML = modstr + '<div>'+keychar+'</div>';
     }
 
+    /**
+     * Get current hotkey.
+     * @returns {*}
+     */
     this.getHotkey = function() {
         return this.hotkey;
     }

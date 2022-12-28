@@ -1,6 +1,6 @@
 {
   "name": "facefull",
-  "version": "0.9.7",
+  "version": "0.9.8",
   "description": "",
   "main": "dist/facefull.js",
   "scripts": {
@@ -10,5 +10,6 @@
   "author": "NickWare Group",
   "license": "MIT",
   "dependencies": {
+    "docdash": "^2.0.0"
   }
 }

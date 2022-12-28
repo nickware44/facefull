@@ -1,0 +1,18 @@
+{
+  "opts": {
+    "template": "docs/template",
+    "recurse": true,
+    "verbose": true
+  },
+  "docdash": {
+    "search": true,
+    "menu": {
+      "Facefull page": {
+        "href":"https://nickware.group/products/facefull",
+        "target":"_blank",
+        "class":"menu-item",
+        "id":"website_link"
+      }
+    }
+  }
+}
