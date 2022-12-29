@@ -27,6 +27,8 @@ window.addEventListener('load', function () {
 
 [Learn more on our wiki](https://github.com/nickware44/facefull/wiki/)
 
+[API documentation](https://nickware.group/repository/products/ff/docs/)
+
 ----------------------------------------------------------------
 ### AVAILABLE UI COMPONENTS
 - [Window](https://github.com/nickware44/facefull/wiki/Window)
