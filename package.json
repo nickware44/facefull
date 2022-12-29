@@ -4,7 +4,8 @@
   "description": "",
   "main": "dist/facefull.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate-docs": "jsdoc src/facefull.js -d docs-built -c docs/jsdoc.json -R docs/README.md"
   },
   "keywords": [],
   "author": "NickWare Group",
