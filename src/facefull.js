@@ -2,7 +2,7 @@
 // Name:        facefull.js
 // Purpose:     Main Facefull module
 // Author:      Nickolay Babbysh
-// Version:     0.9.8
+// Version:     0.9.9
 // Copyright:   (c) NickWare Group
 // Licence:     MIT
 /////////////////////////////////////////////////////////////////////////////
@@ -126,6 +126,7 @@ function Facefull(native = false) {
     this.EventTable = [];
     this.Themes = null;
     this.Viewports = null;
+    this.Locales = null;
     this.native = native;
 
     /**
@@ -388,6 +389,8 @@ function Facefull(native = false) {
          */
         this.Viewports = new ViewportManager();
 
+        this.Locales = new LocaleManager();
+
         if (native) {
             if (disableContextmenu) {
                 document.addEventListener('contextmenu', function (event) {
@@ -518,6 +521,52 @@ function ViewportManager() {
                 rule.action(this.isRuleActive(devdef));
             }
         });
+    }
+}
+
+/*===================== LocaleManager =====================*/
+
+function LocaleManager() {
+    this.table = [];
+    this.dictionary = [];
+    this.current = 0;
+    this.onLocaleApply = function(id){}
+
+    this.doAttachLocaleFile = function(localename, filenames = []) {
+        this.table.push({localename: localename, filenames: filenames});
+        this.dictionary[this.table.length-1] = [];
+    }
+
+    this.doAddDictionary = function(localename, id, value) {
+        this.dictionary[localename][id] = value;
+    }
+
+    this.doApplyLocale = function(id) {
+        if (this.current === id) return;
+        if (this.current) {
+            this.table[this.current].filenames.forEach(filename => {
+                facefull.doCSSUnload(filename);
+            });
+        }
+        this.current = id;
+        if (id) {
+            this.table[id].filenames.forEach(filename => {
+                facefull.doCSSLoad(filename);
+            });
+        }
+        this.onLocaleApply(id);
+    }
+
+    this.getValueFromDictionary = function(id) {
+        return this.dictionary[this.current][id];
+    }
+
+    this.getCurrentLocaleID = function() {
+        return this.current;
+    }
+
+    this.getLocaleList = function() {
+        return this.table;
     }
 }
 
