@@ -428,7 +428,7 @@ function ThemeManager() {
      * @param id
      */
     this.doApplyTheme = function(id) {
-        if (this.current === id) return;
+        if (this.current === id || id < 0) return;
         if (this.current) {
             this.table[this.current].filenames.forEach(filename => {
                 facefull.doCSSUnload(filename);
@@ -526,45 +526,75 @@ function ViewportManager() {
 
 /*===================== LocaleManager =====================*/
 
+/**
+ * Locale manager class.
+ * @constructor
+ */
 function LocaleManager() {
     this.table = [];
     this.dictionary = [];
-    this.current = 0;
+    this.current = -1;
     this.onLocaleApply = function(id){}
 
+    /**
+     * Adds a locale file with the given CSS filename and name to the locale table.
+     * @param localename
+     * @param filenames
+     */
     this.doAttachLocaleFile = function(localename, filenames = []) {
         this.table.push({localename: localename, filenames: filenames});
-        this.dictionary[this.table.length-1] = [];
+        this.dictionary[localename] = [];
     }
 
-    this.doAddDictionary = function(localename, id, value) {
+    /**
+     * Adds localized string to dictionary with specified localename and  id.
+     * @param localename
+     * @param id
+     * @param value
+     */
+    this.doAddToDictionary = function(localename, id, value) {
         this.dictionary[localename][id] = value;
     }
 
+    /**
+     * Apply locale with specified id.
+     * @param id
+     */
     this.doApplyLocale = function(id) {
-        if (this.current === id) return;
-        if (this.current) {
+        if (this.current === id || id < 0) return;
+        if (this.current >= 0) {
             this.table[this.current].filenames.forEach(filename => {
                 facefull.doCSSUnload(filename);
             });
         }
         this.current = id;
-        if (id) {
-            this.table[id].filenames.forEach(filename => {
-                facefull.doCSSLoad(filename);
-            });
-        }
+        this.table[id].filenames.forEach(filename => {
+            facefull.doCSSLoad(filename);
+        });
         this.onLocaleApply(id);
     }
 
+    /**
+     * Get value from dictionary by id for current locale.
+     * @param id
+     * @returns {*}
+     */
     this.getValueFromDictionary = function(id) {
-        return this.dictionary[this.current][id];
+        return this.dictionary[this.table[this.current].localename][id];
     }
 
+    /**
+     * Get id of current locale.
+     * @returns {number|*}
+     */
     this.getCurrentLocaleID = function() {
         return this.current;
     }
 
+    /**
+     * Get list of locales.
+     * @returns {array}
+     */
     this.getLocaleList = function() {
         return this.table;
     }

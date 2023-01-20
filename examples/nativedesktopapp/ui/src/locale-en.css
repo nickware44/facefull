@@ -1,0 +1,69 @@
+/* en locale file */
+
+*[data-caption="P1-H"]:before {
+    content: "Panel 1 header label";
+}
+
+*[data-caption="P1-S1-H"]:before {
+     content: "Language";
+}
+
+*[data-caption="P1-S2-H"]:before {
+    content: "Theme";
+}
+
+*[data-caption="P1-S3-H"]:before {
+    content: "Hotkey";
+}
+
+*[data-caption="P1-S3-D"]:before {
+    content: "Set hotkey using 0-9, A-Z keys and Shift, Ctrl and Alt modifiers. Try to use it!";
+}
+
+*[data-caption="P1-S4-H"]:before {
+    content: "Item picker";
+}
+
+*[data-caption="P2-H"]:before {
+    content: "Panel 2 header label";
+}
+
+*[data-caption="P2-S1-H"]:before {
+    content: "Counter";
+}
+
+*[data-caption="P2-S2-H"]:before {
+    content: "Edit";
+}
+
+*[data-caption="P2-S3-H"]:before {
+    content: "Edit disabled";
+}
+
+*[data-caption="P2-B1"]:before {
+    content: "Alert info";
+}
+
+*[data-caption="P2-B2"]:before {
+    content: "Alert error";
+}
+
+*[data-caption="P2-S4-H"]:before {
+    content: "Switches";
+}
+
+*[data-caption="P2-S4-Sw1"]:before {
+    content: "Switch 1";
+}
+
+*[data-caption="P2-S4-Sw2"]:before {
+    content: "Switch 2";
+}
+
+*[data-caption="P2-S4-Sw3"]:before {
+    content: "Switch 3";
+}
+
+*[data-caption="P2-S4-Sw4"]:before {
+    content: "Disabled switch";
+}

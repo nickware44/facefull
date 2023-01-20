@@ -8,8 +8,40 @@ window.addEventListener('load', function () {
     App();
 });
 
+function doFillDictionary() {
+    facefull.Locales.doAddToDictionary("English", "P2E", "Disabled");
+    facefull.Locales.doAddToDictionary("English", "IPC0", "Selected color: yellow");
+    facefull.Locales.doAddToDictionary("English", "IPC1", "Selected color: light blue");
+    facefull.Locales.doAddToDictionary("English", "IPC2", "Selected color: green");
+    facefull.Locales.doAddToDictionary("English", "IPC3", "Selected color: red");
+    facefull.Locales.doAddToDictionary("English", "IPC4", "Selected color: purple");
+    facefull.Locales.doAddToDictionary("English", "IPC5", "Selected color: gray");
+
+    facefull.Locales.doAddToDictionary("Russian", "P2E", "Отключено");
+    facefull.Locales.doAddToDictionary("Russian", "IPC0", "Выбранный цвет: жёлтый");
+    facefull.Locales.doAddToDictionary("Russian", "IPC1", "Выбранный цвет: светло-синий");
+    facefull.Locales.doAddToDictionary("Russian", "IPC2", "Выбранный цвет: зелёный");
+    facefull.Locales.doAddToDictionary("Russian", "IPC3", "Выбранный цвет: красный");
+    facefull.Locales.doAddToDictionary("Russian", "IPC4", "Выбранный цвет: фиолетовый");
+    facefull.Locales.doAddToDictionary("Russian", "IPC5", "Выбранный цвет: серый");
+
+    facefull.Locales.doAddToDictionary("German", "P2E", "Behinderte");
+    facefull.Locales.doAddToDictionary("German", "IPC0", "Ausgewählte Farbe: gelb");
+    facefull.Locales.doAddToDictionary("German", "IPC1", "Ausgewählte Farbe: hellblau");
+    facefull.Locales.doAddToDictionary("German", "IPC2", "Ausgewählte Farbe: grün");
+    facefull.Locales.doAddToDictionary("German", "IPC3", "Ausgewählte Farbe: rot");
+    facefull.Locales.doAddToDictionary("German", "IPC4", "Ausgewählte Farbe: violett");
+    facefull.Locales.doAddToDictionary("German", "IPC5", "Ausgewählte Farbe: grau");
+}
+
 function App() {
     facefull.doInit();
+    facefull.Locales.doAttachLocaleFile("English", ["src/locale-en.css"]);
+    facefull.Locales.doAttachLocaleFile("Russian", ["src/locale-ru.css"]);
+    facefull.Locales.doAttachLocaleFile("German", ["src/locale-de.css"]);
+
+    doFillDictionary();
+
     facefull.Themes.setDefaultThemeName("Dark theme");
     facefull.Themes.doAttachThemeFile("Light theme", ["facefull/theme-light.min.css", "src/style-light.css"]);
 
@@ -109,6 +141,16 @@ function App() {
     doLoadList2();
     doLoadList3();
 
+    facefull.Locales.getLocaleList().forEach(locale => {
+        facefull.Comboboxes["LD"].doAddItem(locale.localename);
+    });
+    facefull.Comboboxes["LD"].onChangeState = function(state) {
+        facefull.Locales.doApplyLocale(state);
+        document.getElementById("P2E").value = facefull.Locales.getValueFromDictionary("P2E");
+        document.getElementById("IPC").innerHTML = facefull.Locales.getValueFromDictionary("IPC"+facefull.ItemPickers["IP1"].getState());
+    };
+    facefull.Comboboxes["LD"].setState(0);
+
     facefull.Themes.getThemeList().forEach(theme => {
         facefull.Comboboxes["SD"].doAddItem(theme.themename);
     });
@@ -125,28 +167,7 @@ function App() {
     }
 
     facefull.ItemPickers["IP1"].onSelect = function(id) {
-        let str = "Selected color: ";
-        switch (id) {
-            case 0:
-                str += "yellow";
-                break;
-            case 1:
-                str += "light blue";
-                break;
-            case 2:
-                str += "green";
-                break;
-            case 3:
-                str += "red";
-                break;
-            case 4:
-                str += "purple";
-                break;
-            case 5:
-                str += "gray";
-                break;
-        }
-        document.getElementById("IPC").innerHTML = str;
+        document.getElementById("IPC").innerHTML = facefull.Locales.getValueFromDictionary("IPC"+id);
     }
     facefull.ItemPickers["IP1"].doSelect(0);
 

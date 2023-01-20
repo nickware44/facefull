@@ -1,0 +1,69 @@
+/* de locale file */
+
+*[data-caption="P1-H"]:before {
+    content: "Panel 1";
+}
+
+*[data-caption="P1-S1-H"]:before {
+    content: "Sprache";
+}
+
+*[data-caption="P1-S2-H"]:before {
+    content: "Thema";
+}
+
+*[data-caption="P1-S3-H"]:before {
+    content: "Hotkey";
+}
+
+*[data-caption="P1-S3-D"]:before {
+    content: "Stellen Sie den Hotkey mit den Tasten 0-9, A-Z und Umschalt-, Strg- und Alt-Modifikatoren ein. Versuchen Sie es zu benutzen!";
+}
+
+*[data-caption="P1-S4-H"]:before {
+    content: "Artikelauswahl";
+}
+
+*[data-caption="P2-H"]:before {
+    content: "Panel 2";
+}
+
+*[data-caption="P2-S1-H"]:before {
+    content: "Zähler";
+}
+
+*[data-caption="P2-S2-H"]:before {
+    content: "Bearbeiten";
+}
+
+*[data-caption="P2-S3-H"]:before {
+    content: "Bearbeiten deaktiviert";
+}
+
+*[data-caption="P2-B1"]:before {
+    content: "Alert info";
+}
+
+*[data-caption="P2-B2"]:before {
+    content: "Alert error";
+}
+
+*[data-caption="P2-S4-H"]:before {
+    content: "Schalter";
+}
+
+*[data-caption="P2-S4-Sw1"]:before {
+    content: "Schalter 1";
+}
+
+*[data-caption="P2-S4-Sw2"]:before {
+    content: "Schalter 2";
+}
+
+*[data-caption="P2-S4-Sw3"]:before {
+    content: "Schalter 3";
+}
+
+*[data-caption="P2-S4-Sw4"]:before {
+    content: "Deaktivierter Schalter";
+}

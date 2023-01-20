@@ -121,21 +121,28 @@
                         <div class="Box PageBody Scrolling" data-scrollboxname="PSB">
                             <div class="Scrolldata">
                                 <div class="Box Panel OfV">
-                                    <div class="Label Header">Panel 1 header label</div>
+                                    <div class="Label Header" data-caption="P1-Header"></div>
                                     <div class="Box SettingsBlock">
-                                        <div class="Label">Theme</div>
+                                        <div class="Label" data-caption="P1-S1-H"></div>
+                                        <div class="Combobox Rounded" data-comboboxname="LD">
+                                            <div class="ComboboxHeader"><div></div></div>
+                                            <ul></ul>
+                                        </div>
+                                    </div>
+                                    <div class="Box SettingsBlock">
+                                        <div class="Label" data-caption="P1-S2-H"></div>
                                         <div class="Combobox Rounded" data-comboboxname="SD">
                                             <div class="ComboboxHeader"><div>Choose an item</div></div>
                                             <ul></ul>
                                         </div>
                                     </div>
                                     <div class="Box SettingsBlock">
-                                        <div class="Label">Hotkey</div>
-                                        <div class="Label">Set hotkey using 0-9, A-Z keys and Shift, Ctrl and Alt modifiers. Try to use it!</div>
+                                        <div class="Label" data-caption="P1-S3-H"></div>
+                                        <div class="Label" data-caption="P1-S3-D"></div>
                                         <div class="HotkeyHolder Rounded" data-hotkeyholdername="HH1"></div>
                                     </div>
                                     <div class="Box SettingsBlock">
-                                        <div class="Label">Item picker</div>
+                                        <div class="Label" data-caption="P1-S4-H"></div>
                                         <div class="ItemPicker Rounded Colors" data-itempickername="IP1">
                                             <div></div>
                                             <div></div>
@@ -148,8 +155,9 @@
                                     </div>
                                 </div>
                                 <div class="Box Panel OfV">
-                                    <div class="Label Header">Panel 2 header label</div>
+                                    <div class="Label Header" data-caption="P2-H"></div>
                                     <div class="Box SettingsBlock">
+                                        <div class="Label" data-caption="P2-S1-H"></div>
                                         <div class="Counter Rounded Editable" data-countername="CV1">
                                             <div class="CountBack"></div>
                                             <label class="CountValue"><input type="text" value="0"></label>
@@ -158,36 +166,36 @@
                                         <div></div>
                                     </div>
                                     <div class="Box SettingsBlock">
-                                        <div class="Label">Edit</div>
+                                        <div class="Label" data-caption="P2-S2-H"></div>
                                         <label><input type="text" class="Edit Rounded"></label>
                                     </div>
                                     <div class="Box SettingsBlock">
-                                        <div class="Label">Edit disabled</div>
-                                        <label><input type="text" class="Edit Rounded Disabled" value="Disabled" disabled></label>
+                                        <div class="Label" data-caption="P2-S3-H"></div>
+                                        <label><input id="P2E" type="text" class="Edit Rounded Disabled" value="" disabled></label>
                                     </div>
                                     <div class="Box SettingsBlock">
-                                        <div class="Button Highlighted Rounded" onclick="doOpenAlertInfo()">Alert info</div>
+                                        <div class="Button Highlighted Rounded" onclick="doOpenAlertInfo()" data-caption="P2-B1"></div>
                                     </div>
                                     <div class="Box SettingsBlock">
-                                        <div class="Button Rounded" onclick="doOpenAlertError()">Alert error</div>
+                                        <div class="Button Rounded" onclick="doOpenAlertError()" data-caption="P2-B2"></div>
                                     </div>
                                     <div class="Box SettingsBlock">
-                                        <div class="Label">Switches</div>
+                                        <div class="Label" data-caption="P2-S4-H"></div>
                                         <div class="ToggleBlock">
                                             <input type="checkbox" id="S1" style="display:none"><label for="S1" class="Toggle"><span></span></label>
-                                            <div class="Label ToggleText">Switch 1</div>
+                                            <div class="Label ToggleText" data-caption="P2-S4-Sw1"></div>
                                         </div>
                                         <div class="ToggleBlock">
                                             <input type="checkbox" id="S2" style="display:none"><label for="S2" class="Toggle"><span></span></label>
-                                            <div class="Label ToggleText">Switch 2</div>
+                                            <div class="Label ToggleText" data-caption="P2-S4-Sw2"></div>
                                         </div>
                                         <div class="ToggleBlock">
                                             <input type="checkbox" id="S3" style="display:none"><label for="S3" class="Toggle"><span></span></label>
-                                            <div class="Label ToggleText">Switch 3</div>
+                                            <div class="Label ToggleText" data-caption="P2-S4-Sw3"></div>
                                         </div>
                                         <div class="ToggleBlock Disabled">
                                             <input type="checkbox" id="S4" style="display:none"><label for="S4" class="Toggle"><span></span></label>
-                                            <div class="Label ToggleText">Disabled switch</div>
+                                            <div class="Label ToggleText" data-caption="P2-S4-Sw4"></div>
                                         </div>
                                     </div>
                                 </div>
