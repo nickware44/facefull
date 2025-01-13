@@ -82,7 +82,7 @@
 
 .Panel1Circlebar2 {
     height: 120px;
-    margin-top: 25px
+    margin-top: 5px
 }
 
 .Panel1Circlebar2 .CircleLine {
@@ -91,33 +91,33 @@
 
 .Panel1Circlebar3 {
     height: 120px;
-    margin-top: 25px
+    margin-top: 5px
 }
 
 .Panel1Circlebar3 .CircleLine {
     stroke: #e8cb39;
 }
 
-.ItemPicker.Colors > div:nth-child(1) {
+.ItemPicker.Colors > div:nth-child(1):after {
     background-color: #e8cb39;
 }
 
-.ItemPicker.Colors > div:nth-child(2) {
+.ItemPicker.Colors > div:nth-child(2):after {
     background-color: #5cd2fd;
 }
 
-.ItemPicker.Colors > div:nth-child(3) {
+.ItemPicker.Colors > div:nth-child(3):after {
     background-color: #45e839;
 }
 
-.ItemPicker.Colors > div:nth-child(4) {
+.ItemPicker.Colors > div:nth-child(4):after {
     background-color: #e83953;
 }
 
-.ItemPicker.Colors > div:nth-child(5) {
+.ItemPicker.Colors > div:nth-child(5):after {
     background-color: #4a39e8;
 }
 
-.ItemPicker.Colors > div:nth-child(6) {
+.ItemPicker.Colors > div:nth-child(6):after {
     background-color: #b7b7b7;
 }

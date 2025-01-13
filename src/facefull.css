@@ -412,7 +412,8 @@ canvas {
     z-index: 1;
     position: relative;
     width: 100%;
-    height: 100%;
+    /*height: 100%;*/
+    height: auto;
 }
 
 /*============================ Page ============================*/
@@ -1128,6 +1129,7 @@ input[type="checkbox"]:not(:checked):not(:indeterminate) + .Checkbox:after {
     background-color: var(--main-component-additional-color);
     position: absolute;
     right: 10px;
+    top: 19px;
 }
 
 .ComboboxHeader > div {
@@ -1138,6 +1140,7 @@ input[type="checkbox"]:not(:checked):not(:indeterminate) + .Checkbox:after {
     overflow: hidden;
     box-sizing: border-box;
     /*-webkit-mask-image: -webkit-gradient(linear, left top, right top, from(rgba(0, 0, 0, 1)), to(rgba(0, 0, 0, 0)));*/
+    top: 0;
 }
 
 .Combobox.Long {
@@ -1300,7 +1303,7 @@ input[type="checkbox"]:not(:checked):not(:indeterminate) + .Checkbox:after {
 }
 
 .Alert .Close:after {
-    content: "\F5AD";
+    content: "\F0156";
 }
 
 .Alert.Warning {
@@ -1860,7 +1863,7 @@ label.Search:before {
 }
 
 .Grid .Panel {
-    height: 100%;
+    /*height: 100%;*/
     margin-top: 5px;
     margin-bottom: 5px;
 }
@@ -1985,6 +1988,7 @@ label.Search:before {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
 .CircleBody {
@@ -2007,6 +2011,9 @@ label.Search:before {
 
 .CirclebarLabel {
     position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .CirclebarLabel:after {
@@ -2140,9 +2147,9 @@ label.Search:before {
 }
 
 .ItemPicker > div {
-    background-color: #000;
-    width: 28px;
-    height: 28px;
+    width: 34px;
+    height: 34px;
+    border: 2px solid var(--itempicker-border-color);
     margin: 0 10px;
     display: flex;
     align-items: center;
@@ -2154,10 +2161,12 @@ label.Search:before {
 
 .ItemPicker > div:after {
     content: '';
-    width: 120%;
-    height: 120%;
-    border: 2px solid var(--itempicker-border-color);
+    background-color: #000;
+    width: 74%;
+    height: 74%;
     position: absolute;
+    top: 4px;
+    left: 4px;
 }
 
 .ItemPicker > div:first-child {
@@ -2168,7 +2177,7 @@ label.Search:before {
     margin-right: 0;
 }
 
-.ItemPicker > div.Selected:after {
+.ItemPicker > div.Selected {
     border: 2px solid var(--main-component-additional-color);
 }
 
