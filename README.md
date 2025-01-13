@@ -1,14 +1,15 @@
 <p align="center">
-  <img width="600" height="200" src="https://nickware.group/repository/products/ff/logo.png">
+  <img width="600" height="200" src="https://nickware.group/repository/products/ff/logonew_t.png">
+   <br>Facefull library
 </p>
-
-[facefull official page](https://nickware.group/products/facefull)
 
 Simple and small cross-platform UI controls JS library.
 
 Not a framework. No dependencies. Just a library.
 
 30+ UI controls (buttons, lists, switches, tabs, scrollboxes, progressbars, etc) based on JS. Build your web apps or native desktop apps with Facefull.
+
+[facefull official page](https://nickware.group/products/facefull)
 
 ----------------------------------------------------------------
 ### LICENCE
@@ -28,6 +29,8 @@ window.addEventListener('load', function () {
 [Learn more on our wiki](https://github.com/nickware44/facefull/wiki/)
 
 [API documentation](https://nickware.group/repository/products/ff/docs/)
+
+[Facefull bridge library for native apps](https://github.com/nickware44/facefull-bridge)
 
 ----------------------------------------------------------------
 ### AVAILABLE UI COMPONENTS
