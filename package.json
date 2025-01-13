@@ -1,6 +1,6 @@
 {
   "name": "facefull",
-  "version": "0.9.8",
+  "version": "1.0.0",
   "description": "",
   "main": "dist/facefull.js",
   "scripts": {
