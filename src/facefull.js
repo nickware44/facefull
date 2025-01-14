@@ -399,6 +399,14 @@ function Facefull(native = false) {
                 }, false);
             }
             this.doWindowHeaderInit();
+            
+            this.doEventHandlerAttach("doConnectQtBridgeEventHandler", function () {
+                bridge.BridgeEventHandler.connect(function(command, data) {
+                    setTimeout(function() {
+                        facefull.doEventHandle(command, data);
+                    }, 1);
+                });
+            })
         }
     }
 }
