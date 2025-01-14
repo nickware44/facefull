@@ -160,7 +160,9 @@ function Facefull(native = false) {
      */
     this.doEventSend = function(comm, data = "") {
         document.title = "0";
-        document.title = comm+"|"+data;
+        setTimeout(function() {
+            document.title = comm+"|"+data;
+        }, 1);
     }
 
     /**
