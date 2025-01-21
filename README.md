@@ -15,6 +15,9 @@ Not a framework. No dependencies. Just a library.
 ### LICENCE
 Facefull library is distributed under the MIT Licence.
 
+
+Facefull contains the [Material Design Icons](https://github.com/Templarian/MaterialDesign-Webfont/tree/master) font, which is licensed under the Apache 2.0 license.
+
 ----------------------------------------------------------------
 ### QUICK START
 Just run `facefullCreate()` or `facefullCreate(true)` (for native desktop app) in your main JS file.
