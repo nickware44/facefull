@@ -158,11 +158,46 @@ function Facefull(native = false) {
      * @param comm
      * @param data
      */
-    this.doEventSend = function(comm, data = "") {
-        document.title = "0";
-        setTimeout(function() {
-            document.title = comm+"|"+data;
-        }, 1);
+    this.doEventSend = function(comm, data = "", not_native_mode = null) {
+        if (this.native) {
+            document.title = "0";
+            setTimeout(function() {
+                document.title = comm+"|"+data;
+            }, 1);
+        } else {
+            if (!not_native_mode) return;
+            
+            switch (not_native_mode.type) {
+                case "backend":
+                {
+                    let sndr = new XMLHttpRequest();
+                    sndr.open("POST", "/bridge/"+comm+"/");
+                    sndr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+                    sndr.onload = () => {
+                        if (sndr.status === 200) {
+                            facefull.doEventHandle(not_native_mode.event_ok, sndr.responseText);
+                        } else {
+                            console.log('Web bridge IO error', sndr.status, sndr.readyState);
+                            facefull.doEventHandle(not_native_mode.event_err);
+                        }
+                    };
+
+                    sndr.onerror = (e) => {
+                        console.log('Web bridge IO error', sndr.status, sndr.readyState);
+                        facefull.doEventHandle(not_native_mode.event_err);
+                    };
+
+                    sndr.send(data);
+                    break;
+                }
+                
+                case "local":
+                {
+                    facefull.doEventHandle(comm, data);
+                    break;
+                }
+            }
+        }
     }
 
     /**
@@ -410,6 +445,13 @@ function Facefull(native = false) {
                 });
             })
         }
+    }
+    
+    /**
+     * Is native mode.
+     */
+    this.isNative = function() {
+        return this.native;
     }
 }
 
