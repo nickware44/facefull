@@ -251,7 +251,18 @@ function Facefull(native = false) {
     }
 
     /**
-     * Decodes HES string to UTF-8 text.
+     * Include script file by filename.
+     * @param file
+     */
+    this.doIncludeScript = function(file) {
+        let script = document.createElement("script");
+        script.setAttribute("src", file);
+        script.setAttribute("charset", "utf-8");
+        document.getElementsByTagName("head")[0].appendChild(script);
+    }
+
+    /**
+     * Decodes HEX string to UTF-8 text.
      * @param hexdata
      * @returns {string}
      */
@@ -446,9 +457,18 @@ function Facefull(native = false) {
             })
         }
     }
-    
+
+    /**
+     * Enable or disable native mode. Can be called before `doInit` method.
+     * @param enable {boolean}
+     */
+    this.setNative = function(enable) {
+        this.native = enable;
+    }
+
     /**
      * Is native mode.
+     * @returns {boolean}
      */
     this.isNative = function() {
         return this.native;
