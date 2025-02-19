@@ -2,7 +2,7 @@
 // Name:        facefull.js
 // Purpose:     Main Facefull module
 // Author:      Nickolay Babbysh
-// Version:     1.0.0
+// Version:     1.0.1
 // Copyright:   (c) NickWare Group
 // Licence:     MIT
 /////////////////////////////////////////////////////////////////////////////
@@ -155,14 +155,53 @@ function Facefull(native = false) {
 
     /**
      * Sends event to the bridge. Uses title tag to pass event name and data across the bridge.
+     * For web applications (when Facefull works in non-native mode) `not_native_mode` is available. It provides the use of the bridge in
+     * `backend` mode (sends data via POST request, not_native_mode = {type: 'backend', event_ok: event_name_on_success, event_err: event_name_on_error}) or
+     * `local` mode (just runs event handler with `comm` name, not_native_mode = {type: 'local'}).
      * @param comm
      * @param data
+     * @param not_native_mode
      */
-    this.doEventSend = function(comm, data = "") {
-        document.title = "0";
-        setTimeout(function() {
-            document.title = comm+"|"+data;
-        }, 1);
+    this.doEventSend = function(comm, data = "", not_native_mode = null) {
+        if (this.native) {
+            document.title = "0";
+            setTimeout(function() {
+                document.title = comm+"|"+data;
+            }, 1);
+        } else {
+            if (!not_native_mode) return;
+            
+            switch (not_native_mode.type) {
+                case "backend":
+                {
+                    let sndr = new XMLHttpRequest();
+                    sndr.open("POST", "/bridge/"+comm+"/");
+                    sndr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+                    sndr.onload = () => {
+                        if (sndr.status === 200) {
+                            facefull.doEventHandle(not_native_mode.event_ok, sndr.responseText);
+                        } else {
+                            console.log('Web bridge IO error', sndr.status, sndr.readyState);
+                            facefull.doEventHandle(not_native_mode.event_err);
+                        }
+                    };
+
+                    sndr.onerror = (e) => {
+                        console.log('Web bridge IO error', sndr.status, sndr.readyState);
+                        facefull.doEventHandle(not_native_mode.event_err);
+                    };
+
+                    sndr.send(data);
+                    break;
+                }
+                
+                case "local":
+                {
+                    facefull.doEventHandle(comm, data);
+                    break;
+                }
+            }
+        }
     }
 
     /**
@@ -216,7 +255,18 @@ function Facefull(native = false) {
     }
 
     /**
-     * Decodes HES string to UTF-8 text.
+     * Include script file by filename.
+     * @param file
+     */
+    this.doIncludeScript = function(file) {
+        let script = document.createElement("script");
+        script.setAttribute("src", file);
+        script.setAttribute("charset", "utf-8");
+        document.getElementsByTagName("head")[0].appendChild(script);
+    }
+
+    /**
+     * Decodes HEX string to UTF-8 text.
      * @param hexdata
      * @returns {string}
      */
@@ -393,7 +443,7 @@ function Facefull(native = false) {
 
         this.Locales = new LocaleManager();
 
-        if (native) {
+        if (this.native) {
             if (disableContextmenu) {
                 document.addEventListener('contextmenu', function (event) {
                     event.preventDefault();
@@ -410,6 +460,22 @@ function Facefull(native = false) {
                 });
             })
         }
+    }
+
+    /**
+     * Enable or disable native mode. Can be called before `doInit` method.
+     * @param enable {boolean}
+     */
+    this.setNative = function(enable) {
+        this.native = enable;
+    }
+
+    /**
+     * Is native mode.
+     * @returns {boolean}
+     */
+    this.isNative = function() {
+        return this.native;
     }
 }
 
