@@ -2,7 +2,7 @@
 // Name:        facefull.js
 // Purpose:     Main Facefull module
 // Author:      Nickolay Babbysh
-// Version:     1.0.0
+// Version:     1.0.1
 // Copyright:   (c) NickWare Group
 // Licence:     MIT
 /////////////////////////////////////////////////////////////////////////////
@@ -155,8 +155,12 @@ function Facefull(native = false) {
 
     /**
      * Sends event to the bridge. Uses title tag to pass event name and data across the bridge.
+     * For web applications (when Facefull works in non-native mode) `not_native_mode` is available. It provides the use of the bridge in
+     * `backend` mode (sends data via POST request, not_native_mode = {type: 'backend', event_ok: event_name_on_success, event_err: event_name_on_error}) or
+     * `local` mode (just runs event handler with `comm` name, not_native_mode = {type: 'local'}).
      * @param comm
      * @param data
+     * @param not_native_mode
      */
     this.doEventSend = function(comm, data = "", not_native_mode = null) {
         if (this.native) {
