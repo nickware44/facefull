@@ -439,7 +439,7 @@ function Facefull(native = false) {
 
         this.Locales = new LocaleManager();
 
-        if (native) {
+        if (this.native) {
             if (disableContextmenu) {
                 document.addEventListener('contextmenu', function (event) {
                     event.preventDefault();
