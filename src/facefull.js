@@ -1031,17 +1031,18 @@ function MainMenu(e) {
     this.currentmenuitem.classList.add("Active");
     this.currentpage = document.getElementById("P"+this.currentmenuitem.getAttribute("data-pagename"));
     this.currentpage.classList.add("Show");
-    this.onPageOpen = function(name) {}
+    this.onPageOpen = function(name, prev = "") {}
 
     this.doPageOpen = function(e) {
         this.currentpage.classList.remove("Show");
         this.currentmenuitem.classList.remove("Active");
+        let pprev = this.currentmenuitem.getAttribute("data-pagename");
         this.currentmenuitem = e;
         this.currentmenuitem.classList.add("Active");
         let pname = this.currentmenuitem.getAttribute("data-pagename");
         this.currentpage = document.getElementById("P"+pname);
         this.currentpage.classList.add("Show");
-        this.onPageOpen(pname);
+        this.onPageOpen(pname, pprev);
     };
 
     this.doPageOpenByEvent = function(event) {
@@ -1408,11 +1409,15 @@ function Tooltip(e) {
  * @param values
  * @param labels
  * @param data
+ * @param adjust
  */
-function doCreatePulseChart(eid, values, labels, data = []) {
+function doCreatePulseChart(eid, values, labels, data = [], adjust=true) {
     this.e = document.getElementById(eid);
     this.e.innerHTML = "";
-    let vmax = Math.max.apply(null, values);
+    let vmax = 0;
+
+    if (adjust) vmax = Math.max.apply(null, values);
+
     for (let i = 0; i < values.length; i++) {
         let epb = document.createElement("div");
         let epvb = document.createElement("div");
@@ -1424,10 +1429,15 @@ function doCreatePulseChart(eid, values, labels, data = []) {
         epv.className = "PulseValue";
         epl.className = "PulseLabel";
 
-        if (!vmax)
-            epv.style.height = "0%";
-        else
-            epv.style.height = (values[i]/vmax*100)+"%";
+        if (adjust) {
+            if (!vmax)
+                epv.style.height = "0%";
+            else
+                epv.style.height = (values[i]/vmax*100)+"%";
+        } else {
+            epv.style.height = values[i]+"%";
+        }
+
         epl.innerHTML = labels[i];
 
         epvb.appendChild(epv);
@@ -1456,6 +1466,7 @@ function List(e, mode = "list") {
     this.maxlevel = 0;
     this.subitemmargin = this.elist.getAttribute("data-list-submargin");
     this.onSelect = function(id){};
+    this.onDoubleClick = function(id){};
     this.onCheckboxChange = function(id, state){};
     this.onOpenCloseSubItems = function(id, state){};
 
@@ -1478,10 +1489,14 @@ function List(e, mode = "list") {
             this.onSelect(sid);
             return;
         }
-        if (this.sid !== null && this.sid >= 0 && this.sid < this.elist.children.length) this.elist.children[this.sid].classList.remove("Selected");
-        this.sid = sid;
-        if (this.sid !== null && this.sid >= 0 && this.sid < this.elist.children.length) {
-            this.elist.children[this.sid].classList.add("Selected");
+
+        if (this.sid !== null) this.sid.classList.remove("Selected");
+
+        if (sid >= 0) this.sid = this.elist.children[sid];
+        else this.sid = null;
+
+        if (this.sid !== null) {
+            this.sid.classList.add("Selected");
             this.onSelect(sid);
         }
     }
@@ -1491,8 +1506,9 @@ function List(e, mode = "list") {
      * @param data
      * @param level
      * @param flags
+     * @param insert_front
      */
-    this.doAdd = function(data = [], level = 0, flags = {checkbox: "none", action: "none"}) {
+    this.doAdd = function(data = [], level = 0, flags = {checkbox: "none", action: "none"}, insert_front = false) {
         let eli = this.mode==="picker"?document.createElement("div"):document.createElement("li");
         if (this.mode === "picker") {
             this.elist.appendChild(eli);
@@ -1535,7 +1551,8 @@ function List(e, mode = "list") {
         if (flags.action !== undefined && flags.action === "arrow") {
             if (this.arrowdefaultopened === undefined || this.arrowdefaultopened === null || this.arrowdefaultopened === "0") eaction.className = "Arrow";
             else eaction.className = "Arrow Opened";
-            eli.addEventListener("click", bind(this.doOpenClose, this));
+            eaction.addEventListener("click", bind(this.doOpenClose, this));
+            eli.children[0].addEventListener("click", bind(this.doOpenClose, this));
         } else if (flags.action !== undefined && flags.action === "popupmenu") {
             eaction.className = "Action PopupMenuTarget";
             if (flags.popupmenu_name !== undefined)
@@ -1551,7 +1568,15 @@ function List(e, mode = "list") {
 
         if (this.selectable) {
             eli.addEventListener("click", bind(function() {
-                this.doSelect(lastindx);
+                var nodes = Array.prototype.slice.call(this.elist.children);
+                let indx = nodes.indexOf(eli);
+                this.doSelect(indx);
+            }, this));
+
+            eli.addEventListener("dblclick", bind(function() {
+                var nodes = Array.prototype.slice.call(this.elist.children);
+                let indx = nodes.indexOf(eli);
+                this.onDoubleClick(indx)
             }, this));
         }
 
@@ -1559,14 +1584,15 @@ function List(e, mode = "list") {
             if (this.arrowdefaultopened === undefined || this.arrowdefaultopened === null || this.arrowdefaultopened === "0")
                 eli.classList.add("Hidden");
             eli.classList.add("Sub");
-            let margin = this.subitemmargin;
-            if (margin === undefined || margin === null) margin = 30;
-            eli.style.marginLeft = level*margin + "px";
+            let padding = this.subitemmargin;
+            if (padding === undefined || padding === null) padding = 30;
+            eli.style.paddingLeft = level*padding + "px";
             eli.setAttribute("data-list-itemlevel", level);
         } else eli.setAttribute("data-list-itemlevel", "0");
 
         eli.setAttribute("data-list-itemid", lastindx);
-        this.elist.appendChild(eli);
+        if (!insert_front) this.elist.appendChild(eli);
+        else this.elist.insertBefore(eli, this.elist.firstChild);
 
         if (level > 0 && flags.checkbox !== undefined && flags.checkbox !== "none" && einput !== null) {
             this._doCheckboxRecompute(einput);
@@ -1714,7 +1740,8 @@ function List(e, mode = "list") {
      * @returns {null|*}
      */
     this.getState = function() {
-        return this.sid
+        let nodes = Array.prototype.slice.call(this.elist.children)
+        return nodes.indexOf(this.sid);
     }
 
     /**
@@ -2084,9 +2111,9 @@ function HotkeyHolder(e) {
             }
         }, this);
         this.doReset();
-        document.onkeydown = bind(function(event) {
+        document.addEventListener("keydown", bind(function(event) {
             this.onHotkeyCatch(event);
-        }, this);
+        }, this));
     }
 
     this.doSelectHolder = function() {
