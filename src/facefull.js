@@ -162,7 +162,7 @@ function Facefull(native = false) {
      * @param data
      * @param not_native_mode
      */
-    this.doEventSend = function(comm, data = "", not_native_mode = null) {
+    this.doEventSend = function(comm, data = "", not_native_mode = {type: "backend"}) {
         if (this.native) {
             document.title = "0";
             setTimeout(function() {
@@ -177,19 +177,22 @@ function Facefull(native = false) {
                     let sndr = new XMLHttpRequest();
                     sndr.open("POST", "/bridge/"+comm+"/");
                     sndr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
-                    sndr.onload = () => {
-                        if (sndr.status === 200) {
-                            facefull.doEventHandle(not_native_mode.event_ok, sndr.responseText);
-                        } else {
+
+                    if (not_native_mode.event_ok && not_native_mode.event_err) {
+                        sndr.onload = () => {
+                            if (sndr.status === 200) {
+                                facefull.doEventHandle(not_native_mode.event_ok, sndr.responseText);
+                            } else {
+                                console.log('Web bridge IO error', sndr.status, sndr.readyState);
+                                facefull.doEventHandle(not_native_mode.event_err);
+                            }
+                        };
+
+                        sndr.onerror = (e) => {
                             console.log('Web bridge IO error', sndr.status, sndr.readyState);
                             facefull.doEventHandle(not_native_mode.event_err);
-                        }
-                    };
-
-                    sndr.onerror = (e) => {
-                        console.log('Web bridge IO error', sndr.status, sndr.readyState);
-                        facefull.doEventHandle(not_native_mode.event_err);
-                    };
+                        };
+                    }
 
                     sndr.send(data);
                     break;
