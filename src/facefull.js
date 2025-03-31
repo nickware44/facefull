@@ -2,7 +2,7 @@
 // Name:        facefull.js
 // Purpose:     Main Facefull module
 // Author:      Nickolay Babbysh
-// Version:     1.0.1
+// Version:     1.0.2
 // Copyright:   (c) NickWare Group
 // Licence:     MIT
 /////////////////////////////////////////////////////////////////////////////
@@ -1472,6 +1472,7 @@ function List(e, mode = "list") {
     this.onDoubleClick = function(id){};
     this.onCheckboxChange = function(id, state){};
     this.onOpenCloseSubItems = function(id, state){};
+    this.onPopupMenuChangeState = function(id, state){};
 
     this.doInit = function() {
         if (this.selectable || this.mode === "picker") {
@@ -1565,7 +1566,10 @@ function List(e, mode = "list") {
             else
                 eaction.setAttribute("data-popupmenu-pos", "bottom-center");
             eaction.setAttribute("data-id", lastindx);
-            new PopupMenu(eaction);
+            let p = new PopupMenu(eaction);
+            p.onChangeState =  bind(function(state) {
+                this.onPopupMenuChangeState(lastindx, state);
+            }, this);
         }
         eli.appendChild(eaction);
 
